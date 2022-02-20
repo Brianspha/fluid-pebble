@@ -125,10 +125,12 @@ contract("IOTNFT", (accounts) => {
     // await logUsers();
   });
 
-
   async function checkBalance(user) {
     console.log("Balance of ", user.alias);
-    console.log("balance DAIx: ", (await daix.balanceOf(user.address)).toString());
+    console.log(
+      "balance DAIx: ",
+      (await daix.balanceOf(user.address)).toString()
+    );
   }
   async function checkBalanceAddress(address) {
     console.log("Balance of ", address);
@@ -211,7 +213,7 @@ contract("IOTNFT", (accounts) => {
       assert.strictEqual(accounts[1] == owner, true, "account[1] not owner");
     });
     it("should mint a new token", async () => {
-      var tokenPrice =  toWad(0.001);
+      var tokenPrice = toWad(0.001);
       var receipt = await web3tx(app.mintToken, `${u[1]} mints new token`)(
         JSON.stringify({
           snr: 16400,
@@ -241,31 +243,30 @@ contract("IOTNFT", (accounts) => {
     });
     it("should rent an NFT", async () => {
       const { alice } = u;
-      await Promise.resolve(upgrade([alice]));
-      await Promise.resolve(checkBalances([alice, u.admin]));
-      await Promise.resolve(checkBalance(alice))
       const monthlyAmount = toWad(0.001);
       const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / 30);
       console.log("calculated flow: ", calculatedFlowRate);
       var approved = await web3tx(dai.approve, `${alice.alias} approves daix`)(
-        app.address,
+        daix.address,
         monthlyAmount,
         {
-          from:alice.address,
+          from: alice.address,
         }
       );
-      console.log("approved daxi: ", approved);
-      var rentNFT = await web3tx(app.rentNFT, `${accounts[2]} renting nft`)(
+      const upgraded = await web3tx(
+        daix.upgrade,
+        `${alice.alias} upgrades ${monthlyAmount} DAIx`
+      )(monthlyAmount, { from: alice.address });
+      console.log("approved daxi: ", approved, " upgraded: ", upgraded);
+      var rentNFT = await web3tx(app.rentNFT, `${alice.alias} renting nft`)(
         2,
         1,
-        toWad(1).toString(),
+        calculatedFlowRate,
         {
           from: alice.address,
           gas: "5000000",
         }
       );
-      await Promise.resolve(checkBalances([alice, u.admin]));
-      await Promise.resolve(checkBalance(alice))
       console.log("rent nft: ", rentNFT);
       assert.isTrue(rentNFT.logs.length > 0);
     });
