@@ -287,6 +287,7 @@ export default {
                 timestamp: moment.unix(point.timestamp).format("LLLL"),
                 isNFT: false,
                 isDelegated: false,
+                minRentalDays:1,
               });
             });
             _this.$store.state.isLoading = false;

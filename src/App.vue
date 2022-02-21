@@ -23,15 +23,20 @@
   </v-app>
 </template>
 <script>
-
 import Web3 from "web3";
 import EmbarkJS from "../contracts/embarkArtifacts/embarkjs";
 import MintNFTModal from "./modals/MintNFTModal.vue";
-
+const SuperfluidSDK = require("@superfluid-finance/js-sdk");
+const {
+  web3tx,
+  toWad,
+  toBN,
+  wad4human,
+} = require("@decentral.ee/web3-helpers");
 export default {
   name: "App",
   watch: {
-    "window.ethereum.networkVersion": function(networkId) {
+    "window.ethereum.networkVersion": function (networkId) {
       console.log("networkId: ", networkId);
       switch (networkId.toString()) {
         case "4690":
@@ -59,11 +64,11 @@ export default {
           break; /*;*/
       }
     },
-    "$store.state.selectedNFT.userAddress": async function(val) {
+    "$store.state.selectedNFT.userAddress": async function (val) {
       if (val) {
       }
     },
-    "$store.state.connected": async function(val) {
+    "$store.state.connected": async function (val) {
       console.log("$store.state.connected changed value: ", val);
       if (val) {
         await this.getUserDevices();
@@ -76,12 +81,12 @@ export default {
     this.authenticate();
   },
   mounted() {
-   /* this.$store.dispatch("warning", {
+    /* this.$store.dispatch("warning", {
       warning: "Please note the website is still under development",
     });*/
   },
   methods: {
-    getUserDevices: async function() {
+    getUserDevices: async function () {
       this.$store.state.isLoading = true;
       const axios = require("axios").default;
       var data = JSON.stringify({
@@ -121,14 +126,13 @@ export default {
             devices.data.data.pebble_device.length === 0
           ) {
             console.log("no devices found for this user");
-          //  this.$store.state.userData.imeis=["100000000000225", "100000000000211"]
+            //  this.$store.state.userData.imeis=["100000000000225", "100000000000211"]
           } else {
             console.log("found user device: ", devices.data.data.pebble_device);
-            this.$store.state.userData.imeis = devices.data.data.pebble_device.map(
-              (device) => {
+            this.$store.state.userData.imeis =
+              devices.data.data.pebble_device.map((device) => {
                 return device.id;
-              }
-            );
+              });
           }
         })
         .catch((error) => {
@@ -138,24 +142,14 @@ export default {
     },
     authenticate() {
       this.$store.state.isLoading = true;
-      let _this = this;
-      _this.$store.state.ceramicClient.did
-        .authenticate()
-        .then(async (res, error) => {
-          this.init()
-            .then(async (res, err) => {
-              _this.$store.state.isLoading = false;
-            })
-            .catch((error) => {
-              _this.$store.state.isLoading = false;
-            });
-        });
+      this.init();
+      this.$store.state.isLoading = false;
     },
     getRandomInRange(from, to, fixed) {
       return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
       // .toFixed() returns string, so ' * 1' is a trick to convert to number
     },
-    connectWallet: async function() {
+    connectWallet: async function () {
       this.$store.state.isLoading = true;
       if (typeof ethereum !== "undefined") {
         try {
@@ -177,8 +171,9 @@ export default {
         );
       }
     },
-    init: async function() {
+    init: async function () {
       return new Promise(async (resolve) => {
+        this.$store.state.isLoading = true;
         let _this = this;
         if (window.performance) {
           console.info("window.performance works fine on this browser");
@@ -191,11 +186,46 @@ export default {
           console.info("This page is not reloaded");
         }
         EmbarkJS.onReady(async (error) => {
-          var accounts = await require("../contracts/embarkArtifacts/embarkjs").default.enableEthereum();
+          var accounts =
+            await require("../contracts/embarkArtifacts/embarkjs").default.enableEthereum();
           console.log("accounts; ", accounts);
           this.$store.state.userAddress = accounts[0];
           this.$store.state.connected = true;
+          const sf = new SuperfluidSDK.Framework({
+            web3,
+            version: "test",
+            tokens: ["fDAI"],
+          });
+          await sf.initialize();
 
+          _this.$store.state.daix = sf.tokens.fDAIx;
+          _this.$store.state.dai = await sf.contracts.TestToken.at(
+            await sf.tokens.fDAI.address
+          );
+          _this.$store.state.sf = sf;
+          if (sf.chainId === 5) {
+            this.$store.state.connected = true;
+          } else {
+            _this.$store.state.connected = false;
+          }
+          console.log(
+            "sf: ",
+            sf,
+            " dai: ",
+            _this.$store.state.dai,
+            " daix: ",
+            _this.$store.state.daix
+          );
+          _this.$store.state.userDAIBalance =
+            await _this.$store.state.dai.balanceOf(accounts[0]);
+
+          _this.$store.state.userDAIBalance = wad4human(
+            _this.$store.state.userDAIBalance
+          );
+          console.log(
+            "  _this.$store.state.userDAIBalance: ",
+            _this.$store.state.userDAIBalance
+          );
           if (typeof ethereum !== "undefined") {
             // Supports EIP-1102 injected Ethereum providers.
             window.web3 = new Web3(ethereum);
@@ -211,15 +241,19 @@ export default {
               new Web3.providers.HttpProvider("http://localhost:8546")
             );
           }
-          window.ethereum.on("accountsChanged", function(accounts) {
+          window.ethereum.on("accountsChanged", function (accounts) {
             _this.$store.state.userAddress = accounts[0];
             window.location.reload();
           });
-          window.ethereum.on("networkChanged", function(netId) {
+          window.ethereum.on("networkChanged", function (netId) {
             _this.$store.state.userAddress = accounts[0];
             window.location.reload();
           });
         });
+        _this.$store.state.isLoading = false;
+      }).catch((error) => {
+        console.log("error in embark: ", error);
+        this.$store.state.isLoading = false;
       });
     },
   },

@@ -7,14 +7,13 @@
     >
       <v-card>
         <v-card-title
-          style=" font-size:25px;  font-style: italic;
-            font-family:cursive;"
+          style="font-size: 25px; font-style: italic; font-family: cursive"
         >
           NFT Details
         </v-card-title>
         <v-card-text
           ><v-form ref="form" v-model="valid" lazy-validation>
-            <v-row style="padding-bottom:40px;"
+            <v-row style="padding-bottom: 40px"
               ><vue-css-doodle
                 ref="doodle"
                 :key="$store.state.selectedNFT.colorPallet"
@@ -61,6 +60,16 @@
               :color="$store.state.primaryColor"
             ></v-text-field>
             <v-text-field
+              v-model="$store.state.selectedNFT.minRentalDays"
+              :rules="leaseRules"
+              label="Min days for lease"
+              hint="e.g. 0"
+              required
+              type="number"
+              min="1"
+              :color="$store.state.primaryColor"
+            ></v-text-field>
+            <v-text-field
               v-if="$store.state.userAddress !== $store.state.selectedNFT.owner"
               v-model="twitterUserName"
               :rules="usernameRules"
@@ -98,7 +107,7 @@
               <v-tooltip v-model="showToolTip" top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    style="padding-left:30px;"
+                    style="padding-left: 30px"
                     width="4px"
                     height="4px"
                     color="#699c79"
@@ -106,9 +115,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <v-icon small color="#699c79">
-                      mdi-alert-circle
-                    </v-icon>
+                    <v-icon small color="#699c79"> mdi-alert-circle </v-icon>
                   </v-btn>
                 </template>
                 <span
@@ -122,33 +129,35 @@
         <v-row align="center" justify="center"
           ><v-btn
             style="
-            background-color:#383838;
-            color:white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+              background-color: #383838;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
             @click="save"
             >Save AS PNG</v-btn
           >
-          <div style="padding-left:15px;"></div>
+          <div style="padding-left: 15px"></div>
           <v-btn
             style="
-            background-color:#6bdcc6;
-            color:white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+              background-color: #6bdcc6;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
             v-if="
               valid &&
-                $store.state.userAddress === $store.state.selectedNFT.owner
+              $store.state.userAddress === $store.state.selectedNFT.owner
             "
             :color="$store.state.secondaryColor"
             @click="delegate"
@@ -173,19 +182,20 @@
           </v-btn>
           <v-btn
             style="
-            background-color:#6bdcc6;
-            color:white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+              background-color: #6bdcc6;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
             v-if="
               valid &&
-                $store.state.userAddress === $store.state.selectedNFT.owner &&
-                !$store.state.selectedNFT.isDelegated
+              $store.state.userAddress === $store.state.selectedNFT.owner &&
+              !$store.state.selectedNFT.isDelegated
             "
             @click="burnNFT"
           >
@@ -193,19 +203,20 @@
           </v-btn>
           <v-btn
             style="
-            background-color:#6bdcc6;
-            color:white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+              background-color: #6bdcc6;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
             v-if="
               valid &&
-                $store.state.userAddress !== $store.state.selectedNFT.owner &&
-                $store.state.selectedNFT.isDelegated
+              $store.state.userAddress !== $store.state.selectedNFT.owner &&
+              $store.state.selectedNFT.isDelegated
             "
             :color="$store.state.primaryColor"
             @click="purchase"
@@ -295,11 +306,8 @@ export default {
               value: price,
             })
             .then(async (receipt, error) => {
-              _this.$store.state.selectedNFT.price = _this.$store.state.etherConverter(
-                price,
-                "wei",
-                "eth"
-              );
+              _this.$store.state.selectedNFT.price =
+                _this.$store.state.etherConverter(price, "wei", "eth");
               var content = await this.$store.dispatch("getCeramicData");
               var found = false;
               _this.$store.state.selectedNFT.owner =
@@ -349,7 +357,7 @@ export default {
         }
       }
     },
-    delegate: async function() {
+    delegate: async function () {
       let _this = this;
       _this.$store.state.isLoading = true;
       if (this.$store.state.selectedNFT.isDelegated) {
@@ -423,7 +431,7 @@ export default {
           });
       }
     },
-    save: async function() {
+    save: async function () {
       const doodle = document.querySelector("css-doodle");
       console.log("doodle: ", doodle);
       let _this = this;

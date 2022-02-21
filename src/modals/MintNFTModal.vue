@@ -3,14 +3,13 @@
     <v-dialog v-model="$store.state.mintNFTDialog" width="100vw">
       <v-card>
         <v-card-title
-          style=" font-size:25px;  font-style: italic;
-            font-family:cursive;"
+          style="font-size: 25px; font-style: italic; font-family: cursive"
         >
           NFT Details
         </v-card-title>
         <v-card-text
           ><v-form ref="form" v-model="valid" lazy-validation>
-            <v-row style="padding-bottom:40px;"
+            <v-row style="padding-bottom: 40px"
               ><vue-css-doodle
                 ref="doodle"
                 :key="$store.state.selectedNFT.colorPallet"
@@ -49,6 +48,16 @@
               readonly
               :color="$store.state.primaryColor"
             ></v-text-field>
+                  <v-text-field
+              v-model="$store.state.selectedNFT.minRentalDays"
+              :rules="leaseRules"
+              label="Min days for lease"
+              hint="e.g. 0"
+              required
+              type="number"
+              min="1"
+              :color="$store.state.primaryColor"
+            ></v-text-field>
             <v-text-field
               v-model="$store.state.selectedNFT.twitter_username"
               :rules="usernameRules"
@@ -57,7 +66,7 @@
               required
               :color="$store.state.primaryColor"
             ></v-text-field>
-
+      
             <v-row align="center" justify="start"
               ><v-checkbox
                 color="#699c79"
@@ -68,7 +77,7 @@
               <v-tooltip v-model="showToolTip" top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    style="padding-left:30px;"
+                    style="padding-left: 30px"
                     width="4px"
                     height="4px"
                     color="#699c79"
@@ -76,9 +85,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <v-icon small color="#699c79">
-                      mdi-alert-circle
-                    </v-icon>
+                    <v-icon small color="#699c79"> mdi-alert-circle </v-icon>
                   </v-btn>
                 </template>
                 <span
@@ -92,18 +99,35 @@
         <v-row align="center" justify="center"
           ><v-btn
             style="
-            background-color:#6bdcc6;
-            color:white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+              background-color: #6bdcc6;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
             @click="save"
             >Save AS PNG</v-btn
-          ></v-row
+          >
+          <v-btn
+            style="
+              background-color: #6bdcc6;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
+            @click="$store.dispatch('mintDaiToken')"
+            >Calim test DAI</v-btn
+          >
+          </v-row
         >
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -119,15 +143,16 @@
           <v-btn
             v-if="valid"
             style="
-            background-color:#6bdcc6;
-            color:white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:black;
-        "
+              background-color: #6bdcc6;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: black;
+            "
             @click="mintNFT"
           >
             MINT NFT
@@ -147,6 +172,10 @@ export default {
       showToolTip: false,
       delegate: false,
       nftName: "",
+      leaseRules:[ (v) => !!v || "Min Lease Days required",
+        (v) =>
+          (v && parseInt(v) >= 1) ||
+          "Minimum lease days must be greater than 1",],
       nameRules: [
         (v) => !!v || "NFT name required",
         (v) =>
@@ -180,7 +209,7 @@ export default {
     this.$store.state.isLoading = false;
   },
   watch: {
-    "$store.state.mintNFTDialog": function(val) {
+    "$store.state.mintNFTDialog": function (val) {
       if (val) {
         this.generateArt();
       }
@@ -350,7 +379,7 @@ export default {
           });
       }
     },
-    transferToken: async function(tokenId) {
+    transferToken: async function (tokenId) {
       return new Promise((resolve) => {
         let _this = this;
         this.$store.state.tokenContract.methods
@@ -373,7 +402,7 @@ export default {
           });
       });
     },
-    save: async function() {
+    save: async function () {
       if (!this.tokenMinted) {
         const doodle = document.querySelector("css-doodle");
         console.log("doodle: ", doodle);

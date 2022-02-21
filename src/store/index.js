@@ -9,6 +9,8 @@ import CeramicClient from "@ceramicnetwork/http-client";
 import KeyDidResolver from "key-did-resolver";
 import ThreeIdResolver from "@ceramicnetwork/3id-did-resolver";
 import { DID } from "dids";
+
+
 import { TileDocument } from "@ceramicnetwork/stream-tile";
 const bigNumber = require("bignumber.js");
 const resolver = {
@@ -39,8 +41,9 @@ const store = new Vuex.Store({
     //sampleLocationData: require("../data/location.json"),
     showMyLocationsOnly: false,
     totalStaked: 0,
-    tokenContract: require("../../contracts/embarkArtifacts/contracts/TokenContract")
-      .default,
+    tokenContract:
+      require("../../contracts/embarkArtifacts/contracts/TokenContract")
+        .default,
     ionftContract: require("../../contracts/embarkArtifacts/contracts/IOTNFT")
       .default,
     loadinZIndex: 500,
@@ -93,13 +96,17 @@ const store = new Vuex.Store({
     connected: false,
     allDAppNFTs: [],
     deviceData: [],
+    daix: {},
+    dai: {},
+    sf: {},
+    userDAIBalance:0
   },
   plugins: [createPersistedState()],
   modules: {},
   actions: {
-    loadSkyData:async function(){
+    loadSkyData: async function () {
       var content = await store.dispatch("getSkyData");
-  /*    content.data = [];
+      /*    content.data = [];
       content.leaderboard = [];
       await store.dispatch("saveSkyData", content);  */
       console.log("foundData: ", content.data);
@@ -107,40 +114,47 @@ const store = new Vuex.Store({
       for (var index in content.data) {
         var data = content.data[index];
         if (
+          Object.prototype.hasOwnProperty.call(data, "userAddress") &&
           data.userAddress.toUpperCase() ===
-          store.state.userAddress.toUpperCase()
+            store.state.userAddress.toUpperCase()
         ) {
           store.state.userData = data;
         }
-        data.data.map((nft) => {
-          nft.nfts.map((minted) => {
-            console.log("dappNFTs: ", minted);
-            store.state.dappNFTs.push(minted);
+        if (Object.prototype.hasOwnProperty.call(data, "userAddress")) {
+          data.data.map((nft) => {
+            nft.nfts.map((minted) => {
+              console.log("dappNFTs: ", minted);
+              store.state.dappNFTs.push(minted);
+            });
           });
-        });
-      }
-      for (
-        var indexInner = 0;
-        indexInner < store.state.dappNFTs.length;
-        indexInner++
-      ) {
-        await store.state.ionftContract.methods
-          .getTokenDetails(store.state.dappNFTs[indexInner].tokenId)
-          .call({ from: store.state.userAddress, gas: 6000000 })
-          .then((details, error) => {
-            store.state.dappNFTs[indexInner].price = new bigNumber(
-              store.state.etherConverter(details[1], "wei", "eth")
-            ).toFixed(7);
-            store.state.dappNFTs[indexInner].originalPrice = new bigNumber(
-              store.state.etherConverter(details[2], "wei", "eth")
-            ).toFixed(7);
-            store.state.dappNFTs[indexInner].owner = details[0];
-            store.state.dappNFTs[indexInner].isDelegated = details[4];
-          })
-          .catch((error) => {
-            console.log("error getting token details: ", error);
-            delete store.state.dappNFTs[index];
-          });
+        }
+        for (
+          var indexInner = 0;
+          indexInner < store.state.dappNFTs.length;
+          indexInner++
+        ) {
+          await store.state.ionftContract.methods
+            .getTokenDetails(store.state.dappNFTs[indexInner].tokenId)
+            .call({ from: store.state.userAddress, gas: 6000000 })
+            .then((details, error) => {
+              store.state.dappNFTs[indexInner].price = new bigNumber(
+                store.state.etherConverter(details[1], "wei", "eth")
+              ).toFixed(7);
+              store.state.dappNFTs[indexInner].originalPrice = new bigNumber(
+                store.state.etherConverter(details[2], "wei", "eth")
+              ).toFixed(7);
+              store.state.dappNFTs[indexInner].owner = details[0];
+              store.state.dappNFTs[indexInner].isDelegated = details[4];
+            })
+            .catch((error) => {
+              console.log("error getting token details: ", error);
+              delete store.state.dappNFTs[index];
+            });
+        }
+        console.log("dappNFTs: ", store.state.dappNFTs);
+        store.state.deviceData = store.state.dappNFTs;
+        store.state.allDAppNFTs = store.state.dappNFTs;
+       
       }
 
       /*  if (store.state.dappNFTs.length === 0) {
@@ -149,12 +163,10 @@ const store = new Vuex.Store({
           onTap: function() {},
         });
       }*/
-      console.log("dappNFTs: ", store.state.dappNFTs);
-      store.state.deviceData = store.state.dappNFTs;
-      store.state.allDAppNFTs = store.state.dappNFTs;
+     
       store.state.isLoading = false;
     },
-    loadData: async function() {
+    loadData: async function () {
       console.log("fetching data");
       store.state.dappNFTs = [];
       store.state.isLoading = true;
@@ -213,7 +225,7 @@ const store = new Vuex.Store({
       store.state.allDAppNFTs = store.state.dappNFTs;
       store.state.isLoading = false;
     },
-    getCeramicData: async function() {
+    getCeramicData: async function () {
       const tileDocument = await TileDocument.load(
         ceramic,
         this.state.streamId
@@ -221,7 +233,7 @@ const store = new Vuex.Store({
       store.state.tile = tileDocument;
       return tileDocument.content;
     },
-    saveCeramicData: async function(context, data) {
+    saveCeramicData: async function (context, data) {
       console.log("saving ceremic data: ", data);
       const doc = await TileDocument.load(
         this.state.ceramicClient,
@@ -235,7 +247,7 @@ const store = new Vuex.Store({
         }
       );
     },
-    getSkyData: async function() {
+    getSkyData: async function () {
       var test = await this.state.skyClient.db.getJSON(
         this.state.publicKey,
         this.state.appSecret
@@ -248,7 +260,7 @@ const store = new Vuex.Store({
       }
       return test;
     },
-    saveSkyData: async function(context, data) {
+    saveSkyData: async function (context, data) {
       const results = await client.db.setJSON(
         this.state.privateKey,
         this.state.appSecret,
@@ -295,6 +307,27 @@ const store = new Vuex.Store({
         text: message,
         footer: `<a href= https://metamask.io> Download Metamask</a>`,
       });
+    },
+    mintDaiToken: async function (context, _) {
+      let _this = this;
+      _this.overlay = true;
+      store.state.dai
+        .mint(
+          store.state.userAddress,
+          store.state.sf.web3.utils.toWei(10000000000, "ether"),
+          { from: store.state.userAddress, gas: 6000000 }
+        )
+        .then(async (results, error) => {
+          store.state.userDAIBalance = wad4human(
+            await store.state.dai.balanceOf.call(store.state.userAddress)
+          );
+          store.state.isLoading = false;
+        })
+        .catch((error) => {
+          location.reload();
+          store.state.isLoading = false;
+        });
+      ///call contRACT
     },
   },
 });

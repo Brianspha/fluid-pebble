@@ -45,7 +45,7 @@ contract IOTNFT is
     ISuperToken private _acceptedToken; // accepted token
     IInstantDistributionAgreementV1 instantDistributionAgreement;
     uint256 public transactionFees = 0;
-    uint256 public minMintCost = 0.01 ether;
+    uint256 public minMintCost = 0.0001 ether;
     uint256 public contractCut = 3500;
     uint256 minDividendsPerExperience = 100;
     address payable contractOwner;
@@ -231,6 +231,7 @@ contract IOTNFT is
         currentIONFTs[tokenId].currentBorrower.owner = msg.sender;
         currentIONFTs[tokenId].currentBorrower.exists = true;
         currentIONFTs[tokenId].rentedOut = true;
+        ionft.transferFrom(address(this), msg.sender, tokenId);
         _createFlow(currentIONFTs[tokenId].owner, flowRate); //@dev create flow to user
         emit nftRentedOut(msg.sender, duration, tokenId);
     }
@@ -246,8 +247,26 @@ contract IOTNFT is
             currentIONFTs[tokenId].currentBorrower.owner == msg.sender,
             "not borrower"
         );
-        ionft.transferFrom(msg.sender, address(this), tokenId);
-        _deleteFlow(msg.sender, address(this));
+        uint256 durationInDays = block
+            .timestamp
+            .sub(currentIONFTs[tokenId].borrowedAt)
+            .div(86400);
+        require(
+            durationInDays <= currentIONFTs[tokenId].maxRentableDays,
+            "Cannot return nft duration exceeded"
+        );
+        require(
+            ionft.ownerOf(tokenId) == currentIONFTs[tokenId].owner,
+            "Token not returned"
+        );
+        _deleteFlow(address(this), currentIONFTs[tokenId].owner);
+        int256 availableBalance;
+        uint256 deposit;
+        uint256 owedDeposit;
+        (availableBalance, deposit, owedDeposit) = getNFTRealTimeBalance(
+            tokenId
+        );
+        _acceptedToken.transferFrom(address(this), msg.sender, owedDeposit);
         delete currentIONFTs[tokenId].currentBorrower;
         currentIONFTs[tokenId].rentedOut = false;
         emit nftReturned(msg.sender, tokenId, block.timestamp);

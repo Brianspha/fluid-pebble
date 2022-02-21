@@ -234,10 +234,7 @@ contract("IOTNFT", (accounts) => {
         3,
         { gas: "5000000", from: accounts[0] }
       );
-      console.log(
-        "newTokenMinted: ",
-        new bigNumber(receipt.logs[0].tokenId).toFixed(0)
-      );
+      console.log("newTokenMinted: ", receipt.logs[0]);
       tokenIds.push(receipt.logs[0].tokenId);
       assert.isTrue(receipt.logs.length > 0);
     });
@@ -247,7 +244,7 @@ contract("IOTNFT", (accounts) => {
       const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / 30);
       console.log("calculated flow: ", calculatedFlowRate);
       var approved = await web3tx(dai.approve, `${alice.alias} approves daix`)(
-        daix.address,
+        app.address,
         monthlyAmount,
         {
           from: alice.address,
@@ -257,7 +254,20 @@ contract("IOTNFT", (accounts) => {
         daix.upgrade,
         `${alice.alias} upgrades ${monthlyAmount} DAIx`
       )(monthlyAmount, { from: alice.address });
-      console.log("approved daxi: ", approved, " upgraded: ", upgraded);
+
+      const transfered = await web3tx(
+        daix.transfer,
+        `${alice.alias} upgrades ${monthlyAmount} DAIx`
+      )(app.address, monthlyAmount, { from: alice.address });
+
+      console.log(
+        "approved daxi: ",
+        approved,
+        " upgraded: ",
+        upgraded,
+        " transfered: ",
+        transfered
+      );
       var rentNFT = await web3tx(app.rentNFT, `${alice.alias} renting nft`)(
         2,
         1,
@@ -267,20 +277,52 @@ contract("IOTNFT", (accounts) => {
           gas: "5000000",
         }
       );
-      console.log("rent nft: ", rentNFT);
-      assert.isTrue(rentNFT.logs.length > 0);
+      var owner = await IONFTTokenDeployed.ownerOf(2);
+      console.log("rent nft: ", rentNFT.logs, " owner: ", owner);
+      assert.isTrue(rentNFT.logs.length > 0 && owner === alice.address);
     });
     it("should check if the flow has started", async function() {
-      var balanceBefore = await checkBalanceAddress(accounts[0]);
+      var availableBalanceBefore, depositBefore, owedDepositBefore;
+      var balanceBefore = await app.getNFTRealTimeBalance(2);
+      console.log("balanceBefore: ", balanceBefore);
+      availableBalanceBefore = balanceBefore[0];
+      depositBefore = balanceBefore[1];
+      owedDepositBefore = balanceBefore[2];
       await traveler.advanceTimeAndBlock(TEST_TRAVEL_TIME);
-      var balanceAfter = await checkBalanceAddress(accounts[0]);
+      var availableBalanceAfter, depositAfter, owedDepositAfter;
+
+      var balanceAfter = await app.getNFTRealTimeBalance(2);
+      console.log("balanceAfter: ", balanceAfter);
+      availableBalanceAfter = balanceAfter[0];
+      depositAfter = balanceAfter[1];
+      owedDepositAfter = balanceAfter[2];
       console.log(
-        "balanceBefore: ",
-        balanceBefore,
+        "availableBalanceBefore: ",
+        new bigNumber(availableBalanceBefore).toFixed(0),
         " balanceAfter: ",
-        balanceAfter
+        new bigNumber(availableBalanceAfter).dividedBy(10 ** 18).toFixed()
       );
-      assert.isTrue(balanceAfter >= balanceBefore);
+      assert.isTrue(availableBalanceAfter >= availableBalanceBefore);
+    });
+    it("should return the borrowed nft", async function() {
+      const { alice } = u;
+      const transferToOwner = await web3tx(
+        IONFTTokenDeployed.transferFrom,
+        `${alice.alias} returns nft`
+      )(alice.address,accounts[0], 2, {
+        from: alice.address,
+        gas: "5000000",
+      });
+      console.log("token tranfered: ", transferToOwner);
+      var returnNFT = await web3tx(app.returnNFT, `${alice.alias} returns nft`)(
+        2,
+        {
+          from: alice.address,
+          gas: "5000000",
+        }
+      );
+      console.log("return: ", returnNFT.logs);
+      assert.isTrue(returnNFT.logs.length > 0);
     });
   });
 });

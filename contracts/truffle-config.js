@@ -27,7 +27,6 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 const GAS_LIMIT = 8e6;
-console.log(process.env.NODE_URL_IOTEX);
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -40,6 +39,11 @@ module.exports = {
    */
 
   networks: {
+    development: {
+      host: "127.0.0.1",
+      port: 8546,
+      network_id: "*"
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal

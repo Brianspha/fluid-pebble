@@ -2,27 +2,6 @@
   "contractName": "NativeSuperTokenProxy",
   "abi": [
     {
-      "stateMutability": "payable",
-      "type": "fallback"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "initialAddress",
-          "type": "address"
-        }
-      ],
-      "name": "initializeProxy",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "stateMutability": "payable",
-      "type": "receive"
-    },
-    {
       "inputs": [
         {
           "internalType": "string",
@@ -36,8 +15,13 @@
         },
         {
           "internalType": "uint256",
-          "name": "initialSupply",
+          "name": "totalSupply",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
         }
       ],
       "name": "initialize",
@@ -46,251 +30,588 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"initialSupply\",\"type\":\"uint256\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"initialAddress\",\"type\":\"address\"}],\"name\":\"initializeProxy\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"author\":\"Superfluid\",\"details\":\"Native SuperToken custom super token implementation NOTE: - This is a simple implementation where the supply is pre-minted.\",\"kind\":\"dev\",\"methods\":{\"initializeProxy(address)\":{\"details\":\"Proxy initialization function.      This should only be called once and it is permission-less.\",\"params\":{\"initialAddress\":\"Initial logic contract code address to be used.\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/tokens/NativeSuperToken.sol\":\"NativeSuperTokenProxy\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/proxy/Proxy.sol\":{\"keccak256\":\"0x0414d54056b3d8f9102ae1142264e9361408397878148203ab7a25cbf6248f08\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ebdc01639f69030c754dc3462d5f437c4644164465066187e320f524579fbede\",\"dweb:/ipfs/QmZZhoPYagwu4MoJMAg26Y6Nfj4d9HJzUnvrMNsbo9ZorM\"]},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x5f02220344881ce43204ae4a6281145a67bc52c2bb1290a791857df3d19d78f5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://24427744bd3e6cb73c17010119af12a318289c0253a4d9acb8576c9fb3797b08\",\"dweb:/ipfs/QmTLDqpKRBuxGxRAmjgXt9AkXyACW3MtKzi7PYjm5iMfGC\"]},\"@openzeppelin/contracts/token/ERC777/IERC777.sol\":{\"keccak256\":\"0xe81b5fca616ec6f57bb9d1ab0750202b9e514760462274ac04495e8c249697ab\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1e23a53ea7f3787f90ff8f6e25ea47896ed4b56e336e72ae543e3ef74eaa9e23\",\"dweb:/ipfs/QmSDNkjN5k2VRbrfWdTMJ39dzcSvFz4YMQqHZ5z61qLNVA\"]},\"project:/contracts/interfaces/superfluid/CustomSuperTokenBase.sol\":{\"keccak256\":\"0x02893317bff099720f93aa88386cdfe171f50b84816a8d66089c6f3cbc6e428d\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://26269241e3a310f586ce28f4e50573e4d3473526f5e198f94dd2f5560b0ea5b6\",\"dweb:/ipfs/QmUSW6g3ELPrNPCLFAaf1WMcRaoczdgUNz2jK1zSxZuMei\"]},\"project:/contracts/interfaces/superfluid/Definitions.sol\":{\"keccak256\":\"0x629a096aa6ce1da21b6d6861ebcd640257fc3c77e5d7f7de5de73b251a0be4b3\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://41046b449583e40efa0bd9e99147474cfbbc12fbba2e7184deb8c95939f04e9f\",\"dweb:/ipfs/QmT9HGuLjGbZF1yM7RtnyRo8GuVXzPk8rCjibKTKmc2LDN\"]},\"project:/contracts/interfaces/superfluid/ISuperAgreement.sol\":{\"keccak256\":\"0xcf8a33fadd5db47562156a11098623246efd1b46a2c3d28269767bcbb324fd66\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://5c0273b4a136874ca4ad1b3f66b312adfa8e8ed48b301e4e979081d4923bb55f\",\"dweb:/ipfs/QmQvK9ZQggymJAftai2aA89EfQY2hX3MSpejNkr6kNf45m\"]},\"project:/contracts/interfaces/superfluid/ISuperApp.sol\":{\"keccak256\":\"0xca93702505ec3c8244227e372687d9bdbc9d368fa07723d310ab9550501abb2a\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://3514c2c72fc866064227ea28fceea9dec4ca27cdbda2cff546b59f6b899cee4d\",\"dweb:/ipfs/QmdpFCRDm8An2U6TCTUK3Zopp8wVS44mzh2YjVvtruE3dZ\"]},\"project:/contracts/interfaces/superfluid/ISuperToken.sol\":{\"keccak256\":\"0xba355f7d7d5d32ca345bcdb355759ba598a911ff07227ff80012a5e0bf660fb1\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://72c2669590a012587b892f0bbb166079ffb9e4c2044511b45eb6b34489f83b30\",\"dweb:/ipfs/QmQckdZ7tbboxPpXSt8irWo98KBcZRT5xNPuGf7yuZxZw2\"]},\"project:/contracts/interfaces/superfluid/ISuperTokenFactory.sol\":{\"keccak256\":\"0x7dc514c6c9eda681ed8ad66ccfb68dc22764b6c429ab55fddbba28b6b148621b\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://bc4b3b35bb0ddd9323afa1f25468eb706e5f7eccce6ff9beec9657aeea8bec33\",\"dweb:/ipfs/QmSLKq8JYWavnjDokYoe1cUERbvWFfiBWBJ2zDCMVyycsM\"]},\"project:/contracts/interfaces/superfluid/ISuperfluid.sol\":{\"keccak256\":\"0x987a883e8acd87e07eb00ebb1c882d294c7a0af2e5a8cb234270f83f4168438f\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://87631a2a511fcfd20787d0bb633d37f3a810bd50c58502c996106b97f2795272\",\"dweb:/ipfs/QmeR8yfLL41en8GjszYRc8Cw9QoEmRQ6j3hCi8JRsym3vZ\"]},\"project:/contracts/interfaces/superfluid/ISuperfluidGovernance.sol\":{\"keccak256\":\"0x2ac401c7fb012ef43d8becad0196bcd41ac9ad33778a7a5e4809a1740a646e63\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://a04710e0e2a4d0183d2760b1ef73e970e4070eaeee3dfefe5ba4bed61dd45ada\",\"dweb:/ipfs/QmYCxDFAWmrCTzioikvbeJtHByWvyxT9nARBuaVoYmopPo\"]},\"project:/contracts/interfaces/superfluid/ISuperfluidToken.sol\":{\"keccak256\":\"0x6c573b0c0d9ccfc73f787da2e06c725b714d9a36357cfe4fb3c5fb7b47d75665\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://af67f4b3d6ea0c88ba9d1c1cfa0be051de016e689b02ba931c871ecad8fad336\",\"dweb:/ipfs/QmPRQsAEPUcJjxXxjAmttXTbmuSdaDPi41KAqTMYhM6L5m\"]},\"project:/contracts/interfaces/tokens/ERC20WithTokenInfo.sol\":{\"keccak256\":\"0x808d3a486826e7f119671174a77896c6e23578e691625350dbb3e9f74a0d5137\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://06a7a1bc2ed6888c7080a8e1fb676b7f3972b3f22620c771a41ca3a0ee78b968\",\"dweb:/ipfs/QmW7qpRwv2vEtCtENoP4BUkK4yRBbiKUZbPbyXNbPthiLQ\"]},\"project:/contracts/interfaces/tokens/INativeSuperToken.sol\":{\"keccak256\":\"0x9ee0e65ccea0fa0a84a232425ba23a29177c2500c7f4acc972d3d025e363b468\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://52dcb313fac588668e72ea8ca3abc7750b5810b27690c91d2631b681e0f74591\",\"dweb:/ipfs/QmVRwN7s3avXxcH3Cutfm3fugG8HTB1juye2X6wMvnbxqs\"]},\"project:/contracts/interfaces/tokens/TokenInfo.sol\":{\"keccak256\":\"0x4dee21b8f64edbfe811a300d31f529b5367d1186d69b8b2b8dc3373be7a108b0\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://67edf7ddbd90cd7871dc3c92202d4a749d3be0065174fd0f5b89b18edac9d8d1\",\"dweb:/ipfs/QmNc58Ep6sYkSybGVAgmkeCjHFdBL2m1sGJGUgR99xKqeh\"]},\"project:/contracts/tokens/NativeSuperToken.sol\":{\"keccak256\":\"0xcf84c862ae7c808bd96ae36c47b872809c63b9e48cc2fa975bcd7f2701e380c1\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://22ad3311f1f147e52bf51953a3e03584be6f157ff74777c69c8a9fa0f52a0ee7\",\"dweb:/ipfs/QmZAyDXkW2kPo8g3VM72igDrVKsseubU9U2LZ2gkv3Roo5\"]},\"project:/contracts/upgradability/UUPSProxy.sol\":{\"keccak256\":\"0x56ae5dba7b1f2aa57717b647859a8586244138aee2b1d6b67f266e097c6f6acc\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://f1887056ea1b08b13d6a2170fde9aa480cb3f1a59944641746a3a4f19306895a\",\"dweb:/ipfs/QmWbN56ky7MGnkCn2yYdqmUDCLrKfs7Uf25zXKNMSvRvsL\"]},\"project:/contracts/upgradability/UUPSUtils.sol\":{\"keccak256\":\"0x2b47a0c71503981f4cf29656831aee3b038513dcc8554d8a432830af58d29bd1\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://b3bfc98fe566bee28d4431680bced199d498af6045b1380f88499828161429f2\",\"dweb:/ipfs/QmcyxSdt8S6mXZLwGkcmRGusykhoYe2RMAo8QiSFpd97cb\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5061048e806100206000396000f3fe60806040526004361061002d5760003560e01c80634a0687ef14610044578063b119490e146100775761003c565b3661003c5761003a610146565b005b61003a610146565b34801561005057600080fd5b5061003a6004803603602081101561006757600080fd5b50356001600160a01b0316610160565b34801561008357600080fd5b5061003a6004803603606081101561009a57600080fd5b8101906020810181356401000000008111156100b557600080fd5b8201836020820111156100c757600080fd5b803590602001918460018302840111640100000000831117156100e957600080fd5b91939092909160208101903564010000000081111561010757600080fd5b82018360208201111561011957600080fd5b8035906020019184600183028401116401000000008311171561013b57600080fd5b91935091503561022c565b61014e61015e565b61015e6101596103dc565b6103eb565b565b6001600160a01b0381166101bb576040805162461bcd60e51b815260206004820152601760248201527f5555505350726f78793a207a65726f2061646472657373000000000000000000604482015290519081900360640190fd5b60006101c561040f565b6001600160a01b031614610220576040805162461bcd60e51b815260206004820152601e60248201527f5555505350726f78793a20616c726561647920696e697469616c697a65640000604482015290519081900360640190fd5b61022981610434565b50565b306001600160a01b03166342fe098060006012888888886040518763ffffffff1660e01b815260040180876001600160a01b0316815260200186815260200180602001806020018381038352878782818152602001925080828437600083820152601f01601f191690910184810383528581526020019050858580828437600081840152601f19601f82011690508083019250505098505050505050505050600060405180830381600087803b1580156102e557600080fd5b505af11580156102f9573d6000803e3d6000fd5b5050604080516000808252602082019283905263c68d428360e01b835233602483018181526044840188905260606064850190815284516084860181905230985063c68d4283975092958995949293919260a4860192908190849084905b8381101561036f578181015183820152602001610357565b50505050905090810190601f16801561039c5780820380516001836020036101000a031916815260200191505b50945050505050600060405180830381600087803b1580156103bd57600080fd5b505af11580156103d1573d6000803e3d6000fd5b505050505050505050565b60006103e661040f565b905090565b3660008037600080366000845af43d6000803e80801561040a573d6000f35b3d6000fd5b7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc5490565b7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc5556fea264697066735822122090930cdbd76cb83faef143a57e5d549f0f3e185ca78b26096aaa91a9c5318caf64736f6c63430007060033",
-  "deployedBytecode": "0x60806040526004361061002d5760003560e01c80634a0687ef14610044578063b119490e146100775761003c565b3661003c5761003a610146565b005b61003a610146565b34801561005057600080fd5b5061003a6004803603602081101561006757600080fd5b50356001600160a01b0316610160565b34801561008357600080fd5b5061003a6004803603606081101561009a57600080fd5b8101906020810181356401000000008111156100b557600080fd5b8201836020820111156100c757600080fd5b803590602001918460018302840111640100000000831117156100e957600080fd5b91939092909160208101903564010000000081111561010757600080fd5b82018360208201111561011957600080fd5b8035906020019184600183028401116401000000008311171561013b57600080fd5b91935091503561022c565b61014e61015e565b61015e6101596103dc565b6103eb565b565b6001600160a01b0381166101bb576040805162461bcd60e51b815260206004820152601760248201527f5555505350726f78793a207a65726f2061646472657373000000000000000000604482015290519081900360640190fd5b60006101c561040f565b6001600160a01b031614610220576040805162461bcd60e51b815260206004820152601e60248201527f5555505350726f78793a20616c726561647920696e697469616c697a65640000604482015290519081900360640190fd5b61022981610434565b50565b306001600160a01b03166342fe098060006012888888886040518763ffffffff1660e01b815260040180876001600160a01b0316815260200186815260200180602001806020018381038352878782818152602001925080828437600083820152601f01601f191690910184810383528581526020019050858580828437600081840152601f19601f82011690508083019250505098505050505050505050600060405180830381600087803b1580156102e557600080fd5b505af11580156102f9573d6000803e3d6000fd5b5050604080516000808252602082019283905263c68d428360e01b835233602483018181526044840188905260606064850190815284516084860181905230985063c68d4283975092958995949293919260a4860192908190849084905b8381101561036f578181015183820152602001610357565b50505050905090810190601f16801561039c5780820380516001836020036101000a031916815260200191505b50945050505050600060405180830381600087803b1580156103bd57600080fd5b505af11580156103d1573d6000803e3d6000fd5b505050505050505050565b60006103e661040f565b905090565b3660008037600080366000845af43d6000803e80801561040a573d6000f35b3d6000fd5b7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc5490565b7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc5556fea264697066735822122090930cdbd76cb83faef143a57e5d549f0f3e185ca78b26096aaa91a9c5318caf64736f6c63430007060033",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"totalSupply\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Superfluid\",\"details\":\"Native SuperToken custom super token implementation NOTE: - This is a simple implementation where the supply is pre-minted.\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/NativeSuperToken.sol\":\"NativeSuperTokenProxy\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x5f02220344881ce43204ae4a6281145a67bc52c2bb1290a791857df3d19d78f5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://24427744bd3e6cb73c17010119af12a318289c0253a4d9acb8576c9fb3797b08\",\"dweb:/ipfs/QmTLDqpKRBuxGxRAmjgXt9AkXyACW3MtKzi7PYjm5iMfGC\"]},\"@openzeppelin/contracts/token/ERC777/IERC777.sol\":{\"keccak256\":\"0xe81b5fca616ec6f57bb9d1ab0750202b9e514760462274ac04495e8c249697ab\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1e23a53ea7f3787f90ff8f6e25ea47896ed4b56e336e72ae543e3ef74eaa9e23\",\"dweb:/ipfs/QmSDNkjN5k2VRbrfWdTMJ39dzcSvFz4YMQqHZ5z61qLNVA\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/CustomSuperTokenBase.sol\":{\"keccak256\":\"0x02893317bff099720f93aa88386cdfe171f50b84816a8d66089c6f3cbc6e428d\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://26269241e3a310f586ce28f4e50573e4d3473526f5e198f94dd2f5560b0ea5b6\",\"dweb:/ipfs/QmUSW6g3ELPrNPCLFAaf1WMcRaoczdgUNz2jK1zSxZuMei\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/Definitions.sol\":{\"keccak256\":\"0x629a096aa6ce1da21b6d6861ebcd640257fc3c77e5d7f7de5de73b251a0be4b3\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://41046b449583e40efa0bd9e99147474cfbbc12fbba2e7184deb8c95939f04e9f\",\"dweb:/ipfs/QmT9HGuLjGbZF1yM7RtnyRo8GuVXzPk8rCjibKTKmc2LDN\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperAgreement.sol\":{\"keccak256\":\"0xcf8a33fadd5db47562156a11098623246efd1b46a2c3d28269767bcbb324fd66\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://5c0273b4a136874ca4ad1b3f66b312adfa8e8ed48b301e4e979081d4923bb55f\",\"dweb:/ipfs/QmQvK9ZQggymJAftai2aA89EfQY2hX3MSpejNkr6kNf45m\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperApp.sol\":{\"keccak256\":\"0xca93702505ec3c8244227e372687d9bdbc9d368fa07723d310ab9550501abb2a\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://3514c2c72fc866064227ea28fceea9dec4ca27cdbda2cff546b59f6b899cee4d\",\"dweb:/ipfs/QmdpFCRDm8An2U6TCTUK3Zopp8wVS44mzh2YjVvtruE3dZ\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol\":{\"keccak256\":\"0xba355f7d7d5d32ca345bcdb355759ba598a911ff07227ff80012a5e0bf660fb1\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://72c2669590a012587b892f0bbb166079ffb9e4c2044511b45eb6b34489f83b30\",\"dweb:/ipfs/QmQckdZ7tbboxPpXSt8irWo98KBcZRT5xNPuGf7yuZxZw2\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperTokenFactory.sol\":{\"keccak256\":\"0x7dc514c6c9eda681ed8ad66ccfb68dc22764b6c429ab55fddbba28b6b148621b\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://bc4b3b35bb0ddd9323afa1f25468eb706e5f7eccce6ff9beec9657aeea8bec33\",\"dweb:/ipfs/QmSLKq8JYWavnjDokYoe1cUERbvWFfiBWBJ2zDCMVyycsM\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol\":{\"keccak256\":\"0x987a883e8acd87e07eb00ebb1c882d294c7a0af2e5a8cb234270f83f4168438f\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://87631a2a511fcfd20787d0bb633d37f3a810bd50c58502c996106b97f2795272\",\"dweb:/ipfs/QmeR8yfLL41en8GjszYRc8Cw9QoEmRQ6j3hCi8JRsym3vZ\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidGovernance.sol\":{\"keccak256\":\"0x2ac401c7fb012ef43d8becad0196bcd41ac9ad33778a7a5e4809a1740a646e63\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://a04710e0e2a4d0183d2760b1ef73e970e4070eaeee3dfefe5ba4bed61dd45ada\",\"dweb:/ipfs/QmYCxDFAWmrCTzioikvbeJtHByWvyxT9nARBuaVoYmopPo\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidToken.sol\":{\"keccak256\":\"0x6c573b0c0d9ccfc73f787da2e06c725b714d9a36357cfe4fb3c5fb7b47d75665\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://af67f4b3d6ea0c88ba9d1c1cfa0be051de016e689b02ba931c871ecad8fad336\",\"dweb:/ipfs/QmPRQsAEPUcJjxXxjAmttXTbmuSdaDPi41KAqTMYhM6L5m\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/tokens/ERC20WithTokenInfo.sol\":{\"keccak256\":\"0x808d3a486826e7f119671174a77896c6e23578e691625350dbb3e9f74a0d5137\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://06a7a1bc2ed6888c7080a8e1fb676b7f3972b3f22620c771a41ca3a0ee78b968\",\"dweb:/ipfs/QmW7qpRwv2vEtCtENoP4BUkK4yRBbiKUZbPbyXNbPthiLQ\"]},\"@superfluid-finance/ethereum-contracts/contracts/interfaces/tokens/TokenInfo.sol\":{\"keccak256\":\"0x4dee21b8f64edbfe811a300d31f529b5367d1186d69b8b2b8dc3373be7a108b0\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://67edf7ddbd90cd7871dc3c92202d4a749d3be0065174fd0f5b89b18edac9d8d1\",\"dweb:/ipfs/QmNc58Ep6sYkSybGVAgmkeCjHFdBL2m1sGJGUgR99xKqeh\"]},\"project:/contracts/NativeSuperToken.sol\":{\"keccak256\":\"0xfc3a2da3cfadd5d779e08d038696886ce8183840fe8efaa3ceef668c96ff9bb0\",\"license\":\"AGPLv3\",\"urls\":[\"bzz-raw://b62ccade0c9b5f1d39c9a88ba67afdd1adf20be7832c48c61f0d9f04d2ba04d3\",\"dweb:/ipfs/QmaLFy3M3yFn9emJ2hhhKNppFuwU67VVFo1xgyFQ9ks1nM\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061039a806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c8063bd3a13f614610030575b600080fd5b6101266004803603608081101561004657600080fd5b810190808035906020019064010000000081111561006357600080fd5b82018360208201111561007557600080fd5b8035906020019184600183028401116401000000008311171561009757600080fd5b9091929391929390803590602001906401000000008111156100b857600080fd5b8201836020820111156100ca57600080fd5b803590602001918460018302840111640100000000831117156100ec57600080fd5b909192939192939080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610128565b005b3073ffffffffffffffffffffffffffffffffffffffff166342fe098060006012898989896040518763ffffffff1660e01b8152600401808773ffffffffffffffffffffffffffffffffffffffff16815260200186815260200180602001806020018381038352878782818152602001925080828437600081840152601f19601f8201169050808301925050508381038252858582818152602001925080828437600081840152601f19601f82011690508083019250505098505050505050505050600060405180830381600087803b15801561020357600080fd5b505af1158015610217573d6000803e3d6000fd5b505050503073ffffffffffffffffffffffffffffffffffffffff1663c68d42838284600067ffffffffffffffff8111801561025157600080fd5b506040519080825280601f01601f1916602001820160405280156102845781602001600182028036833780820191505090505b506040518463ffffffff1660e01b8152600401808473ffffffffffffffffffffffffffffffffffffffff16815260200183815260200180602001828103825283818151815260200191508051906020019080838360005b838110156102f65780820151818401526020810190506102db565b50505050905090810190601f1680156103235780820380516001836020036101000a031916815260200191505b50945050505050600060405180830381600087803b15801561034457600080fd5b505af1158015610358573d6000803e3d6000fd5b5050505050505050505056fea2646970667358221220aeb4a5085e437c01f28d0bbe44b80e5061b8ceedeb3df3cf6741486b95cf6f2c64736f6c63430007000033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c8063bd3a13f614610030575b600080fd5b6101266004803603608081101561004657600080fd5b810190808035906020019064010000000081111561006357600080fd5b82018360208201111561007557600080fd5b8035906020019184600183028401116401000000008311171561009757600080fd5b9091929391929390803590602001906401000000008111156100b857600080fd5b8201836020820111156100ca57600080fd5b803590602001918460018302840111640100000000831117156100ec57600080fd5b909192939192939080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610128565b005b3073ffffffffffffffffffffffffffffffffffffffff166342fe098060006012898989896040518763ffffffff1660e01b8152600401808773ffffffffffffffffffffffffffffffffffffffff16815260200186815260200180602001806020018381038352878782818152602001925080828437600081840152601f19601f8201169050808301925050508381038252858582818152602001925080828437600081840152601f19601f82011690508083019250505098505050505050505050600060405180830381600087803b15801561020357600080fd5b505af1158015610217573d6000803e3d6000fd5b505050503073ffffffffffffffffffffffffffffffffffffffff1663c68d42838284600067ffffffffffffffff8111801561025157600080fd5b506040519080825280601f01601f1916602001820160405280156102845781602001600182028036833780820191505090505b506040518463ffffffff1660e01b8152600401808473ffffffffffffffffffffffffffffffffffffffff16815260200183815260200180602001828103825283818151815260200191508051906020019080838360005b838110156102f65780820151818401526020810190506102db565b50505050905090810190601f1680156103235780820380516001836020036101000a031916815260200191505b50945050505050600060405180830381600087803b15801561034457600080fd5b505af1158015610358573d6000803e3d6000fd5b5050505050505050505056fea2646970667358221220aeb4a5085e437c01f28d0bbe44b80e5061b8ceedeb3df3cf6741486b95cf6f2c64736f6c63430007000033",
   "immutableReferences": {},
-  "generatedSources": [],
-  "deployedGeneratedSources": [],
-  "sourceMap": "565:526:92:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "565:526:92:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;2843:11:12;:9;:11::i;:::-;565:526:92;;2619:11:12;:9;:11::i;894:285:95:-;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;894:285:95;-1:-1:-1;;;;;894:285:95;;:::i;662:427:92:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;662:427:92;-1:-1:-1;662:427:92;;:::i;2265:110:12:-;2313:17;:15;:17::i;:::-;2340:28;2350:17;:15;:17::i;:::-;2340:9;:28::i;:::-;2265:110::o;894:285:95:-;-1:-1:-1;;;;;970:28:95;;962:64;;;;;-1:-1:-1;;;962:64:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;1082:1;1044:26;:24;:26::i;:::-;-1:-1:-1;;;;;1044:40:95;;1036:83;;;;;-1:-1:-1;;;1036:83:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;1129:43;1157:14;1129:27;:43::i;:::-;894:285;:::o;662:427:92:-;811:4;-1:-1:-1;;;;;791:37:92;;849:3;898:2;962:4;;980:6;;791:205;;;;;;;;;;;;;-1:-1:-1;;;;;791:205:92;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;791:205:92;;;;;;;;;;;;;;;-1:-1:-1;791:205:92;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;1069:12:92;;;1079:1;1069:12;;;;;;;;;;-1:-1:-1;;;1006:76:92;;1042:10;1006:76;;;;;;;;;;;;;;;;;;;;;;;;;;;1026:4;;-1:-1:-1;1006:35:92;;-1:-1:-1;1042:10:92;;1054:13;;1069:12;1006:76;;;;;;;;;;;;;1069:12;;1006:76;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;662:427;;;;;:::o;1235:130:95:-;1302:7;1332:26;:24;:26::i;:::-;1325:33;;1235:130;:::o;891:895:12:-;1285:14;1282:1;1279;1266:34;1499:1;1496;1480:14;1477:1;1461:14;1454:5;1441:60;1575:16;1572:1;1569;1554:38;1613:6;1680:38;;;;1751:16;1748:1;1741:27;1680:38;1699:16;1696:1;1689:27;617:170:96;750:20;744:27;;699:82::o;838:228::-;987:20;963:87;914:146::o",
-  "source": "// SPDX-License-Identifier: AGPLv3\npragma solidity 0.7.6;\n\nimport {\n    ISuperToken,\n    CustomSuperTokenBase\n}\nfrom \"../interfaces/superfluid/CustomSuperTokenBase.sol\";\nimport { INativeSuperTokenCustom } from \"../interfaces/tokens/INativeSuperToken.sol\";\nimport { UUPSProxy } from \"../upgradability/UUPSProxy.sol\";\nimport { IERC20 } from \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\n\n\n/**\n * @dev Native SuperToken custom super token implementation\n *\n * NOTE:\n * - This is a simple implementation where the supply is pre-minted.\n *\n * @author Superfluid\n */\ncontract NativeSuperTokenProxy is INativeSuperTokenCustom, CustomSuperTokenBase, UUPSProxy {\n    function initialize(string calldata name, string calldata symbol, uint256 initialSupply)\n        external override\n    {\n        ISuperToken(address(this)).initialize(\n            IERC20(0x0), // no underlying/wrapped token\n            18, // shouldn't matter if there's no wrapped token\n            name,\n            symbol\n        );\n        ISuperToken(address(this)).selfMint(msg.sender, initialSupply, new bytes(0));\n    }\n}\n",
-  "sourcePath": "/home/runner/work/protocol-monorepo/protocol-monorepo/packages/ethereum-contracts/contracts/tokens/NativeSuperToken.sol",
+  "sourceMap": "1053:530:34:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "1053:530:34:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1139:442;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;1306:4;1286:37;;;1344:3;1393:2;1457:4;;1475:6;;1286:205;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1521:4;1501:35;;;1537:9;1548:11;1571:1;1561:12;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1501:73;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1139:442;;;;;;:::o",
+  "source": "// SPDX-License-Identifier: AGPLv3\npragma solidity >=0.7.0;\nimport {ISuperToken} from \"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol\";\n\nimport  \"@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/CustomSuperTokenBase.sol\";\nimport { IERC20 } from \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\n\n/**\n * @dev Native SuperToken custom token functions\n *\n * @author Superfluid\n */\ninterface INativeSuperTokenCustom {\n    function initialize(string calldata name, string calldata symbol, uint256 initialSupply, address recipient) external;\n}\n\n/**\n * @dev Native SuperToken full interface\n *\n * @author Superfluid\n */\ninterface INativeSuperToken is INativeSuperTokenCustom, ISuperToken {\n    function initialize(string calldata name, string calldata symbol, uint256 initialSupply, address recipient) external override;\n}\n\n/**\n * @dev Native SuperToken custom super token implementation\n *\n * NOTE:\n * - This is a simple implementation where the supply is pre-minted.\n *\n * @author Superfluid\n */\ncontract NativeSuperTokenProxy is INativeSuperTokenCustom, CustomSuperTokenBase {\n    function initialize(string calldata name, string calldata symbol, uint256 totalSupply, address recipient) \n        external override\n    {\n        ISuperToken(address(this)).initialize(\n            IERC20(0x0), // no underlying/wrapped token\n            18, // shouldn't matter if there's no wrapped token\n            name,\n            symbol\n        );\n        ISuperToken(address(this)).selfMint(recipient, totalSupply, new bytes(0));\n    }\n}\n",
+  "sourcePath": "/Users/siphamandlamjoli/Documents/GitHub/fluid-pebble/contracts/contracts/NativeSuperToken.sol",
   "ast": {
-    "absolutePath": "project:/contracts/tokens/NativeSuperToken.sol",
+    "absolutePath": "project:/contracts/NativeSuperToken.sol",
     "exportedSymbols": {
-      "CustomSuperTokenBase": [
-        14115
-      ],
-      "IERC20": [
-        1936
+      "INativeSuperToken": [
+        7668
       ],
       "INativeSuperTokenCustom": [
-        15845
-      ],
-      "ISuperToken": [
-        14924
+        7650
       ],
       "NativeSuperTokenProxy": [
-        32389
-      ],
-      "UUPSProxy": [
-        32904
+        7717
       ]
     },
-    "id": 32390,
+    "id": 7718,
     "license": "AGPLv3",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 32330,
+        "id": 7632,
         "literals": [
           "solidity",
+          ">=",
           "0.7",
-          ".6"
+          ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "35:22:92"
+        "src": "35:24:34"
       },
       {
-        "absolutePath": "project:/contracts/interfaces/superfluid/CustomSuperTokenBase.sol",
-        "file": "../interfaces/superfluid/CustomSuperTokenBase.sol",
-        "id": 32333,
+        "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol",
+        "file": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol",
+        "id": 7634,
         "nodeType": "ImportDirective",
-        "scope": 32390,
-        "sourceUnit": 14116,
-        "src": "59:110:92",
+        "scope": 7718,
+        "sourceUnit": 5246,
+        "src": "60:115:34",
         "symbolAliases": [
           {
             "foreign": {
-              "id": 32331,
+              "argumentTypes": null,
+              "id": 7633,
               "name": "ISuperToken",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "src": "72:11:92",
-              "typeDescriptions": {}
-            }
-          },
-          {
-            "foreign": {
-              "id": 32332,
-              "name": "CustomSuperTokenBase",
-              "nodeType": "Identifier",
-              "overloadedDeclarations": [],
-              "src": "89:20:92",
-              "typeDescriptions": {}
-            }
+              "referencedDeclaration": null,
+              "src": "68:11:34",
+              "typeDescriptions": {
+                "typeIdentifier": null,
+                "typeString": null
+              }
+            },
+            "local": null
           }
         ],
         "unitAlias": ""
       },
       {
-        "absolutePath": "project:/contracts/interfaces/tokens/INativeSuperToken.sol",
-        "file": "../interfaces/tokens/INativeSuperToken.sol",
-        "id": 32335,
+        "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/CustomSuperTokenBase.sol",
+        "file": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/CustomSuperTokenBase.sol",
+        "id": 7635,
         "nodeType": "ImportDirective",
-        "scope": 32390,
-        "sourceUnit": 15862,
-        "src": "170:85:92",
-        "symbolAliases": [
-          {
-            "foreign": {
-              "id": 32334,
-              "name": "INativeSuperTokenCustom",
-              "nodeType": "Identifier",
-              "overloadedDeclarations": [],
-              "src": "179:23:92",
-              "typeDescriptions": {}
-            }
-          }
-        ],
-        "unitAlias": ""
-      },
-      {
-        "absolutePath": "project:/contracts/upgradability/UUPSProxy.sol",
-        "file": "../upgradability/UUPSProxy.sol",
-        "id": 32337,
-        "nodeType": "ImportDirective",
-        "scope": 32390,
-        "sourceUnit": 32905,
-        "src": "256:59:92",
-        "symbolAliases": [
-          {
-            "foreign": {
-              "id": 32336,
-              "name": "UUPSProxy",
-              "nodeType": "Identifier",
-              "overloadedDeclarations": [],
-              "src": "265:9:92",
-              "typeDescriptions": {}
-            }
-          }
-        ],
+        "scope": 7718,
+        "sourceUnit": 3941,
+        "src": "177:106:34",
+        "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "id": 32339,
+        "id": 7637,
         "nodeType": "ImportDirective",
-        "scope": 32390,
-        "sourceUnit": 1937,
-        "src": "316:72:92",
+        "scope": 7718,
+        "sourceUnit": 612,
+        "src": "284:72:34",
         "symbolAliases": [
           {
             "foreign": {
-              "id": 32338,
+              "argumentTypes": null,
+              "id": 7636,
               "name": "IERC20",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "src": "325:6:92",
-              "typeDescriptions": {}
-            }
+              "referencedDeclaration": null,
+              "src": "293:6:34",
+              "typeDescriptions": {
+                "typeIdentifier": null,
+                "typeString": null
+              }
+            },
+            "local": null
           }
         ],
         "unitAlias": ""
       },
       {
         "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 7638,
+          "nodeType": "StructuredDocumentation",
+          "src": "358:81:34",
+          "text": " @dev Native SuperToken custom token functions\n @author Superfluid"
+        },
+        "fullyImplemented": false,
+        "id": 7650,
+        "linearizedBaseContracts": [
+          7650
+        ],
+        "name": "INativeSuperTokenCustom",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "functionSelector": "bd3a13f6",
+            "id": 7649,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initialize",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 7647,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7640,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7649,
+                  "src": "500:20:34",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 7639,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "500:6:34",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7642,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7649,
+                  "src": "522:22:34",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 7641,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "522:6:34",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7644,
+                  "mutability": "mutable",
+                  "name": "initialSupply",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7649,
+                  "src": "546:21:34",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7643,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "546:7:34",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7646,
+                  "mutability": "mutable",
+                  "name": "recipient",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7649,
+                  "src": "569:17:34",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7645,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "569:7:34",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "499:88:34"
+            },
+            "returnParameters": {
+              "id": 7648,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "596:0:34"
+            },
+            "scope": 7650,
+            "src": "480:117:34",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7718,
+        "src": "440:159:34"
+      },
+      {
+        "abstract": false,
         "baseContracts": [
           {
+            "arguments": null,
             "baseName": {
-              "id": 32341,
+              "contractScope": null,
+              "id": 7652,
               "name": "INativeSuperTokenCustom",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 15845,
-              "src": "599:23:92",
+              "referencedDeclaration": 7650,
+              "src": "706:23:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_INativeSuperTokenCustom_$15845",
+                "typeIdentifier": "t_contract$_INativeSuperTokenCustom_$7650",
                 "typeString": "contract INativeSuperTokenCustom"
               }
             },
-            "id": 32342,
+            "id": 7653,
             "nodeType": "InheritanceSpecifier",
-            "src": "599:23:92"
+            "src": "706:23:34"
           },
           {
+            "arguments": null,
             "baseName": {
-              "id": 32343,
-              "name": "CustomSuperTokenBase",
+              "contractScope": null,
+              "id": 7654,
+              "name": "ISuperToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 14115,
-              "src": "624:20:92",
+              "referencedDeclaration": 4749,
+              "src": "731:11:34",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_CustomSuperTokenBase_$14115",
-                "typeString": "contract CustomSuperTokenBase"
+                "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                "typeString": "contract ISuperToken"
               }
             },
-            "id": 32344,
+            "id": 7655,
             "nodeType": "InheritanceSpecifier",
-            "src": "624:20:92"
-          },
-          {
-            "baseName": {
-              "id": 32345,
-              "name": "UUPSProxy",
-              "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 32904,
-              "src": "646:9:92",
-              "typeDescriptions": {
-                "typeIdentifier": "t_contract$_UUPSProxy_$32904",
-                "typeString": "contract UUPSProxy"
-              }
-            },
-            "id": 32346,
-            "nodeType": "InheritanceSpecifier",
-            "src": "646:9:92"
+            "src": "731:11:34"
           }
         ],
         "contractDependencies": [
-          1355,
-          14115,
-          15845,
-          32904
+          611,
+          1906,
+          4749,
+          5606,
+          5640,
+          7650
+        ],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 7651,
+          "nodeType": "StructuredDocumentation",
+          "src": "601:73:34",
+          "text": " @dev Native SuperToken full interface\n @author Superfluid"
+        },
+        "fullyImplemented": false,
+        "id": 7668,
+        "linearizedBaseContracts": [
+          7668,
+          4749,
+          1906,
+          611,
+          5640,
+          5606,
+          7650
+        ],
+        "name": "INativeSuperToken",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "baseFunctions": [
+              7649
+            ],
+            "body": null,
+            "documentation": null,
+            "functionSelector": "bd3a13f6",
+            "id": 7667,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initialize",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 7665,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "866:8:34"
+            },
+            "parameters": {
+              "id": 7664,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7657,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7667,
+                  "src": "769:20:34",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 7656,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "769:6:34",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7659,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7667,
+                  "src": "791:22:34",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 7658,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "791:6:34",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7661,
+                  "mutability": "mutable",
+                  "name": "initialSupply",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7667,
+                  "src": "815:21:34",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7660,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "815:7:34",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7663,
+                  "mutability": "mutable",
+                  "name": "recipient",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7667,
+                  "src": "838:17:34",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7662,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "838:7:34",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "768:88:34"
+            },
+            "returnParameters": {
+              "id": 7666,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "874:0:34"
+            },
+            "scope": 7668,
+            "src": "749:126:34",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7718,
+        "src": "675:202:34"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 7670,
+              "name": "INativeSuperTokenCustom",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 7650,
+              "src": "1087:23:34",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_INativeSuperTokenCustom_$7650",
+                "typeString": "contract INativeSuperTokenCustom"
+              }
+            },
+            "id": 7671,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1087:23:34"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 7672,
+              "name": "CustomSuperTokenBase",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3940,
+              "src": "1112:20:34",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CustomSuperTokenBase_$3940",
+                "typeString": "contract CustomSuperTokenBase"
+              }
+            },
+            "id": 7673,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1112:20:34"
+          }
+        ],
+        "contractDependencies": [
+          3940,
+          7650
         ],
         "contractKind": "contract",
         "documentation": {
-          "id": 32340,
+          "id": 7669,
           "nodeType": "StructuredDocumentation",
-          "src": "391:173:92",
+          "src": "879:173:34",
           "text": " @dev Native SuperToken custom super token implementation\n NOTE:\n - This is a simple implementation where the supply is pre-minted.\n @author Superfluid"
         },
         "fullyImplemented": true,
-        "id": 32389,
+        "id": 7717,
         "linearizedBaseContracts": [
-          32389,
-          32904,
-          1355,
-          14115,
-          15845
+          7717,
+          3940,
+          7650
         ],
         "name": "NativeSuperTokenProxy",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "baseFunctions": [
-              15844
+              7649
             ],
             "body": {
-              "id": 32387,
+              "id": 7715,
               "nodeType": "Block",
-              "src": "781:308:92",
+              "src": "1276:305:34",
               "statements": [
                 {
                   "expression": {
+                    "argumentTypes": null,
                     "arguments": [
                       {
+                        "argumentTypes": null,
                         "arguments": [
                           {
+                            "argumentTypes": null,
                             "hexValue": "307830",
-                            "id": 32364,
+                            "id": 7693,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-                            "src": "849:3:92",
+                            "src": "1344:3:34",
+                            "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
                               "typeString": "int_const 0"
@@ -305,18 +626,18 @@
                               "typeString": "int_const 0"
                             }
                           ],
-                          "id": 32363,
+                          "id": 7692,
                           "name": "IERC20",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1936,
-                          "src": "842:6:92",
+                          "referencedDeclaration": 611,
+                          "src": "1337:6:34",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_IERC20_$1936_$",
+                            "typeIdentifier": "t_type$_t_contract$_IERC20_$611_$",
                             "typeString": "type(contract IERC20)"
                           }
                         },
-                        "id": 32365,
+                        "id": 7694,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -324,23 +645,25 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "842:11:92",
+                        "src": "1337:11:34",
                         "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IERC20_$1936",
+                          "typeIdentifier": "t_contract$_IERC20_$611",
                           "typeString": "contract IERC20"
                         }
                       },
                       {
+                        "argumentTypes": null,
                         "hexValue": "3138",
-                        "id": 32366,
+                        "id": 7695,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "number",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "898:2:92",
+                        "src": "1393:2:34",
+                        "subdenomination": null,
                         "typeDescriptions": {
                           "typeIdentifier": "t_rational_18_by_1",
                           "typeString": "int_const 18"
@@ -348,24 +671,26 @@
                         "value": "18"
                       },
                       {
-                        "id": 32367,
+                        "argumentTypes": null,
+                        "id": 7696,
                         "name": "name",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 32348,
-                        "src": "962:4:92",
+                        "referencedDeclaration": 7675,
+                        "src": "1457:4:34",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
                         }
                       },
                       {
-                        "id": 32368,
+                        "argumentTypes": null,
+                        "id": 7697,
                         "name": "symbol",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 32350,
-                        "src": "980:6:92",
+                        "referencedDeclaration": 7677,
+                        "src": "1475:6:34",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_calldata_ptr",
                           "typeString": "string calldata"
@@ -375,7 +700,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_IERC20_$1936",
+                          "typeIdentifier": "t_contract$_IERC20_$611",
                           "typeString": "contract IERC20"
                         },
                         {
@@ -392,18 +717,21 @@
                         }
                       ],
                       "expression": {
+                        "argumentTypes": null,
                         "arguments": [
                           {
+                            "argumentTypes": null,
                             "arguments": [
                               {
-                                "id": 32359,
+                                "argumentTypes": null,
+                                "id": 7688,
                                 "name": "this",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4294967268,
-                                "src": "811:4:92",
+                                "referencedDeclaration": -28,
+                                "src": "1306:4:34",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$32389",
+                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$7717",
                                   "typeString": "contract NativeSuperTokenProxy"
                                 }
                               }
@@ -411,30 +739,33 @@
                             "expression": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$32389",
+                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$7717",
                                   "typeString": "contract NativeSuperTokenProxy"
                                 }
                               ],
-                              "id": 32358,
+                              "id": 7687,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
                               "lValueRequested": false,
                               "nodeType": "ElementaryTypeNameExpression",
-                              "src": "803:7:92",
+                              "src": "1298:7:34",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_type$_t_address_$",
                                 "typeString": "type(address)"
                               },
                               "typeName": {
-                                "id": 32357,
+                                "id": 7686,
                                 "name": "address",
                                 "nodeType": "ElementaryTypeName",
-                                "src": "803:7:92",
-                                "typeDescriptions": {}
+                                "src": "1298:7:34",
+                                "typeDescriptions": {
+                                  "typeIdentifier": null,
+                                  "typeString": null
+                                }
                               }
                             },
-                            "id": 32360,
+                            "id": 7689,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -442,33 +773,33 @@
                             "lValueRequested": false,
                             "names": [],
                             "nodeType": "FunctionCall",
-                            "src": "803:13:92",
+                            "src": "1298:13:34",
                             "tryCall": false,
                             "typeDescriptions": {
-                              "typeIdentifier": "t_address_payable",
-                              "typeString": "address payable"
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
                             }
                           }
                         ],
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_address_payable",
-                              "typeString": "address payable"
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
                             }
                           ],
-                          "id": 32356,
+                          "id": 7685,
                           "name": "ISuperToken",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 14924,
-                          "src": "791:11:92",
+                          "referencedDeclaration": 4749,
+                          "src": "1286:11:34",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_ISuperToken_$14924_$",
+                            "typeIdentifier": "t_type$_t_contract$_ISuperToken_$4749_$",
                             "typeString": "type(contract ISuperToken)"
                           }
                         },
-                        "id": 32361,
+                        "id": 7690,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -476,28 +807,28 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "791:26:92",
+                        "src": "1286:26:34",
                         "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_ISuperToken_$14924",
+                          "typeIdentifier": "t_contract$_ISuperToken_$4749",
                           "typeString": "contract ISuperToken"
                         }
                       },
-                      "id": 32362,
+                      "id": 7691,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "initialize",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 14604,
-                      "src": "791:37:92",
+                      "referencedDeclaration": 4429,
+                      "src": "1286:37:34",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_nonpayable$_t_contract$_IERC20_$1936_$_t_uint8_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$__$",
+                        "typeIdentifier": "t_function_external_nonpayable$_t_contract$_IERC20_$611_$_t_uint8_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (contract IERC20,uint8,string memory,string memory) external"
                       }
                     },
-                    "id": 32369,
+                    "id": 7698,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -505,70 +836,62 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "791:205:92",
+                    "src": "1286:205:34",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 32370,
+                  "id": 7699,
                   "nodeType": "ExpressionStatement",
-                  "src": "791:205:92"
+                  "src": "1286:205:34"
                 },
                 {
                   "expression": {
+                    "argumentTypes": null,
                     "arguments": [
                       {
-                        "expression": {
-                          "id": 32378,
-                          "name": "msg",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 4294967281,
-                          "src": "1042:3:92",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_magic_message",
-                            "typeString": "msg"
-                          }
-                        },
-                        "id": 32379,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "lValueRequested": false,
-                        "memberName": "sender",
-                        "nodeType": "MemberAccess",
-                        "src": "1042:10:92",
+                        "argumentTypes": null,
+                        "id": 7707,
+                        "name": "recipient",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 7681,
+                        "src": "1537:9:34",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_address_payable",
-                          "typeString": "address payable"
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
                         }
                       },
                       {
-                        "id": 32380,
-                        "name": "initialSupply",
+                        "argumentTypes": null,
+                        "id": 7708,
+                        "name": "totalSupply",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 32352,
-                        "src": "1054:13:92",
+                        "referencedDeclaration": 7679,
+                        "src": "1548:11:34",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         }
                       },
                       {
+                        "argumentTypes": null,
                         "arguments": [
                           {
+                            "argumentTypes": null,
                             "hexValue": "30",
-                            "id": 32383,
+                            "id": 7711,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "number",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-                            "src": "1079:1:92",
+                            "src": "1571:1:34",
+                            "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_rational_0_by_1",
                               "typeString": "int_const 0"
@@ -583,29 +906,29 @@
                               "typeString": "int_const 0"
                             }
                           ],
-                          "id": 32382,
+                          "id": 7710,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "NewExpression",
-                          "src": "1069:9:92",
+                          "src": "1561:9:34",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_bytes_memory_ptr_$",
                             "typeString": "function (uint256) pure returns (bytes memory)"
                           },
                           "typeName": {
-                            "id": 32381,
+                            "id": 7709,
                             "name": "bytes",
                             "nodeType": "ElementaryTypeName",
-                            "src": "1073:5:92",
+                            "src": "1565:5:34",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bytes_storage_ptr",
                               "typeString": "bytes"
                             }
                           }
                         },
-                        "id": 32384,
+                        "id": 7712,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -613,7 +936,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "1069:12:92",
+                        "src": "1561:12:34",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes_memory_ptr",
@@ -624,8 +947,8 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_address_payable",
-                          "typeString": "address payable"
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
                         },
                         {
                           "typeIdentifier": "t_uint256",
@@ -637,18 +960,21 @@
                         }
                       ],
                       "expression": {
+                        "argumentTypes": null,
                         "arguments": [
                           {
+                            "argumentTypes": null,
                             "arguments": [
                               {
-                                "id": 32374,
+                                "argumentTypes": null,
+                                "id": 7703,
                                 "name": "this",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 4294967268,
-                                "src": "1026:4:92",
+                                "referencedDeclaration": -28,
+                                "src": "1521:4:34",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$32389",
+                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$7717",
                                   "typeString": "contract NativeSuperTokenProxy"
                                 }
                               }
@@ -656,30 +982,33 @@
                             "expression": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$32389",
+                                  "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$7717",
                                   "typeString": "contract NativeSuperTokenProxy"
                                 }
                               ],
-                              "id": 32373,
+                              "id": 7702,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
                               "lValueRequested": false,
                               "nodeType": "ElementaryTypeNameExpression",
-                              "src": "1018:7:92",
+                              "src": "1513:7:34",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_type$_t_address_$",
                                 "typeString": "type(address)"
                               },
                               "typeName": {
-                                "id": 32372,
+                                "id": 7701,
                                 "name": "address",
                                 "nodeType": "ElementaryTypeName",
-                                "src": "1018:7:92",
-                                "typeDescriptions": {}
+                                "src": "1513:7:34",
+                                "typeDescriptions": {
+                                  "typeIdentifier": null,
+                                  "typeString": null
+                                }
                               }
                             },
-                            "id": 32375,
+                            "id": 7704,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -687,33 +1016,33 @@
                             "lValueRequested": false,
                             "names": [],
                             "nodeType": "FunctionCall",
-                            "src": "1018:13:92",
+                            "src": "1513:13:34",
                             "tryCall": false,
                             "typeDescriptions": {
-                              "typeIdentifier": "t_address_payable",
-                              "typeString": "address payable"
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
                             }
                           }
                         ],
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_address_payable",
-                              "typeString": "address payable"
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
                             }
                           ],
-                          "id": 32371,
+                          "id": 7700,
                           "name": "ISuperToken",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 14924,
-                          "src": "1006:11:92",
+                          "referencedDeclaration": 4749,
+                          "src": "1501:11:34",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_ISuperToken_$14924_$",
+                            "typeIdentifier": "t_type$_t_contract$_ISuperToken_$4749_$",
                             "typeString": "type(contract ISuperToken)"
                           }
                         },
-                        "id": 32376,
+                        "id": 7705,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -721,28 +1050,28 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "1006:26:92",
+                        "src": "1501:26:34",
                         "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_ISuperToken_$14924",
+                          "typeIdentifier": "t_contract$_ISuperToken_$4749",
                           "typeString": "contract ISuperToken"
                         }
                       },
-                      "id": 32377,
+                      "id": 7706,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "selfMint",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 14827,
-                      "src": "1006:35:92",
+                      "referencedDeclaration": 4652,
+                      "src": "1501:35:34",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$_t_bytes_memory_ptr_$returns$__$",
                         "typeString": "function (address,uint256,bytes memory) external"
                       }
                     },
-                    "id": 32385,
+                    "id": 7713,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -750,44 +1079,46 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1006:76:92",
+                    "src": "1501:73:34",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 32386,
+                  "id": 7714,
                   "nodeType": "ExpressionStatement",
-                  "src": "1006:76:92"
+                  "src": "1501:73:34"
                 }
               ]
             },
-            "functionSelector": "b119490e",
-            "id": 32388,
+            "documentation": null,
+            "functionSelector": "bd3a13f6",
+            "id": 7716,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "initialize",
             "nodeType": "FunctionDefinition",
             "overrides": {
-              "id": 32354,
+              "id": 7683,
               "nodeType": "OverrideSpecifier",
               "overrides": [],
-              "src": "768:8:92"
+              "src": "1263:8:34"
             },
             "parameters": {
-              "id": 32353,
+              "id": 7682,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 32348,
+                  "id": 7675,
                   "mutability": "mutable",
                   "name": "name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 32388,
-                  "src": "682:20:92",
+                  "overrides": null,
+                  "scope": 7716,
+                  "src": "1159:20:34",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -795,25 +1126,27 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 32347,
+                    "id": 7674,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "682:6:92",
+                    "src": "1159:6:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
                     }
                   },
+                  "value": null,
                   "visibility": "internal"
                 },
                 {
                   "constant": false,
-                  "id": 32350,
+                  "id": 7677,
                   "mutability": "mutable",
                   "name": "symbol",
                   "nodeType": "VariableDeclaration",
-                  "scope": 32388,
-                  "src": "704:22:92",
+                  "overrides": null,
+                  "scope": 7716,
+                  "src": "1181:22:34",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -821,25 +1154,27 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 32349,
+                    "id": 7676,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "704:6:92",
+                    "src": "1181:6:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
                     }
                   },
+                  "value": null,
                   "visibility": "internal"
                 },
                 {
                   "constant": false,
-                  "id": 32352,
+                  "id": 7679,
                   "mutability": "mutable",
-                  "name": "initialSupply",
+                  "name": "totalSupply",
                   "nodeType": "VariableDeclaration",
-                  "scope": 32388,
-                  "src": "728:21:92",
+                  "overrides": null,
+                  "scope": 7716,
+                  "src": "1205:19:34",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -847,60 +1182,81 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 32351,
+                    "id": 7678,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "728:7:92",
+                    "src": "1205:7:34",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7681,
+                  "mutability": "mutable",
+                  "name": "recipient",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7716,
+                  "src": "1226:17:34",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 7680,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1226:7:34",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
                   "visibility": "internal"
                 }
               ],
-              "src": "681:69:92"
+              "src": "1158:86:34"
             },
             "returnParameters": {
-              "id": 32355,
+              "id": 7684,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "781:0:92"
+              "src": "1276:0:34"
             },
-            "scope": 32389,
-            "src": "662:427:92",
+            "scope": 7717,
+            "src": "1139:442:34",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 32390,
-        "src": "565:526:92"
+        "scope": 7718,
+        "src": "1053:530:34"
       }
     ],
-    "src": "35:1057:92"
+    "src": "35:1549:34"
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "project:/contracts/tokens/NativeSuperToken.sol",
+      "absolutePath": "project:/contracts/NativeSuperToken.sol",
       "exportedSymbols": {
-        "CustomSuperTokenBase": [
-          14115
-        ],
-        "IERC20": [
-          1936
+        "INativeSuperToken": [
+          7668
         ],
         "INativeSuperTokenCustom": [
-          15845
-        ],
-        "ISuperToken": [
-          14924
+          7650
         ],
         "NativeSuperTokenProxy": [
-          32389
-        ],
-        "UUPSProxy": [
-          32904
+          7717
         ]
       },
       "license": "AGPLv3"
@@ -910,233 +1266,370 @@
         "attributes": {
           "literals": [
             "solidity",
+            ">=",
             "0.7",
-            ".6"
+            ".0"
           ]
         },
-        "id": 32330,
+        "id": 7632,
         "name": "PragmaDirective",
-        "src": "35:22:92"
+        "src": "35:24:34"
       },
       {
         "attributes": {
-          "SourceUnit": 14116,
-          "absolutePath": "project:/contracts/interfaces/superfluid/CustomSuperTokenBase.sol",
-          "file": "../interfaces/superfluid/CustomSuperTokenBase.sol",
-          "scope": 32390,
+          "SourceUnit": 5246,
+          "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol",
+          "file": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol",
+          "scope": 7718,
           "symbolAliases": [
             {
               "foreign": {
                 "attributes": {
+                  "argumentTypes": null,
                   "overloadedDeclarations": [
                     null
                   ],
+                  "referencedDeclaration": null,
+                  "type": null,
                   "value": "ISuperToken"
                 },
-                "id": 32331,
+                "id": 7633,
                 "name": "Identifier",
-                "src": "72:11:92"
-              }
-            },
-            {
-              "foreign": {
-                "attributes": {
-                  "overloadedDeclarations": [
-                    null
-                  ],
-                  "value": "CustomSuperTokenBase"
-                },
-                "id": 32332,
-                "name": "Identifier",
-                "src": "89:20:92"
-              }
+                "src": "68:11:34"
+              },
+              "local": null
             }
           ],
           "unitAlias": ""
         },
-        "id": 32333,
+        "id": 7634,
         "name": "ImportDirective",
-        "src": "59:110:92"
+        "src": "60:115:34"
       },
       {
         "attributes": {
-          "SourceUnit": 15862,
-          "absolutePath": "project:/contracts/interfaces/tokens/INativeSuperToken.sol",
-          "file": "../interfaces/tokens/INativeSuperToken.sol",
-          "scope": 32390,
+          "SourceUnit": 3941,
+          "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/CustomSuperTokenBase.sol",
+          "file": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/CustomSuperTokenBase.sol",
+          "scope": 7718,
           "symbolAliases": [
-            {
-              "foreign": {
-                "attributes": {
-                  "overloadedDeclarations": [
-                    null
-                  ],
-                  "value": "INativeSuperTokenCustom"
-                },
-                "id": 32334,
-                "name": "Identifier",
-                "src": "179:23:92"
-              }
-            }
+            null
           ],
           "unitAlias": ""
         },
-        "id": 32335,
+        "id": 7635,
         "name": "ImportDirective",
-        "src": "170:85:92"
+        "src": "177:106:34"
       },
       {
         "attributes": {
-          "SourceUnit": 32905,
-          "absolutePath": "project:/contracts/upgradability/UUPSProxy.sol",
-          "file": "../upgradability/UUPSProxy.sol",
-          "scope": 32390,
-          "symbolAliases": [
-            {
-              "foreign": {
-                "attributes": {
-                  "overloadedDeclarations": [
-                    null
-                  ],
-                  "value": "UUPSProxy"
-                },
-                "id": 32336,
-                "name": "Identifier",
-                "src": "265:9:92"
-              }
-            }
-          ],
-          "unitAlias": ""
-        },
-        "id": 32337,
-        "name": "ImportDirective",
-        "src": "256:59:92"
-      },
-      {
-        "attributes": {
-          "SourceUnit": 1937,
+          "SourceUnit": 612,
           "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
           "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-          "scope": 32390,
+          "scope": 7718,
           "symbolAliases": [
             {
               "foreign": {
                 "attributes": {
+                  "argumentTypes": null,
                   "overloadedDeclarations": [
                     null
                   ],
+                  "referencedDeclaration": null,
+                  "type": null,
                   "value": "IERC20"
                 },
-                "id": 32338,
+                "id": 7636,
                 "name": "Identifier",
-                "src": "325:6:92"
-              }
+                "src": "293:6:34"
+              },
+              "local": null
             }
           ],
           "unitAlias": ""
         },
-        "id": 32339,
+        "id": 7637,
         "name": "ImportDirective",
-        "src": "316:72:92"
+        "src": "284:72:34"
       },
       {
         "attributes": {
           "abstract": false,
+          "baseContracts": [
+            null
+          ],
           "contractDependencies": [
-            1355,
-            14115,
-            15845,
-            32904
+            null
           ],
-          "contractKind": "contract",
-          "fullyImplemented": true,
+          "contractKind": "interface",
+          "fullyImplemented": false,
           "linearizedBaseContracts": [
-            32389,
-            32904,
-            1355,
-            14115,
-            15845
+            7650
           ],
-          "name": "NativeSuperTokenProxy",
-          "scope": 32390
+          "name": "INativeSuperTokenCustom",
+          "scope": 7718
         },
         "children": [
           {
             "attributes": {
-              "text": " @dev Native SuperToken custom super token implementation\n NOTE:\n - This is a simple implementation where the supply is pre-minted.\n @author Superfluid"
+              "text": " @dev Native SuperToken custom token functions\n @author Superfluid"
             },
-            "id": 32340,
+            "id": 7638,
             "name": "StructuredDocumentation",
-            "src": "391:173:92"
-          },
-          {
-            "attributes": {},
-            "children": [
-              {
-                "attributes": {
-                  "name": "INativeSuperTokenCustom",
-                  "referencedDeclaration": 15845,
-                  "type": "contract INativeSuperTokenCustom"
-                },
-                "id": 32341,
-                "name": "UserDefinedTypeName",
-                "src": "599:23:92"
-              }
-            ],
-            "id": 32342,
-            "name": "InheritanceSpecifier",
-            "src": "599:23:92"
-          },
-          {
-            "attributes": {},
-            "children": [
-              {
-                "attributes": {
-                  "name": "CustomSuperTokenBase",
-                  "referencedDeclaration": 14115,
-                  "type": "contract CustomSuperTokenBase"
-                },
-                "id": 32343,
-                "name": "UserDefinedTypeName",
-                "src": "624:20:92"
-              }
-            ],
-            "id": 32344,
-            "name": "InheritanceSpecifier",
-            "src": "624:20:92"
-          },
-          {
-            "attributes": {},
-            "children": [
-              {
-                "attributes": {
-                  "name": "UUPSProxy",
-                  "referencedDeclaration": 32904,
-                  "type": "contract UUPSProxy"
-                },
-                "id": 32345,
-                "name": "UserDefinedTypeName",
-                "src": "646:9:92"
-              }
-            ],
-            "id": 32346,
-            "name": "InheritanceSpecifier",
-            "src": "646:9:92"
+            "src": "358:81:34"
           },
           {
             "attributes": {
-              "baseFunctions": [
-                15844
-              ],
-              "functionSelector": "b119490e",
-              "implemented": true,
+              "body": null,
+              "documentation": null,
+              "functionSelector": "bd3a13f6",
+              "implemented": false,
               "isConstructor": false,
               "kind": "function",
               "modifiers": [
                 null
               ],
               "name": "initialize",
-              "scope": 32389,
+              "overrides": null,
+              "scope": 7650,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "name",
+                      "overrides": null,
+                      "scope": 7649,
+                      "stateVariable": false,
+                      "storageLocation": "calldata",
+                      "type": "string",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string"
+                        },
+                        "id": 7639,
+                        "name": "ElementaryTypeName",
+                        "src": "500:6:34"
+                      }
+                    ],
+                    "id": 7640,
+                    "name": "VariableDeclaration",
+                    "src": "500:20:34"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "symbol",
+                      "overrides": null,
+                      "scope": 7649,
+                      "stateVariable": false,
+                      "storageLocation": "calldata",
+                      "type": "string",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string"
+                        },
+                        "id": 7641,
+                        "name": "ElementaryTypeName",
+                        "src": "522:6:34"
+                      }
+                    ],
+                    "id": 7642,
+                    "name": "VariableDeclaration",
+                    "src": "522:22:34"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "initialSupply",
+                      "overrides": null,
+                      "scope": 7649,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 7643,
+                        "name": "ElementaryTypeName",
+                        "src": "546:7:34"
+                      }
+                    ],
+                    "id": 7644,
+                    "name": "VariableDeclaration",
+                    "src": "546:21:34"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "recipient",
+                      "overrides": null,
+                      "scope": 7649,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 7645,
+                        "name": "ElementaryTypeName",
+                        "src": "569:7:34"
+                      }
+                    ],
+                    "id": 7646,
+                    "name": "VariableDeclaration",
+                    "src": "569:17:34"
+                  }
+                ],
+                "id": 7647,
+                "name": "ParameterList",
+                "src": "499:88:34"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 7648,
+                "name": "ParameterList",
+                "src": "596:0:34"
+              }
+            ],
+            "id": 7649,
+            "name": "FunctionDefinition",
+            "src": "480:117:34"
+          }
+        ],
+        "id": 7650,
+        "name": "ContractDefinition",
+        "src": "440:159:34"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "contractDependencies": [
+            611,
+            1906,
+            4749,
+            5606,
+            5640,
+            7650
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            7668,
+            4749,
+            1906,
+            611,
+            5640,
+            5606,
+            7650
+          ],
+          "name": "INativeSuperToken",
+          "scope": 7718
+        },
+        "children": [
+          {
+            "attributes": {
+              "text": " @dev Native SuperToken full interface\n @author Superfluid"
+            },
+            "id": 7651,
+            "name": "StructuredDocumentation",
+            "src": "601:73:34"
+          },
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "INativeSuperTokenCustom",
+                  "referencedDeclaration": 7650,
+                  "type": "contract INativeSuperTokenCustom"
+                },
+                "id": 7652,
+                "name": "UserDefinedTypeName",
+                "src": "706:23:34"
+              }
+            ],
+            "id": 7653,
+            "name": "InheritanceSpecifier",
+            "src": "706:23:34"
+          },
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "ISuperToken",
+                  "referencedDeclaration": 4749,
+                  "type": "contract ISuperToken"
+                },
+                "id": 7654,
+                "name": "UserDefinedTypeName",
+                "src": "731:11:34"
+              }
+            ],
+            "id": 7655,
+            "name": "InheritanceSpecifier",
+            "src": "731:11:34"
+          },
+          {
+            "attributes": {
+              "baseFunctions": [
+                7649
+              ],
+              "body": null,
+              "documentation": null,
+              "functionSelector": "bd3a13f6",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "initialize",
+              "scope": 7668,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -1148,9 +1641,9 @@
                     null
                   ]
                 },
-                "id": 32354,
+                "id": 7665,
                 "name": "OverrideSpecifier",
-                "src": "768:8:92"
+                "src": "866:8:34"
               },
               {
                 "children": [
@@ -1159,10 +1652,12 @@
                       "constant": false,
                       "mutability": "mutable",
                       "name": "name",
-                      "scope": 32388,
+                      "overrides": null,
+                      "scope": 7667,
                       "stateVariable": false,
                       "storageLocation": "calldata",
                       "type": "string",
+                      "value": null,
                       "visibility": "internal"
                     },
                     "children": [
@@ -1171,24 +1666,26 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 32347,
+                        "id": 7656,
                         "name": "ElementaryTypeName",
-                        "src": "682:6:92"
+                        "src": "769:6:34"
                       }
                     ],
-                    "id": 32348,
+                    "id": 7657,
                     "name": "VariableDeclaration",
-                    "src": "682:20:92"
+                    "src": "769:20:34"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "mutability": "mutable",
                       "name": "symbol",
-                      "scope": 32388,
+                      "overrides": null,
+                      "scope": 7667,
                       "stateVariable": false,
                       "storageLocation": "calldata",
                       "type": "string",
+                      "value": null,
                       "visibility": "internal"
                     },
                     "children": [
@@ -1197,24 +1694,26 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 32349,
+                        "id": 7658,
                         "name": "ElementaryTypeName",
-                        "src": "704:6:92"
+                        "src": "791:6:34"
                       }
                     ],
-                    "id": 32350,
+                    "id": 7659,
                     "name": "VariableDeclaration",
-                    "src": "704:22:92"
+                    "src": "791:22:34"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "mutability": "mutable",
                       "name": "initialSupply",
-                      "scope": 32388,
+                      "overrides": null,
+                      "scope": 7667,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
+                      "value": null,
                       "visibility": "internal"
                     },
                     "children": [
@@ -1223,19 +1722,48 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 32351,
+                        "id": 7660,
                         "name": "ElementaryTypeName",
-                        "src": "728:7:92"
+                        "src": "815:7:34"
                       }
                     ],
-                    "id": 32352,
+                    "id": 7661,
                     "name": "VariableDeclaration",
-                    "src": "728:21:92"
+                    "src": "815:21:34"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "recipient",
+                      "overrides": null,
+                      "scope": 7667,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 7662,
+                        "name": "ElementaryTypeName",
+                        "src": "838:7:34"
+                      }
+                    ],
+                    "id": 7663,
+                    "name": "VariableDeclaration",
+                    "src": "838:17:34"
                   }
                 ],
-                "id": 32353,
+                "id": 7664,
                 "name": "ParameterList",
-                "src": "681:69:92"
+                "src": "768:88:34"
               },
               {
                 "attributes": {
@@ -1244,9 +1772,248 @@
                   ]
                 },
                 "children": [],
-                "id": 32355,
+                "id": 7666,
                 "name": "ParameterList",
-                "src": "781:0:92"
+                "src": "874:0:34"
+              }
+            ],
+            "id": 7667,
+            "name": "FunctionDefinition",
+            "src": "749:126:34"
+          }
+        ],
+        "id": 7668,
+        "name": "ContractDefinition",
+        "src": "675:202:34"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "contractDependencies": [
+            3940,
+            7650
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            7717,
+            3940,
+            7650
+          ],
+          "name": "NativeSuperTokenProxy",
+          "scope": 7718
+        },
+        "children": [
+          {
+            "attributes": {
+              "text": " @dev Native SuperToken custom super token implementation\n NOTE:\n - This is a simple implementation where the supply is pre-minted.\n @author Superfluid"
+            },
+            "id": 7669,
+            "name": "StructuredDocumentation",
+            "src": "879:173:34"
+          },
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "INativeSuperTokenCustom",
+                  "referencedDeclaration": 7650,
+                  "type": "contract INativeSuperTokenCustom"
+                },
+                "id": 7670,
+                "name": "UserDefinedTypeName",
+                "src": "1087:23:34"
+              }
+            ],
+            "id": 7671,
+            "name": "InheritanceSpecifier",
+            "src": "1087:23:34"
+          },
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "CustomSuperTokenBase",
+                  "referencedDeclaration": 3940,
+                  "type": "contract CustomSuperTokenBase"
+                },
+                "id": 7672,
+                "name": "UserDefinedTypeName",
+                "src": "1112:20:34"
+              }
+            ],
+            "id": 7673,
+            "name": "InheritanceSpecifier",
+            "src": "1112:20:34"
+          },
+          {
+            "attributes": {
+              "baseFunctions": [
+                7649
+              ],
+              "documentation": null,
+              "functionSelector": "bd3a13f6",
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "initialize",
+              "scope": 7717,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "overrides": [
+                    null
+                  ]
+                },
+                "id": 7683,
+                "name": "OverrideSpecifier",
+                "src": "1263:8:34"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "name",
+                      "overrides": null,
+                      "scope": 7716,
+                      "stateVariable": false,
+                      "storageLocation": "calldata",
+                      "type": "string",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string"
+                        },
+                        "id": 7674,
+                        "name": "ElementaryTypeName",
+                        "src": "1159:6:34"
+                      }
+                    ],
+                    "id": 7675,
+                    "name": "VariableDeclaration",
+                    "src": "1159:20:34"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "symbol",
+                      "overrides": null,
+                      "scope": 7716,
+                      "stateVariable": false,
+                      "storageLocation": "calldata",
+                      "type": "string",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string"
+                        },
+                        "id": 7676,
+                        "name": "ElementaryTypeName",
+                        "src": "1181:6:34"
+                      }
+                    ],
+                    "id": 7677,
+                    "name": "VariableDeclaration",
+                    "src": "1181:22:34"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "totalSupply",
+                      "overrides": null,
+                      "scope": 7716,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 7678,
+                        "name": "ElementaryTypeName",
+                        "src": "1205:7:34"
+                      }
+                    ],
+                    "id": 7679,
+                    "name": "VariableDeclaration",
+                    "src": "1205:19:34"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "recipient",
+                      "overrides": null,
+                      "scope": 7716,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 7680,
+                        "name": "ElementaryTypeName",
+                        "src": "1226:7:34"
+                      }
+                    ],
+                    "id": 7681,
+                    "name": "VariableDeclaration",
+                    "src": "1226:17:34"
+                  }
+                ],
+                "id": 7682,
+                "name": "ParameterList",
+                "src": "1158:86:34"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 7684,
+                "name": "ParameterList",
+                "src": "1276:0:34"
               },
               {
                 "children": [
@@ -1254,6 +2021,7 @@
                     "children": [
                       {
                         "attributes": {
+                          "argumentTypes": null,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1271,7 +2039,7 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_IERC20_$1936",
+                                  "typeIdentifier": "t_contract$_IERC20_$611",
                                   "typeString": "contract IERC20"
                                 },
                                 {
@@ -1292,12 +2060,13 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "initialize",
-                              "referencedDeclaration": 14604,
+                              "referencedDeclaration": 4429,
                               "type": "function (contract IERC20,uint8,string memory,string memory) external"
                             },
                             "children": [
                               {
                                 "attributes": {
+                                  "argumentTypes": null,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": false,
@@ -1315,23 +2084,24 @@
                                     "attributes": {
                                       "argumentTypes": [
                                         {
-                                          "typeIdentifier": "t_address_payable",
-                                          "typeString": "address payable"
+                                          "typeIdentifier": "t_address",
+                                          "typeString": "address"
                                         }
                                       ],
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 14924,
+                                      "referencedDeclaration": 4749,
                                       "type": "type(contract ISuperToken)",
                                       "value": "ISuperToken"
                                     },
-                                    "id": 32356,
+                                    "id": 7685,
                                     "name": "Identifier",
-                                    "src": "791:11:92"
+                                    "src": "1286:11:34"
                                   },
                                   {
                                     "attributes": {
+                                      "argumentTypes": null,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": false,
@@ -1341,7 +2111,7 @@
                                         null
                                       ],
                                       "tryCall": false,
-                                      "type": "address payable",
+                                      "type": "address",
                                       "type_conversion": true
                                     },
                                     "children": [
@@ -1349,7 +2119,7 @@
                                         "attributes": {
                                           "argumentTypes": [
                                             {
-                                              "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$32389",
+                                              "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$7717",
                                               "typeString": "contract NativeSuperTokenProxy"
                                             }
                                           ],
@@ -1362,47 +2132,50 @@
                                         "children": [
                                           {
                                             "attributes": {
-                                              "name": "address"
+                                              "name": "address",
+                                              "type": null
                                             },
-                                            "id": 32357,
+                                            "id": 7686,
                                             "name": "ElementaryTypeName",
-                                            "src": "803:7:92"
+                                            "src": "1298:7:34"
                                           }
                                         ],
-                                        "id": 32358,
+                                        "id": 7687,
                                         "name": "ElementaryTypeNameExpression",
-                                        "src": "803:7:92"
+                                        "src": "1298:7:34"
                                       },
                                       {
                                         "attributes": {
+                                          "argumentTypes": null,
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 4294967268,
+                                          "referencedDeclaration": -28,
                                           "type": "contract NativeSuperTokenProxy",
                                           "value": "this"
                                         },
-                                        "id": 32359,
+                                        "id": 7688,
                                         "name": "Identifier",
-                                        "src": "811:4:92"
+                                        "src": "1306:4:34"
                                       }
                                     ],
-                                    "id": 32360,
+                                    "id": 7689,
                                     "name": "FunctionCall",
-                                    "src": "803:13:92"
+                                    "src": "1298:13:34"
                                   }
                                 ],
-                                "id": 32361,
+                                "id": 7690,
                                 "name": "FunctionCall",
-                                "src": "791:26:92"
+                                "src": "1286:26:34"
                               }
                             ],
-                            "id": 32362,
+                            "id": 7691,
                             "name": "MemberAccess",
-                            "src": "791:37:92"
+                            "src": "1286:37:34"
                           },
                           {
                             "attributes": {
+                              "argumentTypes": null,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -1427,89 +2200,96 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1936,
+                                  "referencedDeclaration": 611,
                                   "type": "type(contract IERC20)",
                                   "value": "IERC20"
                                 },
-                                "id": 32363,
+                                "id": 7692,
                                 "name": "Identifier",
-                                "src": "842:6:92"
+                                "src": "1337:6:34"
                               },
                               {
                                 "attributes": {
+                                  "argumentTypes": null,
                                   "hexvalue": "307830",
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
                                   "lValueRequested": false,
+                                  "subdenomination": null,
                                   "token": "number",
                                   "type": "int_const 0",
                                   "value": "0x0"
                                 },
-                                "id": 32364,
+                                "id": 7693,
                                 "name": "Literal",
-                                "src": "849:3:92"
+                                "src": "1344:3:34"
                               }
                             ],
-                            "id": 32365,
+                            "id": 7694,
                             "name": "FunctionCall",
-                            "src": "842:11:92"
+                            "src": "1337:11:34"
                           },
                           {
                             "attributes": {
+                              "argumentTypes": null,
                               "hexvalue": "3138",
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
                               "lValueRequested": false,
+                              "subdenomination": null,
                               "token": "number",
                               "type": "int_const 18",
                               "value": "18"
                             },
-                            "id": 32366,
+                            "id": 7695,
                             "name": "Literal",
-                            "src": "898:2:92"
+                            "src": "1393:2:34"
                           },
                           {
                             "attributes": {
+                              "argumentTypes": null,
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 32348,
+                              "referencedDeclaration": 7675,
                               "type": "string calldata",
                               "value": "name"
                             },
-                            "id": 32367,
+                            "id": 7696,
                             "name": "Identifier",
-                            "src": "962:4:92"
+                            "src": "1457:4:34"
                           },
                           {
                             "attributes": {
+                              "argumentTypes": null,
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 32350,
+                              "referencedDeclaration": 7677,
                               "type": "string calldata",
                               "value": "symbol"
                             },
-                            "id": 32368,
+                            "id": 7697,
                             "name": "Identifier",
-                            "src": "980:6:92"
+                            "src": "1475:6:34"
                           }
                         ],
-                        "id": 32369,
+                        "id": 7698,
                         "name": "FunctionCall",
-                        "src": "791:205:92"
+                        "src": "1286:205:34"
                       }
                     ],
-                    "id": 32370,
+                    "id": 7699,
                     "name": "ExpressionStatement",
-                    "src": "791:205:92"
+                    "src": "1286:205:34"
                   },
                   {
                     "children": [
                       {
                         "attributes": {
+                          "argumentTypes": null,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1527,8 +2307,8 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_address_payable",
-                                  "typeString": "address payable"
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
                                 },
                                 {
                                   "typeIdentifier": "t_uint256",
@@ -1544,12 +2324,13 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "selfMint",
-                              "referencedDeclaration": 14827,
+                              "referencedDeclaration": 4652,
                               "type": "function (address,uint256,bytes memory) external"
                             },
                             "children": [
                               {
                                 "attributes": {
+                                  "argumentTypes": null,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": false,
@@ -1567,23 +2348,24 @@
                                     "attributes": {
                                       "argumentTypes": [
                                         {
-                                          "typeIdentifier": "t_address_payable",
-                                          "typeString": "address payable"
+                                          "typeIdentifier": "t_address",
+                                          "typeString": "address"
                                         }
                                       ],
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 14924,
+                                      "referencedDeclaration": 4749,
                                       "type": "type(contract ISuperToken)",
                                       "value": "ISuperToken"
                                     },
-                                    "id": 32371,
+                                    "id": 7700,
                                     "name": "Identifier",
-                                    "src": "1006:11:92"
+                                    "src": "1501:11:34"
                                   },
                                   {
                                     "attributes": {
+                                      "argumentTypes": null,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": false,
@@ -1593,7 +2375,7 @@
                                         null
                                       ],
                                       "tryCall": false,
-                                      "type": "address payable",
+                                      "type": "address",
                                       "type_conversion": true
                                     },
                                     "children": [
@@ -1601,7 +2383,7 @@
                                         "attributes": {
                                           "argumentTypes": [
                                             {
-                                              "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$32389",
+                                              "typeIdentifier": "t_contract$_NativeSuperTokenProxy_$7717",
                                               "typeString": "contract NativeSuperTokenProxy"
                                             }
                                           ],
@@ -1614,88 +2396,78 @@
                                         "children": [
                                           {
                                             "attributes": {
-                                              "name": "address"
+                                              "name": "address",
+                                              "type": null
                                             },
-                                            "id": 32372,
+                                            "id": 7701,
                                             "name": "ElementaryTypeName",
-                                            "src": "1018:7:92"
+                                            "src": "1513:7:34"
                                           }
                                         ],
-                                        "id": 32373,
+                                        "id": 7702,
                                         "name": "ElementaryTypeNameExpression",
-                                        "src": "1018:7:92"
+                                        "src": "1513:7:34"
                                       },
                                       {
                                         "attributes": {
+                                          "argumentTypes": null,
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 4294967268,
+                                          "referencedDeclaration": -28,
                                           "type": "contract NativeSuperTokenProxy",
                                           "value": "this"
                                         },
-                                        "id": 32374,
+                                        "id": 7703,
                                         "name": "Identifier",
-                                        "src": "1026:4:92"
+                                        "src": "1521:4:34"
                                       }
                                     ],
-                                    "id": 32375,
+                                    "id": 7704,
                                     "name": "FunctionCall",
-                                    "src": "1018:13:92"
+                                    "src": "1513:13:34"
                                   }
                                 ],
-                                "id": 32376,
+                                "id": 7705,
                                 "name": "FunctionCall",
-                                "src": "1006:26:92"
+                                "src": "1501:26:34"
                               }
                             ],
-                            "id": 32377,
+                            "id": 7706,
                             "name": "MemberAccess",
-                            "src": "1006:35:92"
+                            "src": "1501:35:34"
                           },
                           {
                             "attributes": {
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": false,
-                              "lValueRequested": false,
-                              "member_name": "sender",
-                              "type": "address payable"
-                            },
-                            "children": [
-                              {
-                                "attributes": {
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
-                                  "referencedDeclaration": 4294967281,
-                                  "type": "msg",
-                                  "value": "msg"
-                                },
-                                "id": 32378,
-                                "name": "Identifier",
-                                "src": "1042:3:92"
-                              }
-                            ],
-                            "id": 32379,
-                            "name": "MemberAccess",
-                            "src": "1042:10:92"
-                          },
-                          {
-                            "attributes": {
+                              "argumentTypes": null,
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 32352,
-                              "type": "uint256",
-                              "value": "initialSupply"
+                              "referencedDeclaration": 7681,
+                              "type": "address",
+                              "value": "recipient"
                             },
-                            "id": 32380,
+                            "id": 7707,
                             "name": "Identifier",
-                            "src": "1054:13:92"
+                            "src": "1537:9:34"
                           },
                           {
                             "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 7679,
+                              "type": "uint256",
+                              "value": "totalSupply"
+                            },
+                            "id": 7708,
+                            "name": "Identifier",
+                            "src": "1548:11:34"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -1729,84 +2501,79 @@
                                       "name": "bytes",
                                       "type": "bytes"
                                     },
-                                    "id": 32381,
+                                    "id": 7709,
                                     "name": "ElementaryTypeName",
-                                    "src": "1073:5:92"
+                                    "src": "1565:5:34"
                                   }
                                 ],
-                                "id": 32382,
+                                "id": 7710,
                                 "name": "NewExpression",
-                                "src": "1069:9:92"
+                                "src": "1561:9:34"
                               },
                               {
                                 "attributes": {
+                                  "argumentTypes": null,
                                   "hexvalue": "30",
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
                                   "lValueRequested": false,
+                                  "subdenomination": null,
                                   "token": "number",
                                   "type": "int_const 0",
                                   "value": "0"
                                 },
-                                "id": 32383,
+                                "id": 7711,
                                 "name": "Literal",
-                                "src": "1079:1:92"
+                                "src": "1571:1:34"
                               }
                             ],
-                            "id": 32384,
+                            "id": 7712,
                             "name": "FunctionCall",
-                            "src": "1069:12:92"
+                            "src": "1561:12:34"
                           }
                         ],
-                        "id": 32385,
+                        "id": 7713,
                         "name": "FunctionCall",
-                        "src": "1006:76:92"
+                        "src": "1501:73:34"
                       }
                     ],
-                    "id": 32386,
+                    "id": 7714,
                     "name": "ExpressionStatement",
-                    "src": "1006:76:92"
+                    "src": "1501:73:34"
                   }
                 ],
-                "id": 32387,
+                "id": 7715,
                 "name": "Block",
-                "src": "781:308:92"
+                "src": "1276:305:34"
               }
             ],
-            "id": 32388,
+            "id": 7716,
             "name": "FunctionDefinition",
-            "src": "662:427:92"
+            "src": "1139:442:34"
           }
         ],
-        "id": 32389,
+        "id": 7717,
         "name": "ContractDefinition",
-        "src": "565:526:92"
+        "src": "1053:530:34"
       }
     ],
-    "id": 32390,
+    "id": 7718,
     "name": "SourceUnit",
-    "src": "35:1057:92"
+    "src": "35:1549:34"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.7.6+commit.7338295f.Emscripten.clang"
+    "version": "0.7.0+commit.9e61f92b.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-02-01T14:35:44.891Z",
+  "updatedAt": "2022-02-20T23:52:35.716Z",
   "devdoc": {
     "author": "Superfluid",
     "details": "Native SuperToken custom super token implementation NOTE: - This is a simple implementation where the supply is pre-minted.",
     "kind": "dev",
-    "methods": {
-      "initializeProxy(address)": {
-        "details": "Proxy initialization function.      This should only be called once and it is permission-less.",
-        "params": {
-          "initialAddress": "Initial logic contract code address to be used."
-        }
-      }
-    },
+    "methods": {},
     "version": 1
   },
   "userdoc": {
