@@ -14,13 +14,13 @@ using Counters for Counters.Counter;
   Counters.Counter private tokenIds;
 
 //@dev modifier
-modifier onlyIONFT (){
-  require(msg.sender ==IOTNFTAddress, "Only IOTNFT contract can make this call");
+modifier onlyfluidPebble (){
+  require(msg.sender ==fluidPebbleAddress, "Only FluidPebble contract can make this call");
   _;
 }
 //@dev contract variables
 
-address public IOTNFTAddress;
+address public fluidPebbleAddress;
 //@dev function definitions
  constructor(string memory name, string memory symbol)
      initializer
@@ -34,12 +34,12 @@ address public IOTNFTAddress;
    
      */
 
-  function setContractIOTNFTAddress(address iotnftAddress) onlyOwner  public{
-    require(iotnftAddress != address(0), "invalid iotnft address");
-    IOTNFTAddress=iotnftAddress;
+  function setContractFluidPebbleAddress(address _fluidPebbleAddress) onlyOwner  public{
+    require(_fluidPebbleAddress != address(0), "invalid FluidPebble address");
+    fluidPebbleAddress=_fluidPebbleAddress;
   }
   function mintToken(address tokenOwner, string memory tokenURI)
-    public onlyIONFT
+    public onlyfluidPebble
     returns (uint256)
   {
     tokenIds.increment();
@@ -57,8 +57,9 @@ address public IOTNFTAddress;
         // _tokenOwners are indexed by tokenIds, so .length() returns the number of tokenIds
         return tokenIds.current();
     }
-    function burnToken(uint256 tokenId)  public onlyIONFT returns (bool) {
+    function burnToken(uint256 tokenId)  public onlyfluidPebble returns (bool) {
       _burn(tokenId);
       return tokenExists(tokenId);
     }
+ 
 }

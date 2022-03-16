@@ -42,7 +42,7 @@ module.exports = {
     development: {
       host: "127.0.0.1",
       port: 8546,
-      network_id: "*"
+      network_id: "*",
     },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -86,7 +86,8 @@ module.exports = {
         new HDWalletProvider(
           [process.env.IOTEX_ACCOUNT_KEY],
           process.env.NODE_URL_IOTEX,
-          0, 1
+          0,
+          1
         ),
       network_id: 4690, // IOTEX mainnet chain id 4689, testnet is 4690
       gas: 8500000,
@@ -106,6 +107,19 @@ module.exports = {
       timeoutBlocks: 50, // # of blocks before a deployment times out  (minimum/default: 50)
       skipDryRun: false, // Skip dry run before migrations? (default: false for public nets )
     },
+    kovan: {
+      provider: () =>
+        new HDWalletProvider(
+          process.env.GOERLI_MNEMONIC,
+          process.env.KOVAN_PROVIDER_URL
+        ),
+      network_id: 42, // Goerli's id
+      gas: GAS_LIMIT,
+      gasPrice: 10e9, // 10 GWEI
+      //confirmations: 6, // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 50, // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: false, // Skip dry run before migrations? (default: false for public nets )
+    }
   },
 
   // Set default mocha options here, use special reporters etc.

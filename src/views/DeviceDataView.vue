@@ -24,20 +24,21 @@
               <v-btn
                 v-if="
                   $store.state.userData &&
-                    $store.state.userData.imeis.length > 0 &&
-                    deviceData != null &&
-                    deviceData.length > 0
+                  $store.state.userData.imeis.length > 0 &&
+                  deviceData != null &&
+                  deviceData.length > 0
                 "
                 style="
-            background-color:#6bdcc6;color:
-            white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+                  background-color: #6bdcc6;
+                  color: white;
+                  border-radius: 5px;
+                  font-style: italic;
+                  border-color: #699c79;
+                  border-width: 1px;
+                  font-family: cursive;
+                  font-weight: bold;
+                  color: white;
+                "
                 outlined
                 text
                 @click="
@@ -49,8 +50,9 @@
               </v-btn></v-col
             >
             <v-spacer> </v-spacer>
-
+           
             <v-col class="d-flex" cols="12" sm="3">
+            
               <v-select
                 dense
                 :value="imei"
@@ -62,22 +64,23 @@
                 label="Registered Devices"
                 @change="loadDeviceData"
               ></v-select>
-              <div style="padding-right:5px;"></div>
+              <div style="padding-right: 5px"></div>
               <v-btn
                 v-if="
                   $store.state.userData &&
-                    $store.state.userData.imeis.length > 0
+                  $store.state.userData.imeis.length > 0
                 "
                 style="
-            background-color:#6bdcc6;color:
-            white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+                  background-color: #6bdcc6;
+                  color: white;
+                  border-radius: 5px;
+                  font-style: italic;
+                  border-color: #699c79;
+                  border-width: 1px;
+                  font-family: cursive;
+                  font-weight: bold;
+                  color: white;
+                "
                 outlined
                 text
                 @click="loadDeviceData(imei)"
@@ -87,15 +90,16 @@
               <v-btn
                 v-else
                 style="
-            background-color:#6bdcc6;
-            color:white;border-radius: 5px;
-            font-style: italic;
-            border-color: #699c79;
-            border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;
-        "
+                  background-color: #6bdcc6;
+                  color: white;
+                  border-radius: 5px;
+                  font-style: italic;
+                  border-color: #699c79;
+                  border-width: 1px;
+                  font-family: cursive;
+                  font-weight: bold;
+                  color: white;
+                "
                 outlined
                 text
                 disabled
@@ -120,14 +124,17 @@
             mintNFT(item);
             $store.state.mintNFTDialog = true;
           "
-          style=" background-color:#6bdcc6;color:
-            white;border-radius: 5px;
+          style="
+            background-color: #6bdcc6;
+            color: white;
+            border-radius: 5px;
             font-style: italic;
             border-color: #699c79;
             border-width: 1px;
-            font-family:cursive;
-            font-weight:bold;
-            color:white;"
+            font-family: cursive;
+            font-weight: bold;
+            color: white;
+          "
         >
           Mint
         </v-btn>
@@ -202,7 +209,7 @@ export default {
   computed: {},
 
   watch: {
-    "$store.state.showMyLocationsOnly": function(showMyLocations) {
+    "$store.state.showMyLocationsOnly": function (showMyLocations) {
       console.log("showMyLocations only? ", showMyLocations);
       if (showMyLocations) {
         this.$store.state.dappNFTs = this.$store.state.allDAppNFTs.filter(
@@ -214,7 +221,7 @@ export default {
         this.$store.state.dappNFTs == this.$store.state.allDAppNFTs;
       }
     },
-    "$store.state.userData.imeis": async function(imeis) {
+    "$store.state.userData.imeis": async function (imeis) {
       console.log("$store.state.userData.imeis  changed value: ", imeis);
       if (imeis.length > 0) {
         this.imei = imeis[0];
@@ -223,11 +230,11 @@ export default {
     dialog(val) {
       val || this.close();
     },
-    "$store.state.mintNFTDialog": function(showmintNFTDialog) {
+    "$store.state.mintNFTDialog": function (showmintNFTDialog) {
       console.log("changed showDialogue: ", showmintNFTDialog);
       showmintNFTDialog || this.close();
     },
-    "$store.state.userAddress": function() {
+    "$store.state.userAddress": function () {
       this.mapKey++;
     },
   },
@@ -237,8 +244,8 @@ export default {
   },
 
   methods: {
-    loadDeviceData: async function(imei) {
-      let _this=this
+    loadDeviceData: async function (imei) {
+      let _this = this;
       //     imei = "151358810263573"; //@dev for dev purposes
       this.$store.state.isLoading = true;
       const axios = require("axios").default;
@@ -248,7 +255,7 @@ export default {
         data: {
           operationName: null,
           variables: {},
-          query: `{\n  pebble_device_record(order_by: {timestamp: desc}, where: {imei: {_eq: "${imei}"}}) {\n    longitude\n    latitude\n    timestamp\n    temperature\n    temperature2\n    created_at\n    gyroscope\n    accelerometer\n    gyroscope\n    light\n    vbat\n    gas_resistance\n    snr\n    pressure\n    id\n    humidity\n    hash\n  }\n}\n`,
+          query: `{ pebble_device_record(order_by: {timestamp: desc}, where: {imei: {_eq: "${imei}"}}) {   longitude   latitude   timestamp   temperature   temperature2   created_at   gyroscope   accelerometer   gyroscope   light   vbat   gas_resistance   snr   pressure   id   humidity   hash }}`,
         },
       })
         .then((result) => {
@@ -287,7 +294,7 @@ export default {
                 timestamp: moment.unix(point.timestamp).format("LLLL"),
                 isNFT: false,
                 isDelegated: false,
-                minRentalDays:1,
+                minRentalDays: 1,
               });
             });
             _this.$store.state.isLoading = false;

@@ -56,6 +56,14 @@ module.exports = {
       },
     ],
   },
+  kovan: {
+    endpoint: process.env.KOVAN_PROVIDER_URL, // Endpoint of an node to connect to. Can be on localhost or on the internet
+    accounts: [
+      {
+        privateKey: process.env.GOERLI_MNEMONIC,
+      },
+    ],
+  },
   development: {
     endpoint: "http://127.0.0.1:8546", // Endpoint of an node to connect to. Can be on localhost or on the internet
     accounts: [

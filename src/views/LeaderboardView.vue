@@ -43,13 +43,13 @@ export default {
           value: "rank",
         },
         {
-          text: "Wallet (IOTEX)",
+          text: "Wallet (ETH)",
           value: "wallet",
           sortable: false,
         },
         { text: "Twitter", value: "twitter_username" },
-        { text: "Total Bought(IOTEX)", value: "ionfts_bought" },
-        { text: "IONFTS Minted", value: "ionfts_minted" },
+        { text: "Total Bought(ETH)", value: "fluidpebbles_bought" },
+        { text: "fluidpebbleS Minted", value: "fluidpebbles_minted" },
       ];
     },
   },
@@ -75,10 +75,10 @@ export default {
       console.log("getCeramicData: ", data);
       if (data.leaderboard.length > 0) {
         this.data.users = data.leaderboard.sort(
-          (a, b) => parseInt(a.ionfts_bought) - parseInt(b.ionfts_bought)
+          (a, b) => parseInt(a.fluidpebbles_bought) - parseInt(b.fluidpebbles_bought)
         );
         this.data.users = data.leaderboard.sort(
-          (a, b) => parseInt(a.ionfts_minted) - parseInt(b.ionfts_minted)
+          (a, b) => parseInt(a.fluidpebbles_minted) - parseInt(b.fluidpebbles_minted)
         );
         var i = 0;
         this.data.users.map((user) => {
@@ -88,12 +88,12 @@ export default {
             }`,
             wallet: user.wallet,
             twitter_username: user.twitter_username,
-            ionfts_bought: _this.$store.state.etherConverter(
-              user.ionfts_bought,
+            fluidpebbles_bought: _this.$store.state.etherConverter(
+              user.fluidpebbles_bought,
               "wei",
               "eth"
             ),
-            ionfts_minted: user.ionfts_minted,
+            fluidpebbles_minted: user.fluidpebbles_minted,
           });
         });
       }

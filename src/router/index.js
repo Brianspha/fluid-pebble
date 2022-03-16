@@ -2,12 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import MapView from "../views/MapView.vue";
 import Leaderboard from "../views/LeaderboardView.vue";
-import MINTIONFT from "../views/MintIONFTView.vue";
-import OwnedIONFTView from "../views/OwnedIONFTView.vue";
+import MintFluidPebbleView from "../views/MintFluidPebbleView.vue";
+import OwnedFluidPebbleView from "../views/OwnedFluidPebbleView.vue";
 import VisualiseView from "../views/DeviceDataMapView.vue";
 import MainAppView from "../views/MainAppView.vue";DeviceDataMapView
 import DeviceDataMapView from "../views/DeviceDataMapView.vue";
-import NFTDetailsView from "../views/NFTDetailsView.vue";
 
 Vue.use(VueRouter);
 
@@ -46,15 +45,15 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: OwnedIONFTView,
+    component: OwnedFluidPebbleView,
   },
   {
-    path: "/mintionft",
-    name: "MINTIONFT",
+    path: "/mintfluidpebble",
+    name: "MintFluidPebbleView",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: MINTIONFT,
+    component: MintFluidPebbleView,
   },
   {
     path: "/leaderboard",

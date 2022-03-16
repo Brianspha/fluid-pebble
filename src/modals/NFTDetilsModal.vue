@@ -29,7 +29,7 @@
             ></v-text-field>
             <v-text-field
               v-model="$store.state.selectedNFT.price"
-              label="NFT Price (IOTEX)"
+              label="NFT Price (ETH)"
               readonly
               :color="$store.state.primaryColor"
             ></v-text-field>
@@ -55,14 +55,25 @@
               v-if="$store.state.userAddress !== $store.state.selectedNFT.owner"
               v-model="offerPrice"
               :rules="priceRules"
-              label="Price Offering (IOTEX)"
+              label="Price Offering (ETH)"
               required
               :color="$store.state.primaryColor"
             ></v-text-field>
             <v-text-field
               v-model="$store.state.selectedNFT.minRentalDays"
               :rules="leaseRules"
-              label="Min days for lease"
+              label="Max days for lease"
+              hint="e.g. 0"
+              required
+              type="number"
+              :color="$store.state.primaryColor"
+              readonly
+            ></v-text-field>
+            <v-text-field
+              v-if="$store.state.userAddress !== $store.state.selectedNFT.owner"
+              v-model="leaseDuration"
+              :rules="leaseRules"
+              label="Number of days to borrow"
               hint="e.g. 0"
               required
               type="number"
@@ -120,7 +131,7 @@
                 </template>
                 <span
                   >Delagating to contract means you intend on allowing others to
-                  purchase the NFT from IONFT</span
+                  purchase the NFT from fluidpebble</span
                 >
               </v-tooltip></v-row
             >
@@ -168,6 +179,22 @@
                 : "Delegate"
             }}
           </v-btn>
+          <div style="padding-left: 1%"></div>
+          <v-btn
+            style="
+              background-color: #6bdcc6;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
+            @click="$store.dispatch('mintDaiToken')"
+            >Mint test DAI</v-btn
+          >
         </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -203,6 +230,28 @@
           </v-btn>
           <v-btn
             style="
+              background-color: #a6dbd1;
+              color: white;
+              border-radius: 5px;
+              font-style: italic;
+              border-color: #699c79;
+              border-width: 1px;
+              font-family: cursive;
+              font-weight: bold;
+              color: white;
+            "
+            v-if="
+              valid &&
+              $store.state.userAddress !== $store.state.selectedNFT.owner &&
+              $store.state.selectedNFT.isDelegated
+            "
+            :color="$store.state.primaryColor"
+            @click="rentNFT"
+          >
+            Rent NFT
+          </v-btn>
+          <v-btn
+            style="
               background-color: #6bdcc6;
               color: white;
               border-radius: 5px;
@@ -231,10 +280,12 @@
 
 <script>
 import bigNumber from "bignumber.js";
+const { toWad } = require("@decentral.ee/web3-helpers");
 
 export default {
   data() {
     return {
+      leaseDuration: 1,
       showToolTip: false,
       twitterUserName: "",
       usernameRules: [
@@ -250,6 +301,12 @@ export default {
         (v) =>
           (v && !isNaN(v) && parseFloat(v) > 0) ||
           "Offer Price must be a valid amount",
+      ],
+      leaseRules: [
+        (v) => !!v || "Min Lease Days required",
+        (v) =>
+          (v && parseInt(v) >= 1) ||
+          "Minimum lease days must be greater than 1",
       ],
     };
   },
@@ -271,6 +328,18 @@ export default {
     );
   },
   methods: {
+    rentNFT: async function () {
+      this.$store.state.isLoading = true;
+      const monthlyAmount = toWad(this.$store.state.selectedNFT.price);
+      const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / 30);
+      console.log("calculatedFlowRate: ", calculatedFlowRate);
+      await this.$store.dispatch("approveUpgradeAndTransferDaixAndRentNFT", {
+        monthlyAmount: calculatedFlowRate,
+        duration: this.leaseDuration,
+        tokenId: this.$store.state.selectedNFT.tokenId,
+      });
+      this.$store.state.isLoading = false;
+    },
     purchase() {
       let _this = this;
       if (this.$refs.form.validate()) {
@@ -298,7 +367,7 @@ export default {
             "wei"
           );
           _this.$store.state.isLoading = true;
-          _this.$store.state.ionftContract.methods
+          _this.$store.state.fluidpebbleContract.methods
             .buyToken(_this.$store.state.selectedNFT.tokenId)
             .send({
               from: _this.$store.state.userAddress,
@@ -314,9 +383,9 @@ export default {
                 _this.$store.state.userAddress;
               content.leaderboard.map((user) => {
                 if (user.wallet === _this.$store.state.userAddress) {
-                  user.ionfts_bought = new bigNumber(user.ionfts_bought).plus(
-                    price
-                  );
+                  user.fluidpebbles_bought = new bigNumber(
+                    user.fluidpebbles_bought
+                  ).plus(price);
                   found = true;
                 }
                 return user;
@@ -325,15 +394,15 @@ export default {
                 content.leaderboard.push({
                   wallet: _this.$store.state.userAddress,
                   twitter_username: _this.twitterUserName,
-                  ionfts_minted: 0,
-                  ionfts_bought: price,
+                  fluidpebbles_minted: 0,
+                  fluidpebbles_bought: price,
                 });
               }
-              await _this.$store.dispatch("saveCeramicData", content);
+              await _this.$store.dispatch("saveSkyData", content);
               _this.$store.state.isLoading = false;
               _this.$store.dispatch(
                 "success",
-                "Succesfully purchased IOTNFT token"
+                "Succesfully purchased FluidPebble token"
               );
               _this.$store.state.reload = true;
               _this.$store.state.selectedNFT = {};
@@ -344,7 +413,7 @@ export default {
               _this.$store.state.isLoading = false;
               var message = {
                 error:
-                  "Something went wrong while purchasing IOTNFT, please try again",
+                  "Something went wrong while purchasing FluidPebble, please try again",
                 onTap: () => {
                   this.state.showNFTDetailsDialog = true;
                 },
@@ -361,7 +430,7 @@ export default {
       let _this = this;
       _this.$store.state.isLoading = true;
       if (this.$store.state.selectedNFT.isDelegated) {
-        _this.$store.state.ionftContract.methods
+        _this.$store.state.fluidpebbleContract.methods
           .revokeDelegatedNFT(this.$store.state.selectedNFT.tokenId)
           .send({ from: _this.$store.state.userAddress, gas: 5000000 })
           .then((receipt, error) => {
@@ -370,14 +439,15 @@ export default {
             _this.$store.state.selectedNFT.isDelegated = false;
             _this.$store.dispatch(
               "success",
-              "Succesfully revoked delegation of token to the IONFT Contract, please check if the token appears in your assets tab on metamask!"
+              "Succesfully revoked delegation of token to the fluidpebble Contract, please check if the token appears in your assets tab on metamask!"
             );
           })
           .catch((error) => {
             console.log("error delegating NFT: ", error);
             _this.$store.state.isLoading = false;
             var message = {
-              error: "Something went wrong while delegating token to IONFT",
+              error:
+                "Something went wrong while delegating token to fluidpebble",
               onTap: () => {
                 this.state.showNFTDetailsDialog = true;
               },
@@ -388,13 +458,16 @@ export default {
         _this.$store.state.tokenContract.methods
           .transferFrom(
             _this.$store.state.userAddress,
-            _this.$store.state.ionftContract.options.address,
+            _this.$store.state.fluidpebbleContract.options.address,
             this.$store.state.selectedNFT.tokenId
           )
           .send({ from: _this.$store.state.userAddress, gas: 5000000 })
           .then((receipt, error) => {
-            console.log("results of transferring token to IONFT: ", receipt);
-            _this.$store.state.ionftContract.methods
+            console.log(
+              "results of transferring token to fluidpebble: ",
+              receipt
+            );
+            _this.$store.state.fluidpebbleContract.methods
               .delegateNFT(this.$store.state.selectedNFT.tokenId)
               .send({ from: _this.$store.state.userAddress, gas: 5000000 })
               .then((receipt, error) => {
@@ -403,14 +476,15 @@ export default {
                 _this.$store.state.selectedNFT.isDelegated = true;
                 _this.$store.dispatch(
                   "success",
-                  "Succesfully delegated token to the IONFT Contract"
+                  "Succesfully delegated token to the fluidpebble Contract"
                 );
               })
               .catch((error) => {
                 console.log("error delegating NFT: ", error);
                 _this.$store.state.isLoading = false;
                 var message = {
-                  error: "Something went wrong while delegating token to IONFT",
+                  error:
+                    "Something went wrong while delegating token to fluidpebble",
                   onTap: () => {
                     this.state.showNFTDetailsDialog = true;
                   },
@@ -421,13 +495,17 @@ export default {
           .catch((error) => {
             _this.$store.state.isLoading = false;
             var message = {
-              error: "Something went wrong while delegating token to IONFT",
+              error:
+                "Something went wrong while delegating token to fluidpebble",
               onTap: () => {
                 this.state.showNFTDetailsDialog = true;
               },
             };
             _this.$store.dispatch("error", message);
-            console.log("error transferring token to IONFT contract: ", error);
+            console.log(
+              "error transferring token to fluidpebble contract: ",
+              error
+            );
           });
       }
     },
@@ -450,7 +528,7 @@ export default {
     burnNFT() {
       let _this = this;
       _this.$store.state.isLoading = true;
-      _this.$store.state.ionftContract.methods
+      _this.$store.state.fluidpebbleContract.methods
         .burnToken(_this.$store.state.selectedNFT.tokenId)
         .send({
           from: _this.$store.state.userAddress,
@@ -460,7 +538,7 @@ export default {
           var content = await this.$store.dispatch("getCeramicData");
           content.leaderboard.map((user) => {
             if (user.wallet === _this.$store.state.userAddress) {
-              user.ionfts_minted--;
+              user.fluidpebbles_minted--;
             }
             return user;
           });
@@ -493,9 +571,12 @@ export default {
             console.log("content.data[index]: ", content.data[index]);
           }
 
-          await _this.$store.dispatch("saveCeramicData", content);
+          await _this.$store.dispatch("saveSkyData", content);
           _this.$store.state.isLoading = false;
-          _this.$store.dispatch("success", "Succesfully burnt IOTNFT token");
+          _this.$store.dispatch(
+            "success",
+            "Succesfully burnt FluidPebble token"
+          );
           //_this.$store.state.showNFTDetailsDialog = false;
           _this.$store.state.selectedNFT = {};
           _this.$store.state.reload = true;
@@ -505,7 +586,7 @@ export default {
           _this.$store.state.isLoading = false;
           var message = {
             error:
-              "Something went wrong while burning your IOTNFT, please try again",
+              "Something went wrong while burning your FluidPebble, please try again",
             onTap: () => {
               this.state.showNFTDetailsDialog = true;
             },

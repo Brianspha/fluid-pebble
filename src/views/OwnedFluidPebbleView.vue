@@ -108,7 +108,7 @@ export default {
       var content = await this.$store.dispatch("getCeramicData");
       /* content.data = [];
       content.leaderboard = [];
-      await this.$store.dispatch("saveCeramicData", content);*/
+      await this.$store.dispatch("saveSkyData", content);*/
       for (var index in content.data) {
         var data = content.data[index];
         if (data.userAddress === _this.$store.state.userAddress) {
@@ -125,7 +125,7 @@ export default {
         indexInner < _this.$store.state.dappNFTs.length;
         indexInner++
       ) {
-        await _this.$store.state.ionftContract.methods
+        await _this.$store.state.fluidpebbleContract.methods
           .getTokenDetails(_this.$store.state.dappNFTs[indexInner].tokenId)
           .call({ from: _this.$store.state.userAddress, gas: 6000000 })
           .then((details, error) => {
@@ -150,7 +150,7 @@ export default {
 
       if (_this.ownedNFTs.length === 0) {
         this.$store.dispatch("warning", {
-          warning: "Seems like you currently dont own any IONFTs",
+          warning: "Seems like you currently dont own any fluidpebbles",
           onTap: function() {},
         });
       }

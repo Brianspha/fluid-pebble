@@ -172,15 +172,15 @@
     "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperTokenFactory.sol",
     "exportedSymbols": {
       "ISuperTokenFactory": [
-        4824
+        4469
       ]
     },
-    "id": 4825,
+    "id": 4470,
     "license": "AGPLv3",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4751,
+        "id": 4396,
         "literals": [
           "solidity",
           ">=",
@@ -188,26 +188,26 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "35:25:24"
+        "src": "35:25:23"
       },
       {
         "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol",
         "file": "./ISuperToken.sol",
-        "id": 4753,
+        "id": 4398,
         "nodeType": "ImportDirective",
-        "scope": 4825,
-        "sourceUnit": 4750,
-        "src": "62:48:24",
+        "scope": 4470,
+        "sourceUnit": 4395,
+        "src": "62:48:23",
         "symbolAliases": [
           {
             "foreign": {
               "argumentTypes": null,
-              "id": 4752,
+              "id": 4397,
               "name": "ISuperToken",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
               "referencedDeclaration": null,
-              "src": "71:11:24",
+              "src": "71:11:23",
               "typeDescriptions": {
                 "typeIdentifier": null,
                 "typeString": null
@@ -221,21 +221,21 @@
       {
         "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/tokens/ERC20WithTokenInfo.sol",
         "file": "../tokens/ERC20WithTokenInfo.sol",
-        "id": 4756,
+        "id": 4401,
         "nodeType": "ImportDirective",
-        "scope": 4825,
-        "sourceUnit": 5619,
-        "src": "112:86:24",
+        "scope": 4470,
+        "sourceUnit": 5264,
+        "src": "112:86:23",
         "symbolAliases": [
           {
             "foreign": {
               "argumentTypes": null,
-              "id": 4754,
+              "id": 4399,
               "name": "IERC20",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
               "referencedDeclaration": null,
-              "src": "125:6:24",
+              "src": "125:6:23",
               "typeDescriptions": {
                 "typeIdentifier": null,
                 "typeString": null
@@ -246,12 +246,12 @@
           {
             "foreign": {
               "argumentTypes": null,
-              "id": 4755,
+              "id": 4400,
               "name": "ERC20WithTokenInfo",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
               "referencedDeclaration": null,
-              "src": "137:18:24",
+              "src": "137:18:23",
               "typeDescriptions": {
                 "typeIdentifier": null,
                 "typeString": null
@@ -269,9 +269,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 4824,
+        "id": 4469,
         "linearizedBaseContracts": [
-          4824
+          4469
         ],
         "name": "ISuperTokenFactory",
         "nodeType": "ContractDefinition",
@@ -279,13 +279,13 @@
           {
             "body": null,
             "documentation": {
-              "id": 4757,
+              "id": 4402,
               "nodeType": "StructuredDocumentation",
-              "src": "237:60:24",
+              "src": "237:60:23",
               "text": " @dev Get superfluid host contract address"
             },
             "functionSelector": "20bc4425",
-            "id": 4762,
+            "id": 4407,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -293,24 +293,24 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 4758,
+              "id": 4403,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "318:2:24"
+              "src": "318:2:23"
             },
             "returnParameters": {
-              "id": 4761,
+              "id": 4406,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4760,
+                  "id": 4405,
                   "mutability": "mutable",
                   "name": "host",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4762,
-                  "src": "343:12:24",
+                  "scope": 4407,
+                  "src": "343:12:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -318,10 +318,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4759,
+                    "id": 4404,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "343:7:24",
+                    "src": "343:7:23",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -332,10 +332,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "342:14:24"
+              "src": "342:14:23"
             },
-            "scope": 4824,
-            "src": "302:55:24",
+            "scope": 4469,
+            "src": "302:55:23",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
@@ -343,13 +343,13 @@
           {
             "body": null,
             "documentation": {
-              "id": 4763,
+              "id": 4408,
               "nodeType": "StructuredDocumentation",
-              "src": "363:32:24",
+              "src": "363:32:23",
               "text": "@dev Initialize the contract"
             },
             "functionSelector": "8129fc1c",
-            "id": 4766,
+            "id": 4411,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -357,19 +357,19 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 4764,
+              "id": 4409,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "419:2:24"
+              "src": "419:2:23"
             },
             "returnParameters": {
-              "id": 4765,
+              "id": 4410,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "430:0:24"
+              "src": "430:0:23"
             },
-            "scope": 4824,
-            "src": "400:31:24",
+            "scope": 4469,
+            "src": "400:31:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
@@ -377,13 +377,13 @@
           {
             "body": null,
             "documentation": {
-              "id": 4767,
+              "id": 4412,
               "nodeType": "StructuredDocumentation",
-              "src": "437:77:24",
+              "src": "437:77:23",
               "text": " @dev Get the current super token logic used by the factory"
             },
             "functionSelector": "9470a5b2",
-            "id": 4772,
+            "id": 4417,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -391,39 +391,39 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 4768,
+              "id": 4413,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "546:2:24"
+              "src": "546:2:23"
             },
             "returnParameters": {
-              "id": 4771,
+              "id": 4416,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4770,
+                  "id": 4415,
                   "mutability": "mutable",
                   "name": "superToken",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4772,
-                  "src": "572:22:24",
+                  "scope": 4417,
+                  "src": "572:22:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                    "typeIdentifier": "t_contract$_ISuperToken_$4394",
                     "typeString": "contract ISuperToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4769,
+                    "id": 4414,
                     "name": "ISuperToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4749,
-                    "src": "572:11:24",
+                    "referencedDeclaration": 4394,
+                    "src": "572:11:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                      "typeIdentifier": "t_contract$_ISuperToken_$4394",
                       "typeString": "contract ISuperToken"
                     }
                   },
@@ -431,51 +431,51 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "571:24:24"
+              "src": "571:24:23"
             },
-            "scope": 4824,
-            "src": "519:77:24",
+            "scope": 4469,
+            "src": "519:77:23",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           },
           {
             "canonicalName": "ISuperTokenFactory.Upgradability",
-            "id": 4776,
+            "id": 4421,
             "members": [
               {
-                "id": 4773,
+                "id": 4418,
                 "name": "NON_UPGRADABLE",
                 "nodeType": "EnumValue",
-                "src": "760:14:24"
+                "src": "760:14:23"
               },
               {
-                "id": 4774,
+                "id": 4419,
                 "name": "SEMI_UPGRADABLE",
                 "nodeType": "EnumValue",
-                "src": "854:15:24"
+                "src": "854:15:23"
               },
               {
-                "id": 4775,
+                "id": 4420,
                 "name": "FULL_UPGRADABE",
                 "nodeType": "EnumValue",
-                "src": "933:14:24"
+                "src": "933:14:23"
               }
             ],
             "name": "Upgradability",
             "nodeType": "EnumDefinition",
-            "src": "650:303:24"
+            "src": "650:303:23"
           },
           {
             "body": null,
             "documentation": {
-              "id": 4777,
+              "id": 4422,
               "nodeType": "StructuredDocumentation",
-              "src": "959:320:24",
+              "src": "959:320:23",
               "text": " @dev Create new super token wrapper for the underlying ERC20 token\n @param underlyingToken Underlying ERC20 token\n @param underlyingDecimals Underlying token decimals\n @param upgradability Upgradability mode\n @param name Super token name\n @param symbol Super token symbol"
             },
             "functionSelector": "a6d0c534",
-            "id": 4792,
+            "id": 4437,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -483,18 +483,18 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 4788,
+              "id": 4433,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4779,
+                  "id": 4424,
                   "mutability": "mutable",
                   "name": "underlyingToken",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4792,
-                  "src": "1321:22:24",
+                  "scope": 4437,
+                  "src": "1321:22:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -503,11 +503,11 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4778,
+                    "id": 4423,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 611,
-                    "src": "1321:6:24",
+                    "src": "1321:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_contract$_IERC20_$611",
                       "typeString": "contract IERC20"
@@ -518,13 +518,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 4781,
+                  "id": 4426,
                   "mutability": "mutable",
                   "name": "underlyingDecimals",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4792,
-                  "src": "1353:24:24",
+                  "scope": 4437,
+                  "src": "1353:24:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -532,10 +532,10 @@
                     "typeString": "uint8"
                   },
                   "typeName": {
-                    "id": 4780,
+                    "id": 4425,
                     "name": "uint8",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1353:5:24",
+                    "src": "1353:5:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint8",
                       "typeString": "uint8"
@@ -546,28 +546,28 @@
                 },
                 {
                   "constant": false,
-                  "id": 4783,
+                  "id": 4428,
                   "mutability": "mutable",
                   "name": "upgradability",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4792,
-                  "src": "1387:27:24",
+                  "scope": 4437,
+                  "src": "1387:27:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Upgradability_$4776",
+                    "typeIdentifier": "t_enum$_Upgradability_$4421",
                     "typeString": "enum ISuperTokenFactory.Upgradability"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4782,
+                    "id": 4427,
                     "name": "Upgradability",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4776,
-                    "src": "1387:13:24",
+                    "referencedDeclaration": 4421,
+                    "src": "1387:13:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Upgradability_$4776",
+                      "typeIdentifier": "t_enum$_Upgradability_$4421",
                       "typeString": "enum ISuperTokenFactory.Upgradability"
                     }
                   },
@@ -576,13 +576,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 4785,
+                  "id": 4430,
                   "mutability": "mutable",
                   "name": "name",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4792,
-                  "src": "1424:20:24",
+                  "scope": 4437,
+                  "src": "1424:20:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -590,10 +590,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4784,
+                    "id": 4429,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1424:6:24",
+                    "src": "1424:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -604,13 +604,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 4787,
+                  "id": 4432,
                   "mutability": "mutable",
                   "name": "symbol",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4792,
-                  "src": "1454:22:24",
+                  "scope": 4437,
+                  "src": "1454:22:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -618,10 +618,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4786,
+                    "id": 4431,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1454:6:24",
+                    "src": "1454:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -631,36 +631,36 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1311:171:24"
+              "src": "1311:171:23"
             },
             "returnParameters": {
-              "id": 4791,
+              "id": 4436,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4790,
+                  "id": 4435,
                   "mutability": "mutable",
                   "name": "superToken",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4792,
-                  "src": "1517:22:24",
+                  "scope": 4437,
+                  "src": "1517:22:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                    "typeIdentifier": "t_contract$_ISuperToken_$4394",
                     "typeString": "contract ISuperToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4789,
+                    "id": 4434,
                     "name": "ISuperToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4749,
-                    "src": "1517:11:24",
+                    "referencedDeclaration": 4394,
+                    "src": "1517:11:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                      "typeIdentifier": "t_contract$_ISuperToken_$4394",
                       "typeString": "contract ISuperToken"
                     }
                   },
@@ -668,10 +668,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1516:24:24"
+              "src": "1516:24:23"
             },
-            "scope": 4824,
-            "src": "1284:257:24",
+            "scope": 4469,
+            "src": "1284:257:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
@@ -679,13 +679,13 @@
           {
             "body": null,
             "documentation": {
-              "id": 4793,
+              "id": 4438,
               "nodeType": "StructuredDocumentation",
-              "src": "1547:362:24",
+              "src": "1547:362:23",
               "text": " @dev Create new super token wrapper for the underlying ERC20 token with extra token info\n @param underlyingToken Underlying ERC20 token\n @param upgradability Upgradability mode\n @param name Super token name\n @param symbol Super token symbol\n NOTE:\n - It assumes token provide the .decimals() function"
             },
             "functionSelector": "431f1481",
-            "id": 4806,
+            "id": 4451,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -693,33 +693,33 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 4802,
+              "id": 4447,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4795,
+                  "id": 4440,
                   "mutability": "mutable",
                   "name": "underlyingToken",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4806,
-                  "src": "1951:34:24",
+                  "scope": 4451,
+                  "src": "1951:34:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ERC20WithTokenInfo_$5618",
+                    "typeIdentifier": "t_contract$_ERC20WithTokenInfo_$5263",
                     "typeString": "contract ERC20WithTokenInfo"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4794,
+                    "id": 4439,
                     "name": "ERC20WithTokenInfo",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 5618,
-                    "src": "1951:18:24",
+                    "referencedDeclaration": 5263,
+                    "src": "1951:18:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ERC20WithTokenInfo_$5618",
+                      "typeIdentifier": "t_contract$_ERC20WithTokenInfo_$5263",
                       "typeString": "contract ERC20WithTokenInfo"
                     }
                   },
@@ -728,28 +728,28 @@
                 },
                 {
                   "constant": false,
-                  "id": 4797,
+                  "id": 4442,
                   "mutability": "mutable",
                   "name": "upgradability",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4806,
-                  "src": "1995:27:24",
+                  "scope": 4451,
+                  "src": "1995:27:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Upgradability_$4776",
+                    "typeIdentifier": "t_enum$_Upgradability_$4421",
                     "typeString": "enum ISuperTokenFactory.Upgradability"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4796,
+                    "id": 4441,
                     "name": "Upgradability",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4776,
-                    "src": "1995:13:24",
+                    "referencedDeclaration": 4421,
+                    "src": "1995:13:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Upgradability_$4776",
+                      "typeIdentifier": "t_enum$_Upgradability_$4421",
                       "typeString": "enum ISuperTokenFactory.Upgradability"
                     }
                   },
@@ -758,13 +758,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 4799,
+                  "id": 4444,
                   "mutability": "mutable",
                   "name": "name",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4806,
-                  "src": "2032:20:24",
+                  "scope": 4451,
+                  "src": "2032:20:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -772,10 +772,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4798,
+                    "id": 4443,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2032:6:24",
+                    "src": "2032:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -786,13 +786,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 4801,
+                  "id": 4446,
                   "mutability": "mutable",
                   "name": "symbol",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4806,
-                  "src": "2062:22:24",
+                  "scope": 4451,
+                  "src": "2062:22:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -800,10 +800,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4800,
+                    "id": 4445,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2062:6:24",
+                    "src": "2062:6:23",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -813,36 +813,36 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1941:149:24"
+              "src": "1941:149:23"
             },
             "returnParameters": {
-              "id": 4805,
+              "id": 4450,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4804,
+                  "id": 4449,
                   "mutability": "mutable",
                   "name": "superToken",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4806,
-                  "src": "2125:22:24",
+                  "scope": 4451,
+                  "src": "2125:22:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                    "typeIdentifier": "t_contract$_ISuperToken_$4394",
                     "typeString": "contract ISuperToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4803,
+                    "id": 4448,
                     "name": "ISuperToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4749,
-                    "src": "2125:11:24",
+                    "referencedDeclaration": 4394,
+                    "src": "2125:11:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                      "typeIdentifier": "t_contract$_ISuperToken_$4394",
                       "typeString": "contract ISuperToken"
                     }
                   },
@@ -850,10 +850,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2124:24:24"
+              "src": "2124:24:23"
             },
-            "scope": 4824,
-            "src": "1914:235:24",
+            "scope": 4469,
+            "src": "1914:235:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
@@ -862,7 +862,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "d412d344",
-            "id": 4811,
+            "id": 4456,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -870,18 +870,18 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 4809,
+              "id": 4454,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4808,
+                  "id": 4453,
                   "mutability": "mutable",
                   "name": "customSuperTokenProxy",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4811,
-                  "src": "2200:29:24",
+                  "scope": 4456,
+                  "src": "2200:29:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -889,10 +889,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4807,
+                    "id": 4452,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2200:7:24",
+                    "src": "2200:7:23",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -903,16 +903,16 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2190:45:24"
+              "src": "2190:45:23"
             },
             "returnParameters": {
-              "id": 4810,
+              "id": 4455,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "2252:0:24"
+              "src": "2252:0:23"
             },
-            "scope": 4824,
-            "src": "2155:98:24",
+            "scope": 4469,
+            "src": "2155:98:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
@@ -920,38 +920,38 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 4815,
+            "id": 4460,
             "name": "SuperTokenLogicCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 4814,
+              "id": 4459,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4813,
+                  "id": 4458,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "tokenLogic",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4815,
-                  "src": "2288:30:24",
+                  "scope": 4460,
+                  "src": "2288:30:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                    "typeIdentifier": "t_contract$_ISuperToken_$4394",
                     "typeString": "contract ISuperToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4812,
+                    "id": 4457,
                     "name": "ISuperToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4749,
-                    "src": "2288:11:24",
+                    "referencedDeclaration": 4394,
+                    "src": "2288:11:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                      "typeIdentifier": "t_contract$_ISuperToken_$4394",
                       "typeString": "contract ISuperToken"
                     }
                   },
@@ -959,45 +959,45 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2287:32:24"
+              "src": "2287:32:23"
             },
-            "src": "2259:61:24"
+            "src": "2259:61:23"
           },
           {
             "anonymous": false,
             "documentation": null,
-            "id": 4819,
+            "id": 4464,
             "name": "SuperTokenCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 4818,
+              "id": 4463,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4817,
+                  "id": 4462,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "token",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4819,
-                  "src": "2350:25:24",
+                  "scope": 4464,
+                  "src": "2350:25:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                    "typeIdentifier": "t_contract$_ISuperToken_$4394",
                     "typeString": "contract ISuperToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4816,
+                    "id": 4461,
                     "name": "ISuperToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4749,
-                    "src": "2350:11:24",
+                    "referencedDeclaration": 4394,
+                    "src": "2350:11:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                      "typeIdentifier": "t_contract$_ISuperToken_$4394",
                       "typeString": "contract ISuperToken"
                     }
                   },
@@ -1005,45 +1005,45 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2349:27:24"
+              "src": "2349:27:23"
             },
-            "src": "2326:51:24"
+            "src": "2326:51:23"
           },
           {
             "anonymous": false,
             "documentation": null,
-            "id": 4823,
+            "id": 4468,
             "name": "CustomSuperTokenCreated",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 4822,
+              "id": 4467,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4821,
+                  "id": 4466,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "token",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 4823,
-                  "src": "2413:25:24",
+                  "scope": 4468,
+                  "src": "2413:25:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                    "typeIdentifier": "t_contract$_ISuperToken_$4394",
                     "typeString": "contract ISuperToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 4820,
+                    "id": 4465,
                     "name": "ISuperToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4749,
-                    "src": "2413:11:24",
+                    "referencedDeclaration": 4394,
+                    "src": "2413:11:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ISuperToken_$4749",
+                      "typeIdentifier": "t_contract$_ISuperToken_$4394",
                       "typeString": "contract ISuperToken"
                     }
                   },
@@ -1051,23 +1051,23 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2412:27:24"
+              "src": "2412:27:23"
             },
-            "src": "2383:57:24"
+            "src": "2383:57:23"
           }
         ],
-        "scope": 4825,
-        "src": "201:2242:24"
+        "scope": 4470,
+        "src": "201:2242:23"
       }
     ],
-    "src": "35:2409:24"
+    "src": "35:2409:23"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperTokenFactory.sol",
       "exportedSymbols": {
         "ISuperTokenFactory": [
-          4824
+          4469
         ]
       },
       "license": "AGPLv3"
@@ -1082,16 +1082,16 @@
             ".0"
           ]
         },
-        "id": 4751,
+        "id": 4396,
         "name": "PragmaDirective",
-        "src": "35:25:24"
+        "src": "35:25:23"
       },
       {
         "attributes": {
-          "SourceUnit": 4750,
+          "SourceUnit": 4395,
           "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol",
           "file": "./ISuperToken.sol",
-          "scope": 4825,
+          "scope": 4470,
           "symbolAliases": [
             {
               "foreign": {
@@ -1104,25 +1104,25 @@
                   "type": null,
                   "value": "ISuperToken"
                 },
-                "id": 4752,
+                "id": 4397,
                 "name": "Identifier",
-                "src": "71:11:24"
+                "src": "71:11:23"
               },
               "local": null
             }
           ],
           "unitAlias": ""
         },
-        "id": 4753,
+        "id": 4398,
         "name": "ImportDirective",
-        "src": "62:48:24"
+        "src": "62:48:23"
       },
       {
         "attributes": {
-          "SourceUnit": 5619,
+          "SourceUnit": 5264,
           "absolutePath": "@superfluid-finance/ethereum-contracts/contracts/interfaces/tokens/ERC20WithTokenInfo.sol",
           "file": "../tokens/ERC20WithTokenInfo.sol",
-          "scope": 4825,
+          "scope": 4470,
           "symbolAliases": [
             {
               "foreign": {
@@ -1135,9 +1135,9 @@
                   "type": null,
                   "value": "IERC20"
                 },
-                "id": 4754,
+                "id": 4399,
                 "name": "Identifier",
-                "src": "125:6:24"
+                "src": "125:6:23"
               },
               "local": null
             },
@@ -1152,18 +1152,18 @@
                   "type": null,
                   "value": "ERC20WithTokenInfo"
                 },
-                "id": 4755,
+                "id": 4400,
                 "name": "Identifier",
-                "src": "137:18:24"
+                "src": "137:18:23"
               },
               "local": null
             }
           ],
           "unitAlias": ""
         },
-        "id": 4756,
+        "id": 4401,
         "name": "ImportDirective",
-        "src": "112:86:24"
+        "src": "112:86:23"
       },
       {
         "attributes": {
@@ -1178,10 +1178,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            4824
+            4469
           ],
           "name": "ISuperTokenFactory",
-          "scope": 4825
+          "scope": 4470
         },
         "children": [
           {
@@ -1196,7 +1196,7 @@
               ],
               "name": "getHost",
               "overrides": null,
-              "scope": 4824,
+              "scope": 4469,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -1206,9 +1206,9 @@
                 "attributes": {
                   "text": " @dev Get superfluid host contract address"
                 },
-                "id": 4757,
+                "id": 4402,
                 "name": "StructuredDocumentation",
-                "src": "237:60:24"
+                "src": "237:60:23"
               },
               {
                 "attributes": {
@@ -1217,9 +1217,9 @@
                   ]
                 },
                 "children": [],
-                "id": 4758,
+                "id": 4403,
                 "name": "ParameterList",
-                "src": "318:2:24"
+                "src": "318:2:23"
               },
               {
                 "children": [
@@ -1229,7 +1229,7 @@
                       "mutability": "mutable",
                       "name": "host",
                       "overrides": null,
-                      "scope": 4762,
+                      "scope": 4407,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1243,24 +1243,24 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 4759,
+                        "id": 4404,
                         "name": "ElementaryTypeName",
-                        "src": "343:7:24"
+                        "src": "343:7:23"
                       }
                     ],
-                    "id": 4760,
+                    "id": 4405,
                     "name": "VariableDeclaration",
-                    "src": "343:12:24"
+                    "src": "343:12:23"
                   }
                 ],
-                "id": 4761,
+                "id": 4406,
                 "name": "ParameterList",
-                "src": "342:14:24"
+                "src": "342:14:23"
               }
             ],
-            "id": 4762,
+            "id": 4407,
             "name": "FunctionDefinition",
-            "src": "302:55:24"
+            "src": "302:55:23"
           },
           {
             "attributes": {
@@ -1274,7 +1274,7 @@
               ],
               "name": "initialize",
               "overrides": null,
-              "scope": 4824,
+              "scope": 4469,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -1284,9 +1284,9 @@
                 "attributes": {
                   "text": "@dev Initialize the contract"
                 },
-                "id": 4763,
+                "id": 4408,
                 "name": "StructuredDocumentation",
-                "src": "363:32:24"
+                "src": "363:32:23"
               },
               {
                 "attributes": {
@@ -1295,9 +1295,9 @@
                   ]
                 },
                 "children": [],
-                "id": 4764,
+                "id": 4409,
                 "name": "ParameterList",
-                "src": "419:2:24"
+                "src": "419:2:23"
               },
               {
                 "attributes": {
@@ -1306,14 +1306,14 @@
                   ]
                 },
                 "children": [],
-                "id": 4765,
+                "id": 4410,
                 "name": "ParameterList",
-                "src": "430:0:24"
+                "src": "430:0:23"
               }
             ],
-            "id": 4766,
+            "id": 4411,
             "name": "FunctionDefinition",
-            "src": "400:31:24"
+            "src": "400:31:23"
           },
           {
             "attributes": {
@@ -1327,7 +1327,7 @@
               ],
               "name": "getSuperTokenLogic",
               "overrides": null,
-              "scope": 4824,
+              "scope": 4469,
               "stateMutability": "view",
               "virtual": false,
               "visibility": "external"
@@ -1337,9 +1337,9 @@
                 "attributes": {
                   "text": " @dev Get the current super token logic used by the factory"
                 },
-                "id": 4767,
+                "id": 4412,
                 "name": "StructuredDocumentation",
-                "src": "437:77:24"
+                "src": "437:77:23"
               },
               {
                 "attributes": {
@@ -1348,9 +1348,9 @@
                   ]
                 },
                 "children": [],
-                "id": 4768,
+                "id": 4413,
                 "name": "ParameterList",
-                "src": "546:2:24"
+                "src": "546:2:23"
               },
               {
                 "children": [
@@ -1360,7 +1360,7 @@
                       "mutability": "mutable",
                       "name": "superToken",
                       "overrides": null,
-                      "scope": 4772,
+                      "scope": 4417,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract ISuperToken",
@@ -1372,27 +1372,27 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ISuperToken",
-                          "referencedDeclaration": 4749,
+                          "referencedDeclaration": 4394,
                           "type": "contract ISuperToken"
                         },
-                        "id": 4769,
+                        "id": 4414,
                         "name": "UserDefinedTypeName",
-                        "src": "572:11:24"
+                        "src": "572:11:23"
                       }
                     ],
-                    "id": 4770,
+                    "id": 4415,
                     "name": "VariableDeclaration",
-                    "src": "572:22:24"
+                    "src": "572:22:23"
                   }
                 ],
-                "id": 4771,
+                "id": 4416,
                 "name": "ParameterList",
-                "src": "571:24:24"
+                "src": "571:24:23"
               }
             ],
-            "id": 4772,
+            "id": 4417,
             "name": "FunctionDefinition",
-            "src": "519:77:24"
+            "src": "519:77:23"
           },
           {
             "attributes": {
@@ -1404,30 +1404,30 @@
                 "attributes": {
                   "name": "NON_UPGRADABLE"
                 },
-                "id": 4773,
+                "id": 4418,
                 "name": "EnumValue",
-                "src": "760:14:24"
+                "src": "760:14:23"
               },
               {
                 "attributes": {
                   "name": "SEMI_UPGRADABLE"
                 },
-                "id": 4774,
+                "id": 4419,
                 "name": "EnumValue",
-                "src": "854:15:24"
+                "src": "854:15:23"
               },
               {
                 "attributes": {
                   "name": "FULL_UPGRADABE"
                 },
-                "id": 4775,
+                "id": 4420,
                 "name": "EnumValue",
-                "src": "933:14:24"
+                "src": "933:14:23"
               }
             ],
-            "id": 4776,
+            "id": 4421,
             "name": "EnumDefinition",
-            "src": "650:303:24"
+            "src": "650:303:23"
           },
           {
             "attributes": {
@@ -1441,7 +1441,7 @@
               ],
               "name": "createERC20Wrapper",
               "overrides": null,
-              "scope": 4824,
+              "scope": 4469,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -1451,9 +1451,9 @@
                 "attributes": {
                   "text": " @dev Create new super token wrapper for the underlying ERC20 token\n @param underlyingToken Underlying ERC20 token\n @param underlyingDecimals Underlying token decimals\n @param upgradability Upgradability mode\n @param name Super token name\n @param symbol Super token symbol"
                 },
-                "id": 4777,
+                "id": 4422,
                 "name": "StructuredDocumentation",
-                "src": "959:320:24"
+                "src": "959:320:23"
               },
               {
                 "children": [
@@ -1463,7 +1463,7 @@
                       "mutability": "mutable",
                       "name": "underlyingToken",
                       "overrides": null,
-                      "scope": 4792,
+                      "scope": 4437,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract IERC20",
@@ -1478,14 +1478,14 @@
                           "referencedDeclaration": 611,
                           "type": "contract IERC20"
                         },
-                        "id": 4778,
+                        "id": 4423,
                         "name": "UserDefinedTypeName",
-                        "src": "1321:6:24"
+                        "src": "1321:6:23"
                       }
                     ],
-                    "id": 4779,
+                    "id": 4424,
                     "name": "VariableDeclaration",
-                    "src": "1321:22:24"
+                    "src": "1321:22:23"
                   },
                   {
                     "attributes": {
@@ -1493,7 +1493,7 @@
                       "mutability": "mutable",
                       "name": "underlyingDecimals",
                       "overrides": null,
-                      "scope": 4792,
+                      "scope": 4437,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint8",
@@ -1506,14 +1506,14 @@
                           "name": "uint8",
                           "type": "uint8"
                         },
-                        "id": 4780,
+                        "id": 4425,
                         "name": "ElementaryTypeName",
-                        "src": "1353:5:24"
+                        "src": "1353:5:23"
                       }
                     ],
-                    "id": 4781,
+                    "id": 4426,
                     "name": "VariableDeclaration",
-                    "src": "1353:24:24"
+                    "src": "1353:24:23"
                   },
                   {
                     "attributes": {
@@ -1521,7 +1521,7 @@
                       "mutability": "mutable",
                       "name": "upgradability",
                       "overrides": null,
-                      "scope": 4792,
+                      "scope": 4437,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "enum ISuperTokenFactory.Upgradability",
@@ -1533,17 +1533,17 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "Upgradability",
-                          "referencedDeclaration": 4776,
+                          "referencedDeclaration": 4421,
                           "type": "enum ISuperTokenFactory.Upgradability"
                         },
-                        "id": 4782,
+                        "id": 4427,
                         "name": "UserDefinedTypeName",
-                        "src": "1387:13:24"
+                        "src": "1387:13:23"
                       }
                     ],
-                    "id": 4783,
+                    "id": 4428,
                     "name": "VariableDeclaration",
-                    "src": "1387:27:24"
+                    "src": "1387:27:23"
                   },
                   {
                     "attributes": {
@@ -1551,7 +1551,7 @@
                       "mutability": "mutable",
                       "name": "name",
                       "overrides": null,
-                      "scope": 4792,
+                      "scope": 4437,
                       "stateVariable": false,
                       "storageLocation": "calldata",
                       "type": "string",
@@ -1564,14 +1564,14 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 4784,
+                        "id": 4429,
                         "name": "ElementaryTypeName",
-                        "src": "1424:6:24"
+                        "src": "1424:6:23"
                       }
                     ],
-                    "id": 4785,
+                    "id": 4430,
                     "name": "VariableDeclaration",
-                    "src": "1424:20:24"
+                    "src": "1424:20:23"
                   },
                   {
                     "attributes": {
@@ -1579,7 +1579,7 @@
                       "mutability": "mutable",
                       "name": "symbol",
                       "overrides": null,
-                      "scope": 4792,
+                      "scope": 4437,
                       "stateVariable": false,
                       "storageLocation": "calldata",
                       "type": "string",
@@ -1592,19 +1592,19 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 4786,
+                        "id": 4431,
                         "name": "ElementaryTypeName",
-                        "src": "1454:6:24"
+                        "src": "1454:6:23"
                       }
                     ],
-                    "id": 4787,
+                    "id": 4432,
                     "name": "VariableDeclaration",
-                    "src": "1454:22:24"
+                    "src": "1454:22:23"
                   }
                 ],
-                "id": 4788,
+                "id": 4433,
                 "name": "ParameterList",
-                "src": "1311:171:24"
+                "src": "1311:171:23"
               },
               {
                 "children": [
@@ -1614,7 +1614,7 @@
                       "mutability": "mutable",
                       "name": "superToken",
                       "overrides": null,
-                      "scope": 4792,
+                      "scope": 4437,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract ISuperToken",
@@ -1626,27 +1626,27 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ISuperToken",
-                          "referencedDeclaration": 4749,
+                          "referencedDeclaration": 4394,
                           "type": "contract ISuperToken"
                         },
-                        "id": 4789,
+                        "id": 4434,
                         "name": "UserDefinedTypeName",
-                        "src": "1517:11:24"
+                        "src": "1517:11:23"
                       }
                     ],
-                    "id": 4790,
+                    "id": 4435,
                     "name": "VariableDeclaration",
-                    "src": "1517:22:24"
+                    "src": "1517:22:23"
                   }
                 ],
-                "id": 4791,
+                "id": 4436,
                 "name": "ParameterList",
-                "src": "1516:24:24"
+                "src": "1516:24:23"
               }
             ],
-            "id": 4792,
+            "id": 4437,
             "name": "FunctionDefinition",
-            "src": "1284:257:24"
+            "src": "1284:257:23"
           },
           {
             "attributes": {
@@ -1660,7 +1660,7 @@
               ],
               "name": "createERC20Wrapper",
               "overrides": null,
-              "scope": 4824,
+              "scope": 4469,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -1670,9 +1670,9 @@
                 "attributes": {
                   "text": " @dev Create new super token wrapper for the underlying ERC20 token with extra token info\n @param underlyingToken Underlying ERC20 token\n @param upgradability Upgradability mode\n @param name Super token name\n @param symbol Super token symbol\n NOTE:\n - It assumes token provide the .decimals() function"
                 },
-                "id": 4793,
+                "id": 4438,
                 "name": "StructuredDocumentation",
-                "src": "1547:362:24"
+                "src": "1547:362:23"
               },
               {
                 "children": [
@@ -1682,7 +1682,7 @@
                       "mutability": "mutable",
                       "name": "underlyingToken",
                       "overrides": null,
-                      "scope": 4806,
+                      "scope": 4451,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract ERC20WithTokenInfo",
@@ -1694,17 +1694,17 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ERC20WithTokenInfo",
-                          "referencedDeclaration": 5618,
+                          "referencedDeclaration": 5263,
                           "type": "contract ERC20WithTokenInfo"
                         },
-                        "id": 4794,
+                        "id": 4439,
                         "name": "UserDefinedTypeName",
-                        "src": "1951:18:24"
+                        "src": "1951:18:23"
                       }
                     ],
-                    "id": 4795,
+                    "id": 4440,
                     "name": "VariableDeclaration",
-                    "src": "1951:34:24"
+                    "src": "1951:34:23"
                   },
                   {
                     "attributes": {
@@ -1712,7 +1712,7 @@
                       "mutability": "mutable",
                       "name": "upgradability",
                       "overrides": null,
-                      "scope": 4806,
+                      "scope": 4451,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "enum ISuperTokenFactory.Upgradability",
@@ -1724,17 +1724,17 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "Upgradability",
-                          "referencedDeclaration": 4776,
+                          "referencedDeclaration": 4421,
                           "type": "enum ISuperTokenFactory.Upgradability"
                         },
-                        "id": 4796,
+                        "id": 4441,
                         "name": "UserDefinedTypeName",
-                        "src": "1995:13:24"
+                        "src": "1995:13:23"
                       }
                     ],
-                    "id": 4797,
+                    "id": 4442,
                     "name": "VariableDeclaration",
-                    "src": "1995:27:24"
+                    "src": "1995:27:23"
                   },
                   {
                     "attributes": {
@@ -1742,7 +1742,7 @@
                       "mutability": "mutable",
                       "name": "name",
                       "overrides": null,
-                      "scope": 4806,
+                      "scope": 4451,
                       "stateVariable": false,
                       "storageLocation": "calldata",
                       "type": "string",
@@ -1755,14 +1755,14 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 4798,
+                        "id": 4443,
                         "name": "ElementaryTypeName",
-                        "src": "2032:6:24"
+                        "src": "2032:6:23"
                       }
                     ],
-                    "id": 4799,
+                    "id": 4444,
                     "name": "VariableDeclaration",
-                    "src": "2032:20:24"
+                    "src": "2032:20:23"
                   },
                   {
                     "attributes": {
@@ -1770,7 +1770,7 @@
                       "mutability": "mutable",
                       "name": "symbol",
                       "overrides": null,
-                      "scope": 4806,
+                      "scope": 4451,
                       "stateVariable": false,
                       "storageLocation": "calldata",
                       "type": "string",
@@ -1783,19 +1783,19 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 4800,
+                        "id": 4445,
                         "name": "ElementaryTypeName",
-                        "src": "2062:6:24"
+                        "src": "2062:6:23"
                       }
                     ],
-                    "id": 4801,
+                    "id": 4446,
                     "name": "VariableDeclaration",
-                    "src": "2062:22:24"
+                    "src": "2062:22:23"
                   }
                 ],
-                "id": 4802,
+                "id": 4447,
                 "name": "ParameterList",
-                "src": "1941:149:24"
+                "src": "1941:149:23"
               },
               {
                 "children": [
@@ -1805,7 +1805,7 @@
                       "mutability": "mutable",
                       "name": "superToken",
                       "overrides": null,
-                      "scope": 4806,
+                      "scope": 4451,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract ISuperToken",
@@ -1817,27 +1817,27 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ISuperToken",
-                          "referencedDeclaration": 4749,
+                          "referencedDeclaration": 4394,
                           "type": "contract ISuperToken"
                         },
-                        "id": 4803,
+                        "id": 4448,
                         "name": "UserDefinedTypeName",
-                        "src": "2125:11:24"
+                        "src": "2125:11:23"
                       }
                     ],
-                    "id": 4804,
+                    "id": 4449,
                     "name": "VariableDeclaration",
-                    "src": "2125:22:24"
+                    "src": "2125:22:23"
                   }
                 ],
-                "id": 4805,
+                "id": 4450,
                 "name": "ParameterList",
-                "src": "2124:24:24"
+                "src": "2124:24:23"
               }
             ],
-            "id": 4806,
+            "id": 4451,
             "name": "FunctionDefinition",
-            "src": "1914:235:24"
+            "src": "1914:235:23"
           },
           {
             "attributes": {
@@ -1852,7 +1852,7 @@
               ],
               "name": "initializeCustomSuperToken",
               "overrides": null,
-              "scope": 4824,
+              "scope": 4469,
               "stateMutability": "nonpayable",
               "virtual": false,
               "visibility": "external"
@@ -1866,7 +1866,7 @@
                       "mutability": "mutable",
                       "name": "customSuperTokenProxy",
                       "overrides": null,
-                      "scope": 4811,
+                      "scope": 4456,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1880,19 +1880,19 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 4807,
+                        "id": 4452,
                         "name": "ElementaryTypeName",
-                        "src": "2200:7:24"
+                        "src": "2200:7:23"
                       }
                     ],
-                    "id": 4808,
+                    "id": 4453,
                     "name": "VariableDeclaration",
-                    "src": "2200:29:24"
+                    "src": "2200:29:23"
                   }
                 ],
-                "id": 4809,
+                "id": 4454,
                 "name": "ParameterList",
-                "src": "2190:45:24"
+                "src": "2190:45:23"
               },
               {
                 "attributes": {
@@ -1901,14 +1901,14 @@
                   ]
                 },
                 "children": [],
-                "id": 4810,
+                "id": 4455,
                 "name": "ParameterList",
-                "src": "2252:0:24"
+                "src": "2252:0:23"
               }
             ],
-            "id": 4811,
+            "id": 4456,
             "name": "FunctionDefinition",
-            "src": "2155:98:24"
+            "src": "2155:98:23"
           },
           {
             "attributes": {
@@ -1926,7 +1926,7 @@
                       "mutability": "mutable",
                       "name": "tokenLogic",
                       "overrides": null,
-                      "scope": 4815,
+                      "scope": 4460,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract ISuperToken",
@@ -1938,27 +1938,27 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ISuperToken",
-                          "referencedDeclaration": 4749,
+                          "referencedDeclaration": 4394,
                           "type": "contract ISuperToken"
                         },
-                        "id": 4812,
+                        "id": 4457,
                         "name": "UserDefinedTypeName",
-                        "src": "2288:11:24"
+                        "src": "2288:11:23"
                       }
                     ],
-                    "id": 4813,
+                    "id": 4458,
                     "name": "VariableDeclaration",
-                    "src": "2288:30:24"
+                    "src": "2288:30:23"
                   }
                 ],
-                "id": 4814,
+                "id": 4459,
                 "name": "ParameterList",
-                "src": "2287:32:24"
+                "src": "2287:32:23"
               }
             ],
-            "id": 4815,
+            "id": 4460,
             "name": "EventDefinition",
-            "src": "2259:61:24"
+            "src": "2259:61:23"
           },
           {
             "attributes": {
@@ -1976,7 +1976,7 @@
                       "mutability": "mutable",
                       "name": "token",
                       "overrides": null,
-                      "scope": 4819,
+                      "scope": 4464,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract ISuperToken",
@@ -1988,27 +1988,27 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ISuperToken",
-                          "referencedDeclaration": 4749,
+                          "referencedDeclaration": 4394,
                           "type": "contract ISuperToken"
                         },
-                        "id": 4816,
+                        "id": 4461,
                         "name": "UserDefinedTypeName",
-                        "src": "2350:11:24"
+                        "src": "2350:11:23"
                       }
                     ],
-                    "id": 4817,
+                    "id": 4462,
                     "name": "VariableDeclaration",
-                    "src": "2350:25:24"
+                    "src": "2350:25:23"
                   }
                 ],
-                "id": 4818,
+                "id": 4463,
                 "name": "ParameterList",
-                "src": "2349:27:24"
+                "src": "2349:27:23"
               }
             ],
-            "id": 4819,
+            "id": 4464,
             "name": "EventDefinition",
-            "src": "2326:51:24"
+            "src": "2326:51:23"
           },
           {
             "attributes": {
@@ -2026,7 +2026,7 @@
                       "mutability": "mutable",
                       "name": "token",
                       "overrides": null,
-                      "scope": 4823,
+                      "scope": 4468,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract ISuperToken",
@@ -2038,37 +2038,37 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ISuperToken",
-                          "referencedDeclaration": 4749,
+                          "referencedDeclaration": 4394,
                           "type": "contract ISuperToken"
                         },
-                        "id": 4820,
+                        "id": 4465,
                         "name": "UserDefinedTypeName",
-                        "src": "2413:11:24"
+                        "src": "2413:11:23"
                       }
                     ],
-                    "id": 4821,
+                    "id": 4466,
                     "name": "VariableDeclaration",
-                    "src": "2413:25:24"
+                    "src": "2413:25:23"
                   }
                 ],
-                "id": 4822,
+                "id": 4467,
                 "name": "ParameterList",
-                "src": "2412:27:24"
+                "src": "2412:27:23"
               }
             ],
-            "id": 4823,
+            "id": 4468,
             "name": "EventDefinition",
-            "src": "2383:57:24"
+            "src": "2383:57:23"
           }
         ],
-        "id": 4824,
+        "id": 4469,
         "name": "ContractDefinition",
-        "src": "201:2242:24"
+        "src": "201:2242:23"
       }
     ],
-    "id": 4825,
+    "id": 4470,
     "name": "SourceUnit",
-    "src": "35:2409:24"
+    "src": "35:2409:23"
   },
   "compiler": {
     "name": "solc",
@@ -2076,7 +2076,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-02-20T23:52:35.618Z",
+  "updatedAt": "2022-03-13T02:32:39.425Z",
   "devdoc": {
     "kind": "dev",
     "methods": {

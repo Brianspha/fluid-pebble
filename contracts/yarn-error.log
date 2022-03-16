@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  SyntaxError: /Users/siphamandlamjoli/Documents/GitHub/iotnft/contracts/package.json: Unexpected token } in JSON at position 1040
+  SyntaxError: /Users/siphamandlamjoli/Documents/GitHub/FluidPebble/contracts/package.json: Unexpected token } in JSON at position 1040
       at JSON.parse (<anonymous>)
       at /opt/homebrew/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:1625:59
       at Generator.next (<anonymous>)

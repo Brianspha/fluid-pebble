@@ -1,20 +1,17 @@
 pragma solidity >=0.6.2;
 pragma experimental ABIEncoderV2;
 
-import "./IOTNFTERC20Token.sol";
 import "./Initializable.sol";
-import "./interfaces/IOTNFTInterface.sol";
+import "./interfaces/FluidPebbleInterface.sol";
 import "./TokenContract.sol";
 import "./SafeMathV2.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./ReentrancyGuard.sol";
 
 import "./Pausable.sol";
-import {ISuperfluid, ISuperToken, SuperAppDefinitions} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+import "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
-import {IConstantFlowAgreementV1} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
-
-import "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IInstantDistributionAgreementV1.sol";
+import "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
 
 //"SPDX-License-Identifier: UNLICENSED"
 
@@ -26,8 +23,8 @@ import "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/I
  @notice poorly formatted code
 
  */
-contract IOTNFT is
-    IOTNFTInterface,
+contract FluidPebble is
+    FluidPebbleInterface,
     Initializable,
     Ownable,
     ReentrancyGuard,
@@ -43,18 +40,17 @@ contract IOTNFT is
     ISuperfluid private _host; // host
     IConstantFlowAgreementV1 private _cfa; // the stored constant flow agreement class address
     ISuperToken private _acceptedToken; // accepted token
-    IInstantDistributionAgreementV1 instantDistributionAgreement;
     uint256 public transactionFees = 0;
-    uint256 public minMintCost = 0.0001 ether;
+    uint256 public minMintCost = 0.00001 ether;
     uint256 public contractCut = 3500;
     uint256 minDividendsPerExperience = 100;
     address payable contractOwner;
-    uint32 private constant INDEX_ID = 0;
-    TokenContract ionft;
+    TokenContract fluidpebble;
+    uint256[] public leasedTokenIds;
+    uint256 public totalLeased;
     address[] mintersIds;
-
     mapping(uint256 => int96) public flowRates;
-    mapping(uint256 => IOTNFT) currentIONFTs;
+    mapping(uint256 => FluidPebble) currentFluidPebbles;
     mapping(address => Minter) minters;
 
     /*==========================================================Function definition start==========================================================*/
@@ -62,15 +58,12 @@ contract IOTNFT is
         TokenContract tokenAddress,
         ISuperfluid host,
         IConstantFlowAgreementV1 cfa,
-        ISuperToken acceptedToken,
-        IInstantDistributionAgreementV1 ida
-    ) initializer {
-        require(address(tokenAddress) != address(0), "Invalid token address");
+        ISuperToken acceptedToken
+    ) initializer onlyOwner {
         require(msg.sender != address(0), "Invalid sender address");
+        require(address(tokenAddress) != address(0), "Invalid token address");
         require(address(host) != address(0), "Invalid host address");
         require(address(cfa) != address(0), "Invalid CFA address");
-        require(address(ida) != address(0), "Invalid IDA address");
-
         require(
             address(acceptedToken) != address(0),
             "Invalid supertoken address"
@@ -78,14 +71,13 @@ contract IOTNFT is
         _host = host;
         _cfa = cfa;
         _acceptedToken = acceptedToken;
-        ionft = tokenAddress;
-        instantDistributionAgreement = ida;
-        contractOwner = msg.sender;
+        fluidpebble = tokenAddress;
         uint256 configWord = SuperAppDefinitions.APP_LEVEL_FINAL |
             SuperAppDefinitions.BEFORE_AGREEMENT_CREATED_NOOP |
             SuperAppDefinitions.BEFORE_AGREEMENT_UPDATED_NOOP |
             SuperAppDefinitions.BEFORE_AGREEMENT_TERMINATED_NOOP;
         _host.registerApp(configWord);
+        contractOwner = msg.sender;
     }
 
     function withdrawFees() public payable override onlyOwner nonReentrant {
@@ -113,19 +105,24 @@ contract IOTNFT is
         }
         uint256 tokenId;
         if (delegate) {
-            tokenId = ionft.mintToken(address(this), tokenURI);
+            tokenId = fluidpebble.mintToken(address(this), tokenURI);
         } else {
-            tokenId = ionft.mintToken(msg.sender, tokenURI);
+            tokenId = fluidpebble.mintToken(msg.sender, tokenURI);
         }
-        require(ionft.tokenExists(tokenId), "Token not minted");
-        currentIONFTs[tokenId].maxRentableDays = maxLeaseDays;
-        currentIONFTs[tokenId].delegated = delegate;
-        currentIONFTs[tokenId].tokenId = tokenId;
-        currentIONFTs[tokenId].originalPrice = tokenPrice;
-        currentIONFTs[tokenId].price = tokenPrice;
-        currentIONFTs[tokenId].exists = true;
-        currentIONFTs[tokenId].owner = msg.sender;
-        emit newTokenMinted(msg.sender, tokenId, currentIONFTs[tokenId].price);
+        minters[msg.sender].tokenIds.push(tokenId); //@dev even if user burns token we keep it bad
+        require(fluidpebble.tokenExists(tokenId), "Token not minted");
+        currentFluidPebbles[tokenId].maxRentableDays = maxLeaseDays;
+        currentFluidPebbles[tokenId].delegated = delegate;
+        currentFluidPebbles[tokenId].tokenId = tokenId;
+        currentFluidPebbles[tokenId].originalPrice = tokenPrice;
+        currentFluidPebbles[tokenId].price = tokenPrice;
+        currentFluidPebbles[tokenId].exists = true;
+        currentFluidPebbles[tokenId].owner = msg.sender;
+        emit newTokenMinted(
+            msg.sender,
+            tokenId,
+            currentFluidPebbles[tokenId].price
+        );
     }
 
     function buyToken(uint256 tokenId)
@@ -135,41 +132,42 @@ contract IOTNFT is
         nonReentrant
         whenNotPaused
     {
-        require(!currentIONFTs[tokenId].rentedOut, "Not possible to buy");
-        require(currentIONFTs[tokenId].delegated, "Token not delegated");
+        require(!currentFluidPebbles[tokenId].rentedOut, "Not possible to buy");
+        require(currentFluidPebbles[tokenId].delegated, "Token not delegated");
         require(msg.sender != address(0), "Invalid sender");
         require(
-            ionft.tokenExists(tokenId) && currentIONFTs[tokenId].exists,
+            fluidpebble.tokenExists(tokenId) &&
+                currentFluidPebbles[tokenId].exists,
             "Token not minted yet or not active"
         );
         require(
-            msg.sender != currentIONFTs[tokenId].owner &&
-                ionft.ownerOf(tokenId) != msg.sender,
+            msg.sender != currentFluidPebbles[tokenId].owner &&
+                fluidpebble.ownerOf(tokenId) != msg.sender,
             "Owner not allowed to buy own nft"
         );
         require(
-            msg.value > currentIONFTs[tokenId].price,
+            msg.value > currentFluidPebbles[tokenId].price,
             "Invalid buying price"
         );
-        require(currentIONFTs[tokenId].delegated, "token not delegated");
+        require(currentFluidPebbles[tokenId].delegated, "token not delegated");
         uint256 soldPrice = msg.value;
         uint256 tempPrice = getContractCut(
-            msg.value.sub(currentIONFTs[tokenId].price)
+            msg.value.sub(currentFluidPebbles[tokenId].price)
         );
         transactionFees = transactionFees.add(tempPrice);
         uint256 remaining = msg.value.sub(tempPrice);
         require(
-            currentIONFTs[tokenId].owner.send(remaining),
+            currentFluidPebbles[tokenId].owner.send(remaining),
             "Insufficient funds"
         );
-        currentIONFTs[tokenId].price = soldPrice;
-        minters[currentIONFTs[tokenId].owner].totalStaked = minters[
-            currentIONFTs[tokenId].owner
+        currentFluidPebbles[tokenId].price = soldPrice;
+        minters[currentFluidPebbles[tokenId].owner].totalStaked = minters[
+            currentFluidPebbles[tokenId].owner
         ].totalStaked.add(remaining);
-        address previousOwner = currentIONFTs[tokenId].owner;
-        currentIONFTs[tokenId].owner = msg.sender;
-        currentIONFTs[tokenId].delegated = false;
-        ionft.transferFrom(address(this), msg.sender, tokenId);
+        address previousOwner = currentFluidPebbles[tokenId].owner;
+        currentFluidPebbles[tokenId].owner = msg.sender;
+        currentFluidPebbles[tokenId].delegated = false;
+        fluidpebble.transferFrom(address(this), msg.sender, tokenId);
         emit transferTokenOwnerShip(
             msg.sender,
             previousOwner,
@@ -182,13 +180,17 @@ contract IOTNFT is
     function revokeDelegatedNFT(uint256 tokenId) public override {
         require(msg.sender != address(0), "Invalid sender address");
         require(
-            currentIONFTs[tokenId].exists && ionft.tokenExists(tokenId),
+            currentFluidPebbles[tokenId].exists &&
+                fluidpebble.tokenExists(tokenId),
             "Token not listed or exists"
         );
-        require(ionft.ownerOf(tokenId) == address(this), "Contract Not Owner");
-        require(currentIONFTs[tokenId].delegated, "Token not delegated");
-        ionft.transferFrom(address(this), msg.sender, tokenId);
-        currentIONFTs[tokenId].delegated = false;
+        require(
+            fluidpebble.ownerOf(tokenId) == address(this),
+            "Contract Not Owner"
+        );
+        require(currentFluidPebbles[tokenId].delegated, "Token not delegated");
+        fluidpebble.transferFrom(address(this), msg.sender, tokenId);
+        currentFluidPebbles[tokenId].delegated = false;
 
         emit revokedDelegatedToken(tokenId);
     }
@@ -196,12 +198,19 @@ contract IOTNFT is
     function delegateNFT(uint256 tokenId) public override {
         require(msg.sender != address(0), "Invalid sender address");
         require(
-            currentIONFTs[tokenId].exists && ionft.tokenExists(tokenId),
+            currentFluidPebbles[tokenId].exists &&
+                fluidpebble.tokenExists(tokenId),
             "Token not listed or exists"
         );
-        require(ionft.ownerOf(tokenId) == address(this), "Contract Not Owner");
-        require(!currentIONFTs[tokenId].delegated, "Token already delegated");
-        currentIONFTs[tokenId].delegated = true;
+        require(
+            fluidpebble.ownerOf(tokenId) == address(this),
+            "Contract Not Owner"
+        );
+        require(
+            !currentFluidPebbles[tokenId].delegated,
+            "Token already delegated"
+        );
+        currentFluidPebbles[tokenId].delegated = true;
         emit delegatedToken(tokenId);
     }
 
@@ -212,63 +221,66 @@ contract IOTNFT is
     ) public override nonReentrant whenNotPaused {
         require(msg.sender != address(0), "Invalid sender address");
         require(
-            currentIONFTs[tokenId].exists &&
-                ionft.tokenExists(tokenId) &&
-                currentIONFTs[tokenId].delegated,
+            currentFluidPebbles[tokenId].exists &&
+                fluidpebble.tokenExists(tokenId) &&
+                currentFluidPebbles[tokenId].delegated,
             "Token not listed or exists or delegated"
         );
-        require(!currentIONFTs[tokenId].rentedOut, "Token not available");
+        require(!currentFluidPebbles[tokenId].rentedOut, "Token not available");
         require(
-            currentIONFTs[tokenId].owner != msg.sender,
+            currentFluidPebbles[tokenId].owner != msg.sender,
             "Owner Cannot rent"
         );
         require(
-            duration > 0 && currentIONFTs[tokenId].maxRentableDays >= duration,
+            duration > 0 &&
+                currentFluidPebbles[tokenId].maxRentableDays >= duration,
             "Invalid duration"
         );
-        currentIONFTs[tokenId].borrowedAt = block.timestamp;
-        currentIONFTs[tokenId].currentBorrower.duration = duration; //@dev in days
-        currentIONFTs[tokenId].currentBorrower.owner = msg.sender;
-        currentIONFTs[tokenId].currentBorrower.exists = true;
-        currentIONFTs[tokenId].rentedOut = true;
-        ionft.transferFrom(address(this), msg.sender, tokenId);
-        _createFlow(currentIONFTs[tokenId].owner, flowRate); //@dev create flow to user
+        currentFluidPebbles[tokenId].delegated = false;
+        currentFluidPebbles[tokenId].borrowedAt = block.timestamp;
+        currentFluidPebbles[tokenId].currentBorrower.duration = duration; //@dev in days
+        currentFluidPebbles[tokenId].currentBorrower.owner = msg.sender;
+        currentFluidPebbles[tokenId].currentBorrower.exists = true;
+        currentFluidPebbles[tokenId].rentedOut = true;
+        leasedTokenIds.push(tokenId);
+        totalLeased=totalLeased.add(1);
+        fluidpebble.transferFrom(address(this), msg.sender, tokenId);
+        _createFlow(currentFluidPebbles[tokenId].owner, flowRate); //@dev create flow to user
         emit nftRentedOut(msg.sender, duration, tokenId);
     }
 
     function returnNFT(uint256 tokenId) public override nonReentrant {
         require(
-            currentIONFTs[tokenId].exists &&
-                ionft.tokenExists(tokenId) &&
-                currentIONFTs[tokenId].delegated,
-            "Token not listed or exists or delegated"
+            currentFluidPebbles[tokenId].exists &&
+                fluidpebble.tokenExists(tokenId),
+            "Token not listed or exists "
         );
         require(
-            currentIONFTs[tokenId].currentBorrower.owner == msg.sender,
+            currentFluidPebbles[tokenId].currentBorrower.owner == msg.sender,
             "not borrower"
         );
         uint256 durationInDays = block
             .timestamp
-            .sub(currentIONFTs[tokenId].borrowedAt)
+            .sub(currentFluidPebbles[tokenId].borrowedAt)
             .div(86400);
         require(
-            durationInDays <= currentIONFTs[tokenId].maxRentableDays,
+            durationInDays <= currentFluidPebbles[tokenId].maxRentableDays,
             "Cannot return nft duration exceeded"
         );
         require(
-            ionft.ownerOf(tokenId) == currentIONFTs[tokenId].owner,
+            fluidpebble.ownerOf(tokenId) == currentFluidPebbles[tokenId].owner,
             "Token not returned"
         );
-        _deleteFlow(address(this), currentIONFTs[tokenId].owner);
         int256 availableBalance;
         uint256 deposit;
         uint256 owedDeposit;
         (availableBalance, deposit, owedDeposit) = getNFTRealTimeBalance(
             tokenId
         );
+        _deleteFlow(address(this), currentFluidPebbles[tokenId].owner);
         _acceptedToken.transferFrom(address(this), msg.sender, owedDeposit);
-        delete currentIONFTs[tokenId].currentBorrower;
-        currentIONFTs[tokenId].rentedOut = false;
+        currentFluidPebbles[tokenId].rentedOut = false;
+        delete currentFluidPebbles[tokenId].currentBorrower;
         emit nftReturned(msg.sender, tokenId, block.timestamp);
     }
 
@@ -281,10 +293,6 @@ contract IOTNFT is
         return (minters[id].totalStaked, minters[id].active);
     }
 
-    function getMinterKeys() public view override returns (address[] memory) {
-        return mintersIds;
-    }
-
     function getTokenDetails(uint256 tokenId)
         public
         view
@@ -294,20 +302,24 @@ contract IOTNFT is
             uint256,
             uint256,
             bool,
-            bool
+            bool,
+            bool,
+            uint256
         )
     {
         return (
-            currentIONFTs[tokenId].owner,
-            currentIONFTs[tokenId].price,
-            currentIONFTs[tokenId].originalPrice,
-            currentIONFTs[tokenId].exists,
-            currentIONFTs[tokenId].delegated
+            currentFluidPebbles[tokenId].owner,
+            currentFluidPebbles[tokenId].price,
+            currentFluidPebbles[tokenId].originalPrice,
+            currentFluidPebbles[tokenId].exists,
+            currentFluidPebbles[tokenId].delegated,
+            currentFluidPebbles[tokenId].rentedOut,
+            currentFluidPebbles[tokenId].borrowedAt
         );
     }
 
     function burnToken(uint256 tokenId) public whenNotPaused {
-        ionft.burnToken(tokenId);
+        fluidpebble.burnToken(tokenId);
     }
 
     function getContractCut(uint256 value) internal view returns (uint256) {
@@ -357,17 +369,16 @@ contract IOTNFT is
         )
     {
         require(
-            currentIONFTs[tokenId].exists &&
-                ionft.tokenExists(tokenId) &&
-                currentIONFTs[tokenId].delegated,
-            "Token not listed or exists or delegated"
+            currentFluidPebbles[tokenId].exists &&
+                fluidpebble.tokenExists(tokenId),
+            "Token not listed or exists"
         );
         int256 availableBalance;
         uint256 deposit;
         uint256 owedDeposit;
         uint256 timestamp;
         (availableBalance, deposit, owedDeposit, timestamp) = _acceptedToken
-            .realtimeBalanceOfNow(currentIONFTs[tokenId].owner);
+            .realtimeBalanceOfNow(currentFluidPebbles[tokenId].owner);
         return (availableBalance, deposit, owedDeposit);
     }
 }

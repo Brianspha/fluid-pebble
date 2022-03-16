@@ -5,7 +5,7 @@
     <v-navigation-drawer v-model="drawer" absolute bottom temporary app>
       <v-col>
         <v-row justify="center" style="padding-bottom: 30px;">
-          <div class="font-weight-black font-italic text-h3">IOTNFT</div>
+          <div class="font-weight-black font-italic text-h3">FluidPebble</div>
         </v-row>
         <v-spacer></v-spacer>
         <v-row justify="center" align="center">
@@ -72,7 +72,7 @@
           align="center"
           justify="center"
         >
-          <v-btn @click="$router.push('/mintionft')" block plain>
+          <v-btn @click="$router.push('/mintfluidpebble')" block plain>
             <v-icon
               color="black"
               style="padding-right:30px; padding-left:20px;"
@@ -98,7 +98,7 @@
             >
               mdi-map
             </v-icon>
-            <v-col><v-row style="color:black">IONFT MAP</v-row></v-col>
+            <v-col><v-row style="color:black">fluidpebble MAP</v-row></v-col>
           </v-btn>
         </v-row>
         <v-row
@@ -132,7 +132,7 @@
             >
               mdi-account-check
             </v-icon>
-            <v-col><v-row style="color:black">Owned IONFTS</v-row></v-col>
+            <v-col><v-row style="color:black">Owned fluidpebbleS</v-row></v-col>
           </v-btn>
         </v-row>
         <v-row
@@ -236,7 +236,7 @@ export default {
   methods: {
     loadData: async function() {
       let _this = this;
-      this.$store.state.ionftContract.methods
+      this.$store.state.fluidpebbleContract.methods
         .getMinterDetails(this.$store.state.userAddress)
         .call({ from: this.$store.state.userAddress, gas: 6000000 })
         .then(async (details, error) => {

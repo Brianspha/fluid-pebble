@@ -27,7 +27,7 @@
               type="number"
               :rules="priceRules"
               v-model="$store.state.selectedNFT.price"
-              label="NFT Price (IOTEX)"
+              label="NFT Price (ETH)"
               :color="$store.state.primaryColor"
             ></v-text-field>
             <v-text-field
@@ -48,10 +48,10 @@
               readonly
               :color="$store.state.primaryColor"
             ></v-text-field>
-                  <v-text-field
+            <v-text-field
               v-model="$store.state.selectedNFT.minRentalDays"
               :rules="leaseRules"
-              label="Min days for lease"
+              label="Max days for lease"
               hint="e.g. 0"
               required
               type="number"
@@ -66,7 +66,7 @@
               required
               :color="$store.state.primaryColor"
             ></v-text-field>
-      
+
             <v-row align="center" justify="start"
               ><v-checkbox
                 color="#699c79"
@@ -90,7 +90,7 @@
                 </template>
                 <span
                   >Delagating to contract means you intend on allowing others to
-                  purchase the NFT from IONFT</span
+                  purchase the NFT from fluidpebble</span
                 >
               </v-tooltip></v-row
             >
@@ -112,6 +112,7 @@
             @click="save"
             >Save AS PNG</v-btn
           >
+          <div style="padding-left: 1%"></div>
           <v-btn
             style="
               background-color: #6bdcc6;
@@ -125,10 +126,9 @@
               color: white;
             "
             @click="$store.dispatch('mintDaiToken')"
-            >Calim test DAI</v-btn
+            >Mint test DAI</v-btn
           >
-          </v-row
-        >
+        </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -172,10 +172,12 @@ export default {
       showToolTip: false,
       delegate: false,
       nftName: "",
-      leaseRules:[ (v) => !!v || "Min Lease Days required",
+      leaseRules: [
+        (v) => !!v || "Min Lease Days required",
         (v) =>
           (v && parseInt(v) >= 1) ||
-          "Minimum lease days must be greater than 1",],
+          "Minimum lease days must be greater than 1",
+      ],
       nameRules: [
         (v) => !!v || "NFT name required",
         (v) =>
@@ -263,13 +265,14 @@ export default {
           "wei"
         );
         console.log("convertedPrice: ", price);
-        this.$store.state.ionftContract.methods;
+        this.$store.state.fluidpebbleContract.methods;
         this.$store.state.selectedNFT.originalPrice = price;
-        this.$store.state.ionftContract.methods
+        this.$store.state.fluidpebbleContract.methods
           .mintToken(
             JSON.stringify(this.$store.state.selectedNFT),
             price,
-            this.delegate
+            this.delegate,
+            this.$store.state.selectedNFT.minRentalDays
           )
           .send({
             from: _this.$store.state.userAddress,
@@ -281,18 +284,18 @@ export default {
               Object.keys(receipt.events).length
             );
             if (Object.keys(receipt.events).length === 0) {
-              console.log("error minting IOTNFT token: ", receipt);
+              console.log("error minting FluidPebble token: ", receipt);
               _this.$store.state.isLoading = false;
               _this.$store.dispatch("error", {
                 error:
-                  "Something went wrong while minting IOTNFT token, this could be caused by the transaction reverting or the transaction ran out of gas while executing please inspect the website to see console",
+                  "Something went wrong while minting FluidPebble token, this could be caused by the transaction reverting or the transaction ran out of gas while executing please inspect the website to see console",
               });
             } else {
               {
                 _this.$store.state.selectedNFT.isNFT = true;
                 _this.$store.state.selectedNFT.tokenId =
                   receipt.events.newTokenMinted.returnValues.tokenId;
-                var content = await _this.$store.dispatch("getCeramicData");
+                var content = await _this.$store.dispatch("getSkyData");
                 _this.$store.state.selectedNFT.isNFT = true;
                 _this.$store.state.selectedNFT.isDelegated = _this.delegate;
                 if (content.data.length === 0) {
@@ -312,8 +315,8 @@ export default {
                       wallet: _this.$store.state.userAddress,
                       twitter_username:
                         _this.$store.state.selectedNFT.twitter_username,
-                      ionfts_minted: 1,
-                      ionfts_bought: 0,
+                      fluidpebbles_minted: 1,
+                      fluidpebbles_bought: 0,
                     },
                   ];
                   // content.data.push(_this.$store.state.userData);
@@ -335,7 +338,7 @@ export default {
                   var found = false;
                   content.leaderboard.map((user) => {
                     if (user.wallet === _this.$store.state.userAddress) {
-                      user.ionfts_minted++;
+                      user.fluidpebbles_minted++;
                     }
                     return user;
                   });
@@ -344,13 +347,13 @@ export default {
                       wallet: _this.$store.state.userAddress,
                       twitter_username:
                         _this.$store.state.selectedNFT.twitter_username,
-                      ionfts_minted: 1,
-                      ionfts_bought: 0,
+                      fluidpebbles_minted: 1,
+                      fluidpebbles_bought: 0,
                     });
                   }
                 }
                 console.log("updatedContent: ", content);
-                await _this.$store.dispatch("saveCeramicData", content);
+                await _this.$store.dispatch("saveSkyData", content);
                 // _this.$store.state.mintNFTDialog = false;
                 if (_this.delegate) {
                   _this.$store.dispatch(
@@ -360,7 +363,7 @@ export default {
                 } else {
                   _this.$store.dispatch("success", "Succesfully minted token");
                 }
-                await _this.$store.dispatch("loadSkyData");
+                await _this.$store.dispatch("getSkyData");
                 _this.$store.state.isLoading = false;
                 _this.$store.state.reload = true;
                 _this.$store.state.selectedNFT = {};
@@ -369,11 +372,11 @@ export default {
             }
           })
           .catch((error) => {
-            console.log("error IOTNFT token: ", error);
+            console.log("error FluidPebble token: ", error);
             // _this.$store.state.mintNFTDialog = false;
             // _this.$store.state.isLoading = false;
             _this.$store.dispatch("error", {
-              error: "Something went wrong while minting IOTNFT token",
+              error: "Something went wrong while minting FluidPebble token",
             });
             _this.$store.state.isLoading = false;
           });
@@ -385,7 +388,7 @@ export default {
         this.$store.state.tokenContract.methods
           .transferFrom(
             this.$store.state.userAddress,
-            this.$store.state.ionftContract.options.address,
+            this.$store.state.fluidpebbleContract.options.address,
             tokenId
           )
           .send({

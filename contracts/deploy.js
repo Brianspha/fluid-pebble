@@ -36,7 +36,7 @@ var tokenContract = new Contract(
 tokenContract
   .deploy({
     data: require("./build/contracts/TokenContract.json").runtimeBytecode,
-    arguments: ["IONFT", "IONFT"],
+    arguments: ["fluidpebble", "fluidpebble"],
   })
   .send(
     {

@@ -4,9 +4,9 @@ const deployFramework = require("@superfluid-finance/ethereum-contracts/scripts/
 const deployTestToken = require("@superfluid-finance/ethereum-contracts/scripts/deploy-test-token");
 const deploySuperToken = require("@superfluid-finance/ethereum-contracts/scripts/deploy-super-token");
 const SuperfluidSDK = require("@superfluid-finance/js-sdk");
-const IOTNFT = artifacts.require("IOTNFT");
+const FluidPebble = artifacts.require("FluidPebble");
 const TokenContract = artifacts.require("TokenContract");
-let IOTNFTERC20Token = artifacts.require("IOTNFTERC20Token");
+let FluidPebbleERC20Token = artifacts.require("FluidPebbleERC20Token");
 const bigNumber = require("bignumber.js");
 let initialAmount = new bigNumber(229999999999999999).toFixed();
 var etherConverter = require("ether-converter");
@@ -14,14 +14,14 @@ var etherConverter = require("ether-converter");
 const traveler = require("ganache-time-traveler");
 const TEST_TRAVEL_TIME = 3600 * 2; // 1 hours
 
-contract("IOTNFT", (accounts) => {
+contract("FluidPebble", (accounts) => {
   const errorHandler = (err) => {
     if (err) throw err;
   };
 
   const names = ["Admin", "Alice", "Bob"];
   accounts = accounts.slice(0, names.length);
-  let IONFTTokenDeployed, IOTNFTERC20TokenDeployed;
+  let fluidpebbleTokenDeployed, FluidPebbleERC20TokenDeployed;
   let sf;
   let dai;
   let daix;
@@ -87,39 +87,48 @@ contract("IOTNFT", (accounts) => {
     console.log(sf.host.address);
     console.log(sf.agreements.cfa.address);
     console.log(daix.address);
-    IONFTTokenDeployed = await TokenContract.new("IOTNFT", "IOTNFT");
-    IOTNFTERC20TokenDeployed = await IOTNFTERC20Token.new();
-    console.log(
-      "deployed IOTNFT ERC20 token: ",
-      IOTNFTERC20TokenDeployed.address
+    fluidpebbleTokenDeployed = await TokenContract.new(
+      "FluidPebble",
+      "FluidPebble"
     );
-    var receipt = await IOTNFTERC20TokenDeployed.init(
-      "IOTNFT",
-      "IOTNFT",
+    FluidPebbleERC20TokenDeployed = await FluidPebbleERC20Token.new();
+    console.log(
+      "deployed FluidPebble ERC20 token: ",
+      FluidPebbleERC20TokenDeployed.address
+    );
+    var receipt = await FluidPebbleERC20TokenDeployed.init(
+      "FluidPebble",
+      "FluidPebble",
       18,
       initialAmount
     );
-    console.log("initialised IONFT token details ", receipt);
+    console.log("initialised fluidpebble token details ", receipt);
     console.log(
-      "IONFTTokenDeployed.address: " + IONFTTokenDeployed.address,
-      "\nsf.host.address: " + sf.host.address,
-      "\nsf.agreements.cfa.address: " + sf.agreements.cfa.address,
-      "\ndaix.address: " + daix.address,
-      "\nIOTNFTERC20TokenDeployed.address: " + IOTNFTERC20TokenDeployed.address,
-      "\nsf.agreements.ida.address: " + sf.agreements.ida.address,
-      "\naccounts[0]: " + accounts[0]
+      "fluidpebbleTokenDeployed.address: " + fluidpebbleTokenDeployed.address,
+      "sf.host.address: " + sf.host.address,
+      "sf.agreements.cfa.address: " + sf.agreements.cfa.address,
+      "daix.address: " + daix.address,
+      "FluidPebbleERC20TokenDeployed.address: " +
+        FluidPebbleERC20TokenDeployed.address,
+      "sf.agreements.ida.address: " + sf.agreements.ida.address,
+      "accounts[0]: " + accounts[0]
     );
-    app = await web3tx(IOTNFT.new, "Deploying IOTNFT")(
-      IONFTTokenDeployed.address,
+    app = await web3tx(FluidPebble.new, "Deploying FluidPebble")(
+      fluidpebbleTokenDeployed.address,
       sf.host.address,
       sf.agreements.cfa.address,
       daix.address,
-      sf.agreements.ida.address,
-      { gas: "5000000", from: accounts[0] }
+      {
+        gas: "5000000",
+        from: accounts[0],
+      }
     );
-    console.log("deployed IOTNFT contract: ", app.address);
-    receipt = await IONFTTokenDeployed.setContractIOTNFTAddress(app.address);
-    console.log("set setContractIOTNFTAddress in nft contract: ", receipt);
+
+    console.log("deployed FluidPebble contract: ", app.address);
+    receipt = await fluidpebbleTokenDeployed.setContractFluidPebbleAddress(
+      app.address
+    );
+    console.log("set setContractFluidPebbleAddress in nft contract: ", receipt);
 
     //  await traveler.advanceTimeAndBlock(TEST_TRAVEL_TIME);
     // await logUsers();
@@ -188,7 +197,7 @@ contract("IOTNFT", (accounts) => {
     });
     it("should check the owner of the token minted ", async () => {
       console.log("token ids: ", tokenIds);
-      var owner = await IONFTTokenDeployed.ownerOf(1);
+      var owner = await fluidpebbleTokenDeployed.ownerOf(1);
       console.log("owner: ", owner, " minter: ", accounts[0]);
       assert.strictEqual(
         app.address == owner,
@@ -208,7 +217,7 @@ contract("IOTNFT", (accounts) => {
       assert.isTrue(token.logs.length > 0);
     });
     it("should check the owner of the token minted bought by account[1]", async () => {
-      var owner = await IONFTTokenDeployed.ownerOf(1);
+      var owner = await fluidpebbleTokenDeployed.ownerOf(1);
       console.log("owner: ", owner, " minter account[1]: ", accounts[1]);
       assert.strictEqual(accounts[1] == owner, true, "account[1] not owner");
     });
@@ -238,13 +247,14 @@ contract("IOTNFT", (accounts) => {
       tokenIds.push(receipt.logs[0].tokenId);
       assert.isTrue(receipt.logs.length > 0);
     });
+
     it("should rent an NFT", async () => {
       const { alice } = u;
       const monthlyAmount = toWad(0.001);
       const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / 30);
       console.log("calculated flow: ", calculatedFlowRate);
       var approved = await web3tx(dai.approve, `${alice.alias} approves daix`)(
-        app.address,
+        daix.address,
         monthlyAmount,
         {
           from: alice.address,
@@ -277,13 +287,13 @@ contract("IOTNFT", (accounts) => {
           gas: "5000000",
         }
       );
-      var owner = await IONFTTokenDeployed.ownerOf(2);
+      var owner = await fluidpebbleTokenDeployed.ownerOf(2);
       console.log("rent nft: ", rentNFT.logs, " owner: ", owner);
       assert.isTrue(rentNFT.logs.length > 0 && owner === alice.address);
     });
     it("should check if the flow has started", async function() {
       var availableBalanceBefore, depositBefore, owedDepositBefore;
-      var balanceBefore = await app.getNFTRealTimeBalance(2);
+      var balanceBefore = await app.getNFTRealTimeBalance(1);
       console.log("balanceBefore: ", balanceBefore);
       availableBalanceBefore = balanceBefore[0];
       depositBefore = balanceBefore[1];
@@ -291,7 +301,7 @@ contract("IOTNFT", (accounts) => {
       await traveler.advanceTimeAndBlock(TEST_TRAVEL_TIME);
       var availableBalanceAfter, depositAfter, owedDepositAfter;
 
-      var balanceAfter = await app.getNFTRealTimeBalance(2);
+      var balanceAfter = await app.getNFTRealTimeBalance(1);
       console.log("balanceAfter: ", balanceAfter);
       availableBalanceAfter = balanceAfter[0];
       depositAfter = balanceAfter[1];
@@ -304,12 +314,53 @@ contract("IOTNFT", (accounts) => {
       );
       assert.isTrue(availableBalanceAfter >= availableBalanceBefore);
     });
+    it("should get token details", async () => {
+      console.log("app.getTokenDetails: ", app);
+
+      var tokenDetails = await web3tx(
+        app.getTokenDetails,
+        `${u[1]} gets token details`
+      )(2, { gas: "5000000", from: accounts[0] });
+      console.log("tokenDetails: ", tokenDetails);
+      assert.isTrue(tokenDetails[5]);
+    });
+    it("should get the total number leased tokens", async () => {
+      console.log("app.leasedTokenIds: ", app);
+      var leasedTokenIds = await web3tx(
+        app.leasedTokenIds,
+        `${u[1]} get total number of leased tokens`
+      )(new bigNumber(0));
+      leasedTokenIds = new bigNumber(leasedTokenIds).toFixed(0);
+      console.log("leasedTokenIds: ", leasedTokenIds);
+      assert.isTrue(leasedTokenIds.length >= 1);
+    });
+    it("should get the of the leased tokens", async () => {
+      console.log(" app.leasedTokenIds: ", app.leasedTokenIds);
+      var totalLeased = await web3tx(
+        app.totalLeased,
+        `${u[1]} get total number of leased tokens`
+      )();
+      totalLeased = new bigNumber(totalLeased).toFixed(0);
+      console.log("leasedTokenIds: ", totalLeased);
+      for (var i = 0; i < totalLeased.length; i++) {
+        var leasedToken = await web3tx(
+          app.leasedTokenIds,
+          `${u[1]} get the leased token id`
+        )(new bigNumber(i));
+        leasedTokenId = new bigNumber(leasedToken).toFixed(0);
+        var tokenDetails = await web3tx(
+          app.getTokenDetails,
+          `${u[1]} gets token details`
+        )(leasedTokenId, { gas: "5000000", from: accounts[0] });
+        console.log("tokenDetails in loop: ", tokenDetails);
+      }
+    });
     it("should return the borrowed nft", async function() {
       const { alice } = u;
       const transferToOwner = await web3tx(
-        IONFTTokenDeployed.transferFrom,
+        fluidpebbleTokenDeployed.transferFrom,
         `${alice.alias} returns nft`
-      )(alice.address,accounts[0], 2, {
+      )(alice.address, accounts[0], 2, {
         from: alice.address,
         gas: "5000000",
       });

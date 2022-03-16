@@ -6,10 +6,10 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 /**
  *@dev represents the function signatures to be implemented by the OneCanvas contract or any other contract
  */
-interface IOTNFTInterface {
+interface FluidPebbleInterface {
     /*==========================================================Struct definition start==========================================================*/
 
-    struct IOTNFT {
+    struct FluidPebble {
         //@dev we can add previous owners array
         uint256 tokenId;
         address payable owner;
@@ -31,6 +31,7 @@ interface IOTNFTInterface {
     struct Minter {
         address payable id;
         uint256 totalStaked;
+        uint256 [] tokenIds;
         bool active;
     }
     /*==========================================================Modifier definition start==========================================================*/
@@ -77,16 +78,11 @@ interface IOTNFTInterface {
  @notice function doesnt return a value just emits a value using the **pixelColored** event
   */
     function mintToken(
-        string memory tokenURI,
+        string calldata tokenURI,
         uint256 tokenPrice,
         bool delegate,
         uint256 maxLeaseDays
     ) external;
-
-    /**
-     *@dev returns all MINTER eth addresses
-     */
-    function getMinterKeys() external view returns (address[] memory);
 
     /**
      *dev gets token info based on the given tokenId
@@ -96,11 +92,13 @@ interface IOTNFTInterface {
     function getTokenDetails(uint256 tokenId)
         external
         returns (
-            address,
-            uint256,
-            uint256,
-            bool,
-            bool
+            address
+           , uint256
+           , uint256
+           , bool
+           , bool
+           , bool
+           , uint256
         );
 
     /**
@@ -144,4 +142,6 @@ interface IOTNFTInterface {
     ) external;
 
     function returnNFT(uint256 tokenId) external;
+
+
 }

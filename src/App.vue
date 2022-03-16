@@ -26,56 +26,16 @@
 import Web3 from "web3";
 import EmbarkJS from "../contracts/embarkArtifacts/embarkjs";
 import MintNFTModal from "./modals/MintNFTModal.vue";
-const SuperfluidSDK = require("@superfluid-finance/js-sdk");
 const {
   web3tx,
   toWad,
   toBN,
   wad4human,
 } = require("@decentral.ee/web3-helpers");
+import detectEthereumProvider from "@metamask/detect-provider";
+
 export default {
   name: "App",
-  watch: {
-    "window.ethereum.networkVersion": function (networkId) {
-      console.log("networkId: ", networkId);
-      switch (networkId.toString()) {
-        case "4690":
-          this.$store.state.connected = true;
-          break;
-        default:
-          if (!this.$store.state.connected) {
-            window.ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [
-                {
-                  chainId: "0x1252",
-                  chainName: "IOTEXT Testnet",
-                  nativeCurrency: {
-                    name: "IOTEXT",
-                    symbol: "IOTX",
-                    decimals: 18,
-                  },
-                  rpcUrls: ["https://babel-api.testnet.iotex.io"],
-                  blockExplorerUrls: ["https://testnet.iotexscan.io/"],
-                },
-              ],
-            });
-          }
-          break; /*;*/
-      }
-    },
-    "$store.state.selectedNFT.userAddress": async function (val) {
-      if (val) {
-      }
-    },
-    "$store.state.connected": async function (val) {
-      console.log("$store.state.connected changed value: ", val);
-      if (val) {
-        await this.getUserDevices();
-        await this.$store.dispatch("loadSkyData");
-      }
-    },
-  },
   components: { MintNFTModal },
   created() {
     this.authenticate();
@@ -86,174 +46,72 @@ export default {
     });*/
   },
   methods: {
-    getUserDevices: async function () {
-      this.$store.state.isLoading = true;
-      const axios = require("axios").default;
-      var data = JSON.stringify({
-        operationName: null,
-        variables: {
-          v1: {
-            _or: [
-              {
-                proposer: { _eq: this.$store.state.userAddress },
-              },
-              { owner: { _eq: this.$store.state.userAddress } },
-            ],
-          },
-          v2: 1,
-          v3: [{ timestamp: "desc" }],
-          v4: {
-            _or: [
-              {
-                proposer: { _eq: this.$store.state.userAddress },
-              },
-              { owner: { _eq: this.$store.state.userAddress } },
-            ],
-          },
-        },
-        query: `query($v1:pebble_device_bool_exp,$v2:Int,$v3:[pebble_device_record_order_by!],$v4:pebble_device_bool_exp){pebble_device(where:$v1){id,owner,address,proposer,firmware,real_firmware,name,avatar,type,status,state,updated_at,upload_period,total_gas,beep,bulk_upload,data_channel,deviceRecord(limit:$v2,order_by:$v3){vbat,gas_resistance,temperature,temperature2,pressure,humidity,light,gyroscope,latitude,longitude,timestamp}},pebble_device_aggregate(where:$v4){aggregate{count}}}`,
-
-        //  query: `query getDevices {\n  pebble_device(limit: 10, where: {owner: {_eq: ${this.$store.state.userAddress}}}) {\n    id\n    owner\n  }\n}\n`,
-      });
-      axios({
-        method: "post",
-        url: process.env.VUE_APP_APP_GRAPHQL_URL_DEV,
-        data: data,
-      })
-        .then(async (devices) => {
-          if (
-            Object.prototype.hasOwnProperty.call(devices.data, "error") ||
-            devices.data.data.pebble_device.length === 0
-          ) {
-            console.log("no devices found for this user");
-            //  this.$store.state.userData.imeis=["100000000000225", "100000000000211"]
-          } else {
-            console.log("found user device: ", devices.data.data.pebble_device);
-            this.$store.state.userData.imeis =
-              devices.data.data.pebble_device.map((device) => {
-                return device.id;
-              });
-          }
-        })
-        .catch((error) => {
-          console.log("error getting user registred devices: ", error);
-          this.$store.state.isLoading = false;
-        });
-    },
     authenticate() {
       this.$store.state.isLoading = true;
       this.init();
-      this.$store.state.isLoading = false;
+      //this.$store.state.isLoading = false;
     },
-    getRandomInRange(from, to, fixed) {
-      return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
-      // .toFixed() returns string, so ' * 1' is a trick to convert to number
-    },
-    connectWallet: async function () {
-      this.$store.state.isLoading = true;
-      if (typeof ethereum !== "undefined") {
-        try {
-          await ethereum.enable();
-          this.$store.state.userAddress = window.web3.eth.getDefaultAccount;
-          this.$store.state.connected = true;
-          console.log("found default account: ", this.$store.state.userAddress);
-        } catch (error) {
-          this.$store.state.isLoading = false;
-          this.$store.dispatch("error", {
-            error: "There was an error getting enabling metamask",
-          });
-        }
+    detectPageReload() {
+      if (window.performance) {
+        console.info("window.performance works fine on this browser");
+      }
+      console.info(performance.navigation.type);
+      if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        console.info("This page is reloaded");
+        window.location.href = "./index.html";
       } else {
-        this.$store.state.isLoading = false;
-        this.$store.dispatch(
-          "errorWithFooterMetamask",
-          "Seems like you dont have metamask installed please use the below link to download"
-        );
+        console.info("This page is not reloaded");
+      }
+    },
+    isMetaMaskConnected() {
+      //Have to check the ethereum binding on the window object to see if it's installed
+      const { ethereum } = window;
+      return Boolean(ethereum && ethereum.isMetaMask);
+    },
+    switchNetworks: async function () {
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x2A" }],
+        });
+      } catch (addError) {
+        console.error(addError);
       }
     },
     init: async function () {
       return new Promise(async (resolve) => {
         this.$store.state.isLoading = true;
         let _this = this;
-        if (window.performance) {
-          console.info("window.performance works fine on this browser");
-        }
-        console.info(performance.navigation.type);
-        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-          console.info("This page is reloaded");
-          window.location.href = "./index.html";
-        } else {
-          console.info("This page is not reloaded");
-        }
-        EmbarkJS.onReady(async (error) => {
-          var accounts =
-            await require("../contracts/embarkArtifacts/embarkjs").default.enableEthereum();
-          console.log("accounts; ", accounts);
-          this.$store.state.userAddress = accounts[0];
-          this.$store.state.connected = true;
-          const sf = new SuperfluidSDK.Framework({
-            web3,
-            version: "test",
-            tokens: ["fDAI"],
-          });
-          await sf.initialize();
-
-          _this.$store.state.daix = sf.tokens.fDAIx;
-          _this.$store.state.dai = await sf.contracts.TestToken.at(
-            await sf.tokens.fDAI.address
-          );
-          _this.$store.state.sf = sf;
-          if (sf.chainId === 5) {
-            this.$store.state.connected = true;
-          } else {
-            _this.$store.state.connected = false;
-          }
-          console.log(
-            "sf: ",
-            sf,
-            " dai: ",
-            _this.$store.state.dai,
-            " daix: ",
-            _this.$store.state.daix
-          );
-          _this.$store.state.userDAIBalance =
-            await _this.$store.state.dai.balanceOf(accounts[0]);
-
-          _this.$store.state.userDAIBalance = wad4human(
-            _this.$store.state.userDAIBalance
-          );
-          console.log(
-            "  _this.$store.state.userDAIBalance: ",
-            _this.$store.state.userDAIBalance
-          );
-          if (typeof ethereum !== "undefined") {
-            // Supports EIP-1102 injected Ethereum providers.
-            window.web3 = new Web3(ethereum);
-            console.log("in 1st if");
-          } else if (typeof web3 !== "undefined") {
-            console.log("in 2nd if");
-            // Supports legacy injected Ethereum providers.
-            window.web3 = new Web3(web3.currentProvider);
-          } else {
-            // Your preferred fallback.
-            console.log("in 3rd if");
-            window.web3 = new Web3(
-              new Web3.providers.HttpProvider("http://localhost:8546")
-            );
-          }
-          window.ethereum.on("accountsChanged", function (accounts) {
-            _this.$store.state.userAddress = accounts[0];
-            window.location.reload();
-          });
-          window.ethereum.on("networkChanged", function (netId) {
-            _this.$store.state.userAddress = accounts[0];
-            window.location.reload();
-          });
+        this.detectPageReload();
+        await this.$store.dispatch("connectWallet");
+        console.log("window: ", window.web3);
+        window.ethereum.on("accountsChanged", function (accounts) {
+          _this.$store.state.userAddress = accounts[0];
+          window.location.reload();
         });
-        _this.$store.state.isLoading = false;
-      }).catch((error) => {
-        console.log("error in embark: ", error);
-        this.$store.state.isLoading = false;
+        const chainId = await web3.eth.getChainId();
+        console.log("chainId: ", chainId);
+        if (chainId !== 42) {
+          await this.switchNetworks();
+        }
+        window.ethereum.on("chainChanged", (chainId) => {
+          console.log("chainChanged: ", chainId);
+          if (chainId !== "0x2A" || chainId !== "0x2a") {
+            this.$store.dispatch("error", {
+              error: "The DApp only works on the Kovan testnetwork",
+              onTap: async () => {
+                await this.switchNetworks();
+              },
+            });
+          } else {
+            window.location.reload();
+          }
+          // Handle the new chain.
+          // Correctly handling chain changes can be complicated.
+          // We recommend reloading the page unless you have good reason not to.
+        });
+        await this.$store.dispatch("loadSkyData");
+        //this.$store.state.isLoading = false;
       });
     },
   },

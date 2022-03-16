@@ -1,6 +1,6 @@
 /*global artifacts, contract, it*/
 /**/
-const IOTNFT = artifacts.require("IOTNFT");
+const FluidPebble = artifacts.require("FluidPebble");
 const TokenContract = artifacts.require("TokenContract");
 const ERC20Token = artifacts.require("ERC20Token");
 const utils = require("web3-utils");
@@ -29,18 +29,18 @@ config(
     //},
     contracts: {
       deploy: {
-        IOTNFT: {
+        FluidPebble: {
           args: ["$TokenContract"],
           gas: "6000000",
           gasPrice: "250",
         },
         TokenContract: {
-          args: ["IOTNFT", "IOTNFT"],
+          args: ["FluidPebble", "FluidPebble"],
           gas: "6000000",
           gasPrice: "250",
         },
         ERC721: {
-          args: ["IOTNFT", "IOTNFT"],
+          args: ["FluidPebble", "FluidPebble"],
           gas: "6000000",
           gasPrice: "250",
         },
@@ -62,9 +62,9 @@ config(
   }
 ); /**/
 contract("TokenContract", function() {
-  it("should set the IOTNFT contract address ", async function() {
+  it("should set the FluidPebble contract address ", async function() {
     let receipt = await TokenContract.methods
-      .setContractIOTNFTAddress(IOTNFT.options.address)
+      .setContractFluidPebbleAddress(FluidPebble.options.address)
       .send({
         from: accounts[0],
         gas: 6000000,
@@ -76,16 +76,16 @@ contract("TokenContract", function() {
 contract("ERC20Token", function() {
   it("should mint new erc20 tokens ", async function() {
     let receipt = await ERC20Token.methods
-      .init("IOTNFTToken", "IOTNFT", 18, initialAmount)
+      .init("FluidPebbleToken", "FluidPebble", 18, initialAmount)
       .send({ from: accounts[0], gas: 6000000 });
     console.log("receipt: ", receipt);
   });
 });
 
-contract("IOTNFT", function() {
+contract("FluidPebble", function() {
   it("should mint a new token", async () => {
     var tokenPrice = etherConverter(20, "eth", "wei");
-    var receipt = await IOTNFT.methods
+    var receipt = await FluidPebble.methods
       .mintToken(
         JSON.stringify({
           snr: 16400,
@@ -118,14 +118,14 @@ contract("IOTNFT", function() {
     var owner = await TokenContract.methods.ownerOf(1).call({ gas: 6000000 });
     console.log("owner: ", owner, " minter: ", accounts[0]);
     assert.strictEqual(
-      IOTNFT.options.address == owner,
+      FluidPebble.options.address == owner,
       true,
       "Token not delegated to contract"
     );
   });
   it("should buy a token with index 1", async () => {
     var tokenPrice = etherConverter(30, "eth", "wei");
-    var token = await IOTNFT.methods.buyToken(1).send({
+    var token = await FluidPebble.methods.buyToken(1).send({
       from: accounts[1],
       gas: 5000000,
       value: tokenPrice,
@@ -137,7 +137,7 @@ contract("IOTNFT", function() {
     assert.strictEqual(accounts[1] == owner, true, "account[1] not owner");
   });
   it("should get minter details", async () => {
-    var details = await IOTNFT.methods.getMinterDetails(accounts[0]).call({
+    var details = await FluidPebble.methods.getMinterDetails(accounts[0]).call({
       from: accounts[1],
       gas: 5000000,
     });
@@ -145,7 +145,7 @@ contract("IOTNFT", function() {
   });
 
   it("should get token details details", async () => {
-    var details = await IOTNFT.methods.getTokenDetails(1).call({
+    var details = await FluidPebble.methods.getTokenDetails(1).call({
       from: accounts[1],
       gas: 5000000,
     });
@@ -160,7 +160,7 @@ contract("IOTNFT", function() {
   /*************************** Token not delegated /***************************/
   it("Token not delegated should mint a new token", async () => {
     var tokenPrice = etherConverter(20, "eth", "wei");
-    var receipt = await IOTNFT.methods
+    var receipt = await FluidPebble.methods
       .mintToken(
         JSON.stringify({
           snr: 16400,
@@ -202,12 +202,12 @@ contract("IOTNFT", function() {
 
   it("Token not delegated should transfer token to contract before buying ", async () => {
     var transfered = await TokenContract.methods
-      .transferFrom(accounts[0], IOTNFT.options.address, 2)
+      .transferFrom(accounts[0], FluidPebble.options.address, 2)
       .send({ gas: 6000000, from: accounts[0] });
     console.log("transfered: ", transfered);
   });
   it("Token not delegated should delegate to contract before buying ", async () => {
-    var transfered = await IOTNFT.methods
+    var transfered = await FluidPebble.methods
       .delegateNFT(2,true)
       .send({ gas: 6000000, from: accounts[0] });
     console.log("Token not delegated transfered: ", transfered);
@@ -217,18 +217,18 @@ contract("IOTNFT", function() {
     console.log(
       "owner: ",
       owner,
-      " IOTNFT.options.address: ",
-      IOTNFT.options.address
+      " FluidPebble.options.address: ",
+      FluidPebble.options.address
     );
     assert.strictEqual(
-      IOTNFT.options.address == owner,
+      FluidPebble.options.address == owner,
       true,
       "Contract is not owner of token"
     );
   });
   it("Token not delegated should buy a token with index 2", async () => {
     var tokenPrice = etherConverter(30, "eth", "wei");
-    var token = await IOTNFT.methods.buyToken(2).send({
+    var token = await FluidPebble.methods.buyToken(2).send({
       from: accounts[1],
       gas: 5000000,
       value: tokenPrice,
@@ -240,7 +240,7 @@ contract("IOTNFT", function() {
     assert.strictEqual(accounts[1] == owner, true, "account[1] not owner");
   });
   it("Token not delegated should get minter details", async () => {
-    var details = await IOTNFT.methods.getMinterDetails(accounts[0]).call({
+    var details = await FluidPebble.methods.getMinterDetails(accounts[0]).call({
       from: accounts[1],
       gas: 5000000,
     });
@@ -248,7 +248,7 @@ contract("IOTNFT", function() {
   });
 
   it("Token not delegated should get token details details", async () => {
-    var details = await IOTNFT.methods.getTokenDetails(1).call({
+    var details = await FluidPebble.methods.getTokenDetails(1).call({
       from: accounts[1],
       gas: 5000000,
     });
@@ -261,7 +261,7 @@ contract("IOTNFT", function() {
   });
   /*************************** Token not delegated and Paused/***************************/
   it("Should pause contract", async () => {
-    var receipt = await IOTNFT.methods
+    var receipt = await FluidPebble.methods
       .pause()
       .send({ from: accounts[0], gas: 5000000 });
     console.log("contract paused: ", receipt);
@@ -269,7 +269,7 @@ contract("IOTNFT", function() {
   });
 
   it("Should check if contract was paused", async () => {
-    var paused = await IOTNFT.methods
+    var paused = await FluidPebble.methods
       .paused()
       .call({ from: accounts[0], gas: 5000000 });
     console.log(
@@ -281,7 +281,7 @@ contract("IOTNFT", function() {
   it("should mint a new token", async () => {
     var tokenPrice = etherConverter(20, "eth", "wei");
     await assert.reverts(
-      IOTNFT.methods.mintToken(
+      FluidPebble.methods.mintToken(
         JSON.stringify({
           snr: 16400,
           vbat: 447,
@@ -313,7 +313,7 @@ contract("IOTNFT", function() {
     await assert.reverts(
       TokenContract.methods.transferFrom(
         accounts[0],
-        IOTNFT.options.address,
+        FluidPebble.options.address,
         2
       ),
       { gas: 6000000, from: accounts[0] }
@@ -321,7 +321,7 @@ contract("IOTNFT", function() {
   });
   it("should buy a token with index 3", async () => {
     var tokenPrice = etherConverter(30, "eth", "wei");
-    await assert.reverts(IOTNFT.methods.buyToken(3), {
+    await assert.reverts(FluidPebble.methods.buyToken(3), {
       from: accounts[1],
       gas: 5000000,
       value: tokenPrice,
@@ -330,7 +330,7 @@ contract("IOTNFT", function() {
 
   /*************************** Token not delegated and upause contract /***************************/
   it("Should unpause contract", async () => {
-    var receipt = await IOTNFT.methods
+    var receipt = await FluidPebble.methods
       .unpause()
       .send({ from: accounts[0], gas: 5000000 });
     console.log("contract paused: ", receipt);
@@ -339,7 +339,7 @@ contract("IOTNFT", function() {
 
   it("should mint a new token unpause", async () => {
     var tokenPrice = etherConverter(20, "eth", "wei");
-    var receipt = await IOTNFT.methods
+    var receipt = await FluidPebble.methods
       .mintToken(
         JSON.stringify({
           snr: 16400,
@@ -380,12 +380,12 @@ contract("IOTNFT", function() {
 
   it("should transfer token to contract before buying unpause", async () => {
     var transfered = await TokenContract.methods
-      .transferFrom(accounts[0], IOTNFT.options.address, 3)
+      .transferFrom(accounts[0], FluidPebble.options.address, 3)
       .send({ gas: 6000000, from: accounts[0] });
     console.log("transfered: ", transfered);
   });
   it("Token not delegated should delegate to contract before buying ", async () => {
-    var transfered = await IOTNFT.methods
+    var transfered = await FluidPebble.methods
       .delegateNFT(3,true)
       .send({ gas: 6000000, from: accounts[0] });
     console.log("Token not delegated transfered: ", transfered);
@@ -395,18 +395,18 @@ contract("IOTNFT", function() {
     console.log(
       "owner: ",
       owner,
-      " IOTNFT.options.address: ",
-      IOTNFT.options.address
+      " FluidPebble.options.address: ",
+      FluidPebble.options.address
     );
     assert.strictEqual(
-      IOTNFT.options.address == owner,
+      FluidPebble.options.address == owner,
       true,
       "Contract is not owner of token"
     );
   });
   it("should buy a token with index 3 unpause", async () => {
     var tokenPrice = etherConverter(30, "eth", "wei");
-    var token = await IOTNFT.methods.buyToken(3).send({
+    var token = await FluidPebble.methods.buyToken(3).send({
       from: accounts[1],
       gas: 5000000,
       value: tokenPrice,
@@ -418,7 +418,7 @@ contract("IOTNFT", function() {
     assert.strictEqual(accounts[1] == owner, true, "account[1] not owner");
   });
   it("should get minter details", async () => {
-    var details = await IOTNFT.methods.getMinterDetails(accounts[0]).call({
+    var details = await FluidPebble.methods.getMinterDetails(accounts[0]).call({
       from: accounts[1],
       gas: 5000000,
     });
@@ -426,7 +426,7 @@ contract("IOTNFT", function() {
   });
 
   it("should get token details details unpause", async () => {
-    var details = await IOTNFT.methods.getTokenDetails(1).call({
+    var details = await FluidPebble.methods.getTokenDetails(1).call({
       from: accounts[1],
       gas: 5000000,
     });
@@ -445,7 +445,7 @@ contract("IOTNFT", function() {
     console.log("balance before: ", adminBalance);
   });
   it("should get fees generated so far", async () => {
-    var fees = await IOTNFT.methods.transactionFees().call({
+    var fees = await FluidPebble.methods.transactionFees().call({
       from: accounts[1],
       gas: 5000000,
     });
@@ -454,7 +454,7 @@ contract("IOTNFT", function() {
     assert.strictEqual(fees > 0, true, "Fees not properly collected");
   });
   it("should collect all fees", async () => {
-    var receipt = await IOTNFT.methods.withdrawFees().send({
+    var receipt = await FluidPebble.methods.withdrawFees().send({
       from: accounts[0],
       gas: 5000000,
     });
@@ -465,7 +465,7 @@ contract("IOTNFT", function() {
     assert.eventEmitted(receipt, "adminFeeCollection");
   });
   it("should get fees generated so far", async () => {
-    var fees = await IOTNFT.methods.transactionFees().call({
+    var fees = await FluidPebble.methods.transactionFees().call({
       from: accounts[1],
       gas: 5000000,
     });

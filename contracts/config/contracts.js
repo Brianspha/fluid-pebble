@@ -1,6 +1,8 @@
 const bigNumber = require("bignumber.js");
 let initialAmount = new bigNumber(9991112121212111231190990211212).toFixed();
 console.log("initialAmount: ", initialAmount);
+const SuperfluidSDK = require("@superfluid-finance/js-sdk");
+
 module.exports = {
   // default applies to all environments
   default: {
@@ -30,25 +32,13 @@ module.exports = {
     // filteredFields: [],
 
     deploy: {
-      IOTNFT: {
-        args: ["$TokenContract"],
-        gas: "6000000",
-        gasPrice: "250",
+      FluidPebble: {
+        address: "0x6c69d1eF70Ce99e80A3B1fa300e14991c1D8811d",
+        abiDefinition:require('../build/contracts/FluidPebble.json').abi,
       },
-      IONFTERC20Token: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC721: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC20Token: {
-        args: [],
-        gas: "6000000",
-        gasPrice: "250",
+      TokenContract: {
+        address: "0xf719409092B8f021423376E1E0F53440D1C3D4be",
+        abiDefinition:require('../build/contracts/TokenContract.json').abi,
       },
       // SimpleStorage: {
       //   fromIndex: 0,
@@ -56,16 +46,7 @@ module.exports = {
       // }
     },
     afterDeploy: async ({ contracts, web3, logger }) => {
-      console.log(
-        "contracts.IOTNFT.options.address: ",
-        contracts.IOTNFT.options.address
-      );
-      await contracts.TokenContract.methods
-        .setContractIOTNFTAddress(contracts.IOTNFT.options.address)
-        .send({ from: web3.eth.defaultAccount });
-      await contracts.ERC20Token.methods
-        .init("IOTNFT", "IOTNFT", 18, initialAmount)
-        .send({ from: web3.eth.defaultAccount });
+     
     },
   },
 
@@ -83,25 +64,13 @@ module.exports = {
   // used with "embark run privatenet"
   harmony: {
     deploy: {
-      IOTNFT: {
-        args: ["$TokenContract"],
-        gas: "6000000",
-        gasPrice: "250",
+      FluidPebble: {
+        address: "0x6c69d1eF70Ce99e80A3B1fa300e14991c1D8811d",
+        abiDefinition:require('../build/contracts/FluidPebble.json').abi,
       },
       TokenContract: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC721: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC20Token: {
-        args: [],
-        gas: "6000000",
-        gasPrice: "250",
+        address: "0xf719409092B8f021423376E1E0F53440D1C3D4be",
+        abiDefinition:require('../build/contracts/TokenContract.json').abi,
       },
       // SimpleStorage: {
       //   fromIndex: 0,
@@ -109,39 +78,18 @@ module.exports = {
       // }
     },
     afterDeploy: async ({ contracts, web3, logger }) => {
-      console.log(
-        "contracts.IOTNFT.options.address: ",
-        contracts.IOTNFT.options.address
-      );
-      await contracts.TokenContract.methods
-        .setContractIOTNFTAddress(contracts.IOTNFT.options.address)
-        .send({ from: web3.eth.defaultAccount });
-      await contracts.ERC20Token.methods
-        .init("IOTNFT", "IOTNFT", 18, initialAmount)
-        .send({ from: web3.eth.defaultAccount });
+     
     },
   },
   iotex: {
     deploy: {
-      IOTNFT: {
-        args: ["$TokenContract"],
-        gas: "6000000",
-        gasPrice: "250",
+      FluidPebble: {
+        address: "0x6c69d1eF70Ce99e80A3B1fa300e14991c1D8811d",
+        abiDefinition:require('../build/contracts/FluidPebble.json').abi,
       },
       TokenContract: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC721: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC20Token: {
-        args: [],
-        gas: "6000000",
-        gasPrice: "250",
+        address: "0xf719409092B8f021423376E1E0F53440D1C3D4be",
+        abiDefinition:require('../build/contracts/TokenContract.json').abi,
       },
       // SimpleStorage: {
       //   fromIndex: 0,
@@ -149,39 +97,19 @@ module.exports = {
       // }
     },
     afterDeploy: async ({ contracts, web3, logger }) => {
-      console.log(
-        "contracts.IOTNFT.options.address: ",
-        contracts.IOTNFT.options.address
-      );
-      await contracts.TokenContract.methods
-        .setContractIOTNFTAddress(contracts.IOTNFT.options.address)
-        .send({ from: web3.eth.defaultAccount });
-      await contracts.ERC20Token.methods
-        .init("IOTNFT", "IOTNFT", 18, initialAmount)
-        .send({ from: web3.eth.defaultAccount });
+     
     },
   },
-  matic: {
+  kovan: {
+    strategy: "explicit",
     deploy: {
-      IOTNFT: {
-        args: ["$TokenContract"],
-        gas: "6000000",
-        gasPrice: "250",
+      FluidPebble: {
+        address: "0x6c69d1eF70Ce99e80A3B1fa300e14991c1D8811d",
+        abiDefinition:require('../build/contracts/FluidPebble.json').abi,
       },
       TokenContract: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC721: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC20Token: {
-        args: [],
-        gas: "6000000",
-        gasPrice: "250",
+        address: "0xf719409092B8f021423376E1E0F53440D1C3D4be",
+        abiDefinition:require('../build/contracts/TokenContract.json').abi,
       },
       // SimpleStorage: {
       //   fromIndex: 0,
@@ -189,58 +117,10 @@ module.exports = {
       // }
     },
     afterDeploy: async ({ contracts, web3, logger }) => {
-      console.log(
-        "contracts.IOTNFT.options.address: ",
-        contracts.IOTNFT.options.address
-      );
-      await contracts.TokenContract.methods
-        .setContractIOTNFTAddress(contracts.IOTNFT.options.address)
-        .send({ from: web3.eth.defaultAccount });
-      await contracts.ERC20Token.methods
-        .init("IOTNFT", "IOTNFT", 18, initialAmount)
-        .send({ from: web3.eth.defaultAccount });
+     
     },
   },
-  ropsten: {
-    deploy: {
-      IOTNFT: {
-        args: ["$TokenContract"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      TokenContract: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC721: {
-        args: ["IOTNFT", "IOTNFT"],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      ERC20Token: {
-        args: [],
-        gas: "6000000",
-        gasPrice: "250",
-      },
-      // SimpleStorage: {
-      //   fromIndex: 0,
-      //   args: [100]
-      // }
-    },
-    afterDeploy: async ({ contracts, web3, logger }) => {
-      console.log(
-        "contracts.IOTNFT.options.address: ",
-        contracts.IOTNFT.options.address
-      );
-      await contracts.TokenContract.methods
-        .setContractIOTNFTAddress(contracts.IOTNFT.options.address)
-        .send({ from: web3.eth.defaultAccount });
-      await contracts.ERC20Token.methods
-        .init("IOTNFT", "IOTNFT", 18, initialAmount)
-        .send({ from: web3.eth.defaultAccount });
-    },
-  },
+
   // merges with the settings in default
   // used with "embark run testnet"
   testnet: {},

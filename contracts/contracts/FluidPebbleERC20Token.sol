@@ -9,7 +9,7 @@ import "./Initializable.sol";
 /**
  * @dev Optional functions from the ERC20 standard.
  */
-contract IOTNFTERC20Token is IERC20, Context, Initializable {
+contract FluidPebbleERC20Token is IERC20, Context, Initializable {
     using SafeMathV2
     for uint256;
     string private _name;
