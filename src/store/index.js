@@ -17,7 +17,7 @@ import { TileDocument } from "@ceramicnetwork/stream-tile";
 import web3Utils from "web3-utils";
 const { wad4human } = require("@decentral.ee/web3-helpers");
 const SuperfluidSDK = require("@superfluid-finance/js-sdk");
-
+const etherConverter = require("ether-converter");
 const Contract = require("web3-eth-contract");
 Contract.setProvider(process.env.VUE_APP_APP_KOVAN_PRC_URL);
 const ls = new SecureLS({
@@ -52,7 +52,7 @@ const client = new SkynetClient("https://siasky.net/");
 /* eslint-disable no-new */
 const store = new Vuex.Store({
   state: {
-    dappLoaded:false,
+    dappLoaded: false,
     returnNFTDialog: false,
     //sampleLocationData: require("../data/location.json"),
     showMyLocationsOnly: false,
@@ -166,7 +166,7 @@ const store = new Vuex.Store({
           store.state.isLoading = false;
         });
     },
-    initContracts: async function (){
+    initContracts: async function () {
       const tokenContractJSON = require("../../contracts/build/contracts/TokenContract.json");
       store.state.tokenContract = new window.web3.eth.Contract(
         tokenContractJSON.abi,
@@ -189,15 +189,17 @@ const store = new Vuex.Store({
     connectWallet: async function () {
       store.state.isLoading = true;
       const provider = await detectEthereumProvider();
+      console.log("provider: ", provider);
       if (provider) {
         try {
-          await ethereum.enable();
           var web3Instance = new Web3(window.web3.currentProvider);
-          window.we3 = web3Instance;
-          var accounts = await window.web3.eth.getAccounts();
+          window.web3 = web3Instance;
+          const accounts = await window.ethereum.request({
+            method: "eth_requestAccounts",
+          });
           console.log("window.web3.eth.getDefaultAccount: ", web3Instance);
           window.web3.eth.defaultAccount = accounts[0];
-          await store.dispatch("initContracts")
+          await store.dispatch("initContracts");
           store.state.userAddress = window.web3.eth.defaultAccount;
           store.state.isConnected = true;
           console.log("found default account: ", store.state.userAddress);
@@ -285,7 +287,8 @@ const store = new Vuex.Store({
       rentData
     ) {
       try {
-        console.log("rentData: ",rentData)
+        rentData.price = etherConverter(rentData.price, "eth", "wei");
+        console.log("rentData: ", rentData);
         store.state.isLoading = true;
         const sf = new SuperfluidSDK.Framework({
           web3: web3,
@@ -297,21 +300,27 @@ const store = new Vuex.Store({
         console.log("fDaiAddress: ", fDaiAddress);
         const dai = await sf.contracts.TestToken.at(fDaiAddress);
         const daix = sf.tokens.fDAIx;
-        var approvedApp = await dai.approve(
-          daix.address,
-          rentData.monthlyAmount,
-          { gas: 6000000, from: store.state.userAddress }
-        );
-        var upgraded = await daix.upgrade(rentData.monthlyAmount, {
+        var approvedApp = await dai.approve(daix.address, rentData.price, {
           gas: 6000000,
           from: store.state.userAddress,
         });
-        var transfer = await daix.transfer(
+        var upgraded = await daix.upgrade(rentData.price, {
+          gas: 6000000,
+          from: store.state.userAddress,
+        });
+        const aprroveDAIx = await daix.approve(
           store.state.fluidpebbleContract.options.address,
-          rentData.monthlyAmount,
+          rentData.price,
           { gas: 6000000, from: store.state.userAddress }
         );
-        await store.dispatch("initContracts")
+        var balance = await dai.balanceOf.call(store.state.userAddress);
+        console.log("userBalance: ", wad4human(balance));
+        var transfer = await daix.transfer(
+          store.state.fluidpebbleContract.options.address,
+          rentData.price,
+          { gas: 6000000, from: store.state.userAddress }
+        );
+        await store.dispatch("initContracts");
         var rentNFT = await store.state.fluidpebbleContract.methods
           .rentNFT(rentData.tokenId, rentData.duration, rentData.monthlyAmount)
           .send({ gas: 6000000, from: store.state.userAddress });
@@ -322,8 +331,10 @@ const store = new Vuex.Store({
           transfer,
           " rentNFTTX: ",
           rentNFT,
-          "approvedAppTX: ",
-          approvedApp
+          " approvedAppTX: ",
+          approvedApp,
+          " aprroveDAIx: ",
+          aprroveDAIx
         );
         store.state.isLoading = false;
         store.dispatch(
@@ -503,7 +514,7 @@ const store = new Vuex.Store({
       dai
         .mint(
           store.state.userAddress,
-          web3Utils.toWei("1000000000000", "ether"),
+          etherConverter("999999999999100001100000000", "eth", "wei"),
           { from: store.state.userAddress, gas: 6000000 }
         )
         .then(async (results, error) => {

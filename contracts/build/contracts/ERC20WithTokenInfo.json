@@ -550,7 +550,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-03-22T07:33:58.710Z",
+  "updatedAt": "2022-03-22T21:15:06.419Z",
   "devdoc": {
     "details": "Interface for ERC20 token with token info NOTE: Using abstract contract instead of interfaces because old solidity does not support interface inheriting other interfaces solhint-disable-next-line no-empty-blocks",
     "kind": "dev",

@@ -54,6 +54,9 @@ export default {
   },
   mounted() {},
   methods: {
+    returnNFT: async function (){
+      
+    },
     getLeasedNFTS: async function () {
       let _this = this;
       this.$store.state.isLoading = true;

@@ -18,7 +18,6 @@
     "@openzeppelin/contracts-ethereum-package": "^2.5.0",
     "@openzeppelin/test-helpers": "^0.5.15",
     "@openzeppelin/upgrades": "^2.8.0",
-    "@reef-defi/evm-provider": "^1.0.4",
     "@superfluid-finance/ethereum-contracts": "^1.0.0-rc.11",
     "@superfluid-finance/js-sdk": "^0.5.11",
     "apexcharts": "^3.28.3",

@@ -23,8 +23,6 @@
   </v-app>
 </template>
 <script>
-import Web3 from "web3";
-import EmbarkJS from "../contracts/embarkArtifacts/embarkjs";
 import MintNFTModal from "./modals/MintNFTModal.vue";
 const {
   web3tx,

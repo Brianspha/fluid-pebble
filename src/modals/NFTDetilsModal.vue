@@ -337,6 +337,7 @@ export default {
         monthlyAmount: calculatedFlowRate,
         duration: this.leaseDuration,
         tokenId: this.$store.state.selectedNFT.tokenId,
+        price:this.$store.state.selectedNFT.price
       });
       this.$store.state.isLoading = false;
     },

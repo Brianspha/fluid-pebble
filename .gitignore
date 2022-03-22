@@ -3,3 +3,4 @@ embarkArtifacts
 build
 dist
 .env
+/.env

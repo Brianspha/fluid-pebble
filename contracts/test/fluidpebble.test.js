@@ -123,8 +123,30 @@ contract("FluidPebble", (accounts) => {
         from: accounts[0],
       }
     );
+    await web3tx(
+      dai.approve,
+      `app approves daix`
+    )(daix.address, toWad(1999000000000), {
+      gas: "5000000",
+      from:accounts[0],
+    });
+    await web3tx(
+      daix.upgrade(toWad(1999000000000), {
+        gas: "5000000",
+        from:accounts[0],
+      })
+    );
+    await web3tx(
+      daix.transfer(app.address, toWad(1999000000000), {
+        gas: "5000000",
+        from:accounts[0],
+      })
+    );
 
-    console.log("deployed FluidPebble contract: ", app.address);
+    console.log("deployed FluidPebble contract: ", app.address, {
+      gas: "5000000",
+      from: accounts[0],
+    });
     receipt = await fluidpebbleTokenDeployed.setContractFluidPebbleAddress(
       app.address
     );
@@ -338,14 +360,6 @@ contract("FluidPebble", (accounts) => {
         `${alice.alias} upgrades ${monthlyAmount} DAIx`
       )(app.address, monthlyAmount, { from: alice.address });
 
-      console.log(
-        "approved daxi: ",
-        approved,
-        " upgraded: ",
-        upgraded,
-        " transfered: ",
-        transfered
-      );
       var rentNFT = await web3tx(app.rentNFT, `${alice.alias} renting nft`)(
         3,
         1,
@@ -383,8 +397,6 @@ contract("FluidPebble", (accounts) => {
       assert.isTrue(availableBalanceAfter >= availableBalanceBefore);
     });
     it("should get token details", async () => {
-      console.log("app.getTokenDetails: ", app);
-
       var tokenDetails = await web3tx(
         app.getTokenDetails,
         `${u[1]} gets token details`
@@ -393,7 +405,6 @@ contract("FluidPebble", (accounts) => {
       assert.isTrue(tokenDetails[5]);
     });
     it("should get the total number leased tokens", async () => {
-      console.log("app.leasedTokenIds: ", app);
       var leasedTokenIds = await web3tx(
         app.leasedTokenIds,
         `${u[1]} get total number of leased tokens`

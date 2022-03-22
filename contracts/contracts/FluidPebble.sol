@@ -20,18 +20,14 @@ import "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/I
  @notice poorly formatted code
 
  */
-contract FluidPebble is
-    FluidPebbleInterface,
-    ReentrancyGuard,
-    Pausable
-{
+contract FluidPebble is FluidPebbleInterface, ReentrancyGuard, Pausable {
     using SafeMathV2 for uint256;
 
     /*==========================================================Modifier definition start==========================================================*/
-        modifier adminOnly() {
-            require(msg.sender == contractOwner, "Only owner can allowed");
-            _;
-        }
+    modifier adminOnly() {
+        require(msg.sender == contractOwner, "Only owner can allowed");
+        _;
+    }
     /*==========================================================Event definition start==========================================================*/
     /*==========================================================Variable definition start==========================================================*/
     ISuperfluid private _host; // host
@@ -54,7 +50,7 @@ contract FluidPebble is
         ISuperfluid host,
         IConstantFlowAgreementV1 cfa,
         ISuperToken acceptedToken
-    )   {
+    ) {
         require(msg.sender != address(0), "Invalid sender address");
         require(address(tokenAddress) != address(0), "Invalid token address");
         require(address(host) != address(0), "Invalid host address");
@@ -245,6 +241,7 @@ contract FluidPebble is
             IConstantFlowAgreementV1(_cfa),
             ISuperToken(_acceptedToken)
         );
+        _acceptedToken.approve(address(tempManager), currentFluidPebbles[tokenId].price);
         _acceptedToken.transfer(
             address(tempManager),
             currentFluidPebbles[tokenId].price
@@ -283,7 +280,7 @@ contract FluidPebble is
             .streamManager
             .getRealTimeBalance(currentFluidPebbles[tokenId].owner);
         currentFluidPebbles[tokenId].streamManager.deleteFlow(
-            address(currentFluidPebbles[tokenId].streamManager ),
+            address(currentFluidPebbles[tokenId].streamManager),
             currentFluidPebbles[tokenId].owner
         );
         _acceptedToken.transferFrom(address(this), msg.sender, owedDeposit);
