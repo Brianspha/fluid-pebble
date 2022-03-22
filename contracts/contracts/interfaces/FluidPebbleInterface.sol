@@ -1,5 +1,5 @@
 pragma solidity >=0.6.2;
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "../StreamManager.sol";
 
 //"SPDX-License-Identifier: UNLICENSED"
 
@@ -16,22 +16,23 @@ interface FluidPebbleInterface {
         bool delegated;
         uint256 price;
         uint256 originalPrice;
-        uint maxRentableDays;
+        uint256 maxRentableDays;
         uint256 borrowedAt;
         Borrower currentBorrower;
+        StreamManager streamManager;
         bool exists;
         bool rentedOut;
     }
     struct Borrower {
         address payable owner;
-        uint duration;
+        uint256 duration;
         bool exists;
     }
 
     struct Minter {
         address payable id;
         uint256 totalStaked;
-        uint256 [] tokenIds;
+        uint256[] tokenIds;
         bool active;
     }
     /*==========================================================Modifier definition start==========================================================*/
@@ -92,13 +93,13 @@ interface FluidPebbleInterface {
     function getTokenDetails(uint256 tokenId)
         external
         returns (
-            address
-           , uint256
-           , uint256
-           , bool
-           , bool
-           , bool
-           , uint256
+            address,
+            uint256,
+            uint256,
+            bool,
+            bool,
+            bool,
+            uint256
         );
 
     /**
@@ -137,11 +138,9 @@ interface FluidPebbleInterface {
      */
     function rentNFT(
         uint256 tokenId,
-        uint duration,
+        uint256 duration,
         int96 flowRate
     ) external;
 
     function returnNFT(uint256 tokenId) external;
-
-
 }

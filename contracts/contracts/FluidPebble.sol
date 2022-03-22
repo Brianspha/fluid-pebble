@@ -1,11 +1,8 @@
 pragma solidity >=0.6.2;
-pragma experimental ABIEncoderV2;
 
-import "./Initializable.sol";
 import "./interfaces/FluidPebbleInterface.sol";
 import "./TokenContract.sol";
 import "./SafeMathV2.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "./ReentrancyGuard.sol";
 
 import "./Pausable.sol";
@@ -25,31 +22,29 @@ import "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/I
  */
 contract FluidPebble is
     FluidPebbleInterface,
-    Initializable,
-    Ownable,
     ReentrancyGuard,
     Pausable
 {
     using SafeMathV2 for uint256;
 
     /*==========================================================Modifier definition start==========================================================*/
-
+        modifier adminOnly() {
+            require(msg.sender == contractOwner, "Only owner can allowed");
+            _;
+        }
     /*==========================================================Event definition start==========================================================*/
     /*==========================================================Variable definition start==========================================================*/
-    uint256 private fundIndexIds;
     ISuperfluid private _host; // host
     IConstantFlowAgreementV1 private _cfa; // the stored constant flow agreement class address
     ISuperToken private _acceptedToken; // accepted token
     uint256 public transactionFees = 0;
     uint256 public minMintCost = 0.00001 ether;
     uint256 public contractCut = 3500;
-    uint256 minDividendsPerExperience = 100;
     address payable contractOwner;
     TokenContract fluidpebble;
     uint256[] public leasedTokenIds;
     uint256 public totalLeased;
     address[] mintersIds;
-    mapping(uint256 => int96) public flowRates;
     mapping(uint256 => FluidPebble) currentFluidPebbles;
     mapping(address => Minter) minters;
 
@@ -59,7 +54,7 @@ contract FluidPebble is
         ISuperfluid host,
         IConstantFlowAgreementV1 cfa,
         ISuperToken acceptedToken
-    ) initializer onlyOwner {
+    )   {
         require(msg.sender != address(0), "Invalid sender address");
         require(address(tokenAddress) != address(0), "Invalid token address");
         require(address(host) != address(0), "Invalid host address");
@@ -80,7 +75,7 @@ contract FluidPebble is
         contractOwner = msg.sender;
     }
 
-    function withdrawFees() public payable override onlyOwner nonReentrant {
+    function withdrawFees() public payable override adminOnly nonReentrant {
         require(transactionFees > 0, "Nothing to withdraw");
         uint256 fees = transactionFees;
         transactionFees = 0;
@@ -243,9 +238,19 @@ contract FluidPebble is
         currentFluidPebbles[tokenId].currentBorrower.exists = true;
         currentFluidPebbles[tokenId].rentedOut = true;
         leasedTokenIds.push(tokenId);
-        totalLeased=totalLeased.add(1);
+        totalLeased = totalLeased.add(1);
         fluidpebble.transferFrom(address(this), msg.sender, tokenId);
-        _createFlow(currentFluidPebbles[tokenId].owner, flowRate); //@dev create flow to user
+        StreamManager tempManager = new StreamManager(
+            ISuperfluid(_host),
+            IConstantFlowAgreementV1(_cfa),
+            ISuperToken(_acceptedToken)
+        );
+        _acceptedToken.transfer(
+            address(tempManager),
+            currentFluidPebbles[tokenId].price
+        );
+        currentFluidPebbles[tokenId].streamManager = tempManager;
+        tempManager.createFlow(currentFluidPebbles[tokenId].owner, flowRate); //@dev create flow to user
         emit nftRentedOut(msg.sender, duration, tokenId);
     }
 
@@ -274,10 +279,13 @@ contract FluidPebble is
         int256 availableBalance;
         uint256 deposit;
         uint256 owedDeposit;
-        (availableBalance, deposit, owedDeposit) = getNFTRealTimeBalance(
-            tokenId
+        (availableBalance, deposit, owedDeposit) = currentFluidPebbles[tokenId]
+            .streamManager
+            .getRealTimeBalance(currentFluidPebbles[tokenId].owner);
+        currentFluidPebbles[tokenId].streamManager.deleteFlow(
+            address(currentFluidPebbles[tokenId].streamManager ),
+            currentFluidPebbles[tokenId].owner
         );
-        _deleteFlow(address(this), currentFluidPebbles[tokenId].owner);
         _acceptedToken.transferFrom(address(this), msg.sender, owedDeposit);
         currentFluidPebbles[tokenId].rentedOut = false;
         delete currentFluidPebbles[tokenId].currentBorrower;
@@ -329,35 +337,6 @@ contract FluidPebble is
     }
 
     /*==============================Superfluid ============================*/
-
-    function _createFlow(address to, int96 flowRate) internal {
-        if (to == address(this) || to == address(0)) return;
-        _host.callAgreement(
-            _cfa,
-            abi.encodeWithSelector(
-                _cfa.createFlow.selector,
-                _acceptedToken,
-                to,
-                flowRate,
-                new bytes(0)
-            ),
-            new bytes(0)
-        );
-    }
-
-    function _deleteFlow(address from, address to) internal {
-        _host.callAgreement(
-            _cfa,
-            abi.encodeWithSelector(
-                _cfa.deleteFlow.selector,
-                _acceptedToken,
-                from,
-                to,
-                new bytes(0) // placeholder
-            ),
-            new bytes(0)
-        );
-    }
 
     function getNFTRealTimeBalance(uint256 tokenId)
         public

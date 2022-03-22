@@ -247,7 +247,32 @@ contract("FluidPebble", (accounts) => {
       tokenIds.push(receipt.logs[0].tokenId);
       assert.isTrue(receipt.logs.length > 0);
     });
-
+    it("should mint another new token", async () => {
+      var tokenPrice = toWad(0.001);
+      var receipt = await web3tx(app.mintToken, `${u[1]} mints new token`)(
+        JSON.stringify({
+          snr: 16400,
+          vbat: 447,
+          latitude: 487392578,
+          longitude: 945399780,
+          gasResistance: 94500,
+          pressure: 45878,
+          humidity: 2907,
+          light: 68082,
+          temperature2: 3498,
+          gyroscope: [-6, 7, -3919],
+          accelerometer: [3364, 3642, 3919],
+          random: "380696d4c6edc426",
+        }),
+        tokenPrice,
+        true,
+        3,
+        { gas: "5000000", from: accounts[0] }
+      );
+      console.log("newTokenMinted: ", receipt.logs[0]);
+      tokenIds.push(receipt.logs[0].tokenId);
+      assert.isTrue(receipt.logs.length > 0);
+    });
     it("should rent an NFT", async () => {
       const { alice } = u;
       const monthlyAmount = toWad(0.001);
@@ -280,6 +305,49 @@ contract("FluidPebble", (accounts) => {
       );
       var rentNFT = await web3tx(app.rentNFT, `${alice.alias} renting nft`)(
         2,
+        1,
+        calculatedFlowRate,
+        {
+          from: alice.address,
+          gas: "5000000",
+        }
+      );
+      var owner = await fluidpebbleTokenDeployed.ownerOf(2);
+      console.log("rent nft: ", rentNFT.logs, " owner: ", owner);
+      assert.isTrue(rentNFT.logs.length > 0 && owner === alice.address);
+    });
+    it("should rent an NFT", async () => {
+      const { alice } = u;
+      const monthlyAmount = toWad(0.001);
+      const calculatedFlowRate = Math.floor(monthlyAmount / 3600 / 24 / 30);
+      console.log("calculated flow: ", calculatedFlowRate);
+      var approved = await web3tx(dai.approve, `${alice.alias} approves daix`)(
+        daix.address,
+        monthlyAmount,
+        {
+          from: alice.address,
+        }
+      );
+      const upgraded = await web3tx(
+        daix.upgrade,
+        `${alice.alias} upgrades ${monthlyAmount} DAIx`
+      )(monthlyAmount, { from: alice.address });
+
+      const transfered = await web3tx(
+        daix.transfer,
+        `${alice.alias} upgrades ${monthlyAmount} DAIx`
+      )(app.address, monthlyAmount, { from: alice.address });
+
+      console.log(
+        "approved daxi: ",
+        approved,
+        " upgraded: ",
+        upgraded,
+        " transfered: ",
+        transfered
+      );
+      var rentNFT = await web3tx(app.rentNFT, `${alice.alias} renting nft`)(
+        3,
         1,
         calculatedFlowRate,
         {
