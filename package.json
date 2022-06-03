@@ -43,7 +43,7 @@
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "node-random-name": "^1.0.1",
-    "protobufjs": "^6.11.2",
+    "protobufjs": "^6.11.3",
     "restana": "^4.9.1",
     "secure-ls": "^1.2.6",
     "simple-browser-fingerprint": "^1.0.0",
