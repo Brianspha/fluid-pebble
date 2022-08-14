@@ -14,7 +14,7 @@
     "@decentral.ee/web3-helpers": "^0.5.3",
     "@luxdamore/vue-css-doodle": "^1.0.1",
     "@metamask/detect-provider": "^1.2.0",
-    "@openzeppelin/contracts": "^3.4.2",
+    "@openzeppelin/contracts": "^4.7.2",
     "@openzeppelin/contracts-ethereum-package": "^2.5.0",
     "@openzeppelin/test-helpers": "^0.5.15",
     "@openzeppelin/upgrades": "^2.8.0",
